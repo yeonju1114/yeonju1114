@@ -1,0 +1,1925 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html b:css='false' b:defaultwidgetversion='2' b:layoutsVersion='3' b:responsive='true' b:templateUrl='indie.xml' b:templateVersion='1.3.0' expr:dir='data:blog.languageDirection' lang='ko' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr' xmlns:js='http://www.google.com/2005/gml/js'>
+<!--
+  Theme   : Binary Garden (garden114.blogspot.com)
+  Version : 4.0 "Runbook Console"
+  Author  : YeonJu
+  Changes : theme/CHANGELOG.md
+  Settings: edit BLOG_CONFIG near the bottom of this file (SNS links, comments, categories)
+  Blogger : Settings > Posts > "Max posts shown on main page" = 15~20 recommended (log list)
+-->
+<head>
+    <meta charset='UTF-8'/>
+    <meta content='width=device-width, initial-scale=1, viewport-fit=cover' name='viewport'/>
+    <meta content='#141210' name='theme-color'/>
+    <title><data:view.title.escaped/><b:if cond='!data:view.isHomepage'> | <data:blog.title.escaped/></b:if></title>
+    <b:include data='blog' name='all-head-content'/>
+
+    <meta expr:content='data:view.isSingleItem ? &quot;article&quot; : &quot;website&quot;' property='og:type'/>
+    <meta expr:content='data:blog.title.escaped' property='og:site_name'/>
+    <meta content='summary_large_image' name='twitter:card'/>
+    <meta content='ko_KR' property='og:locale'/>
+    <b:if cond='data:view.search.query or data:view.isArchive'>
+        <meta content='noindex, follow' name='robots'/>
+    </b:if>
+    <b:if cond='data:view.isHomepage'>
+        <script type='application/ld+json'>{"@context":"https://schema.org","@type":"WebSite","name":"<data:blog.title.jsonEscaped/>","url":"<data:blog.canonicalHomepageUrl.jsonEscaped/>","inLanguage":"ko-KR"}</script>
+    </b:if>
+
+    <!-- Apply saved theme before first paint (no flash) -->
+    <script>
+    //<![CDATA[
+    (function () {
+        var t = 'dark';
+        try { var s = localStorage.getItem('bg-theme'); if (s === 'light' || s === 'dark') t = s; } catch (e) {}
+        document.documentElement.setAttribute('data-theme', t);
+        document.documentElement.style.colorScheme = t;
+    })();
+    //]]>
+    </script>
+
+    <link href='https://cdn.jsdelivr.net' rel='preconnect'/>
+    <link href='https://fonts.googleapis.com' rel='preconnect'/>
+    <link crossorigin='anonymous' href='https://fonts.gstatic.com' rel='preconnect'/>
+    <!-- Fonts load without blocking first paint (fallbacks: Apple SD Gothic Neo / Malgun Gothic, ui-monospace).
+         Dancing Script is only the logo, so only its glyphs are requested. -->
+    <link href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css' media='print' onload='this.media=&quot;all&quot;' rel='stylesheet' type='text/css'/>
+    <link href='https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;display=swap' media='print' onload='this.media=&quot;all&quot;' rel='stylesheet'/>
+    <link href='https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&amp;text=BinaryGarden&amp;display=swap' media='print' onload='this.media=&quot;all&quot;' rel='stylesheet'/>
+    <noscript>
+        <link href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css' rel='stylesheet' type='text/css'/>
+        <link href='https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;display=swap' rel='stylesheet'/>
+        <link href='https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&amp;text=BinaryGarden&amp;display=swap' rel='stylesheet'/>
+    </noscript>
+
+    <b:if cond='data:view.isSingleItem'>
+        <link href='https://cdnjs.cloudflare.com' rel='preconnect'/>
+        <script defer='defer' src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js'/>
+        <script defer='defer' src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/properties.min.js'/>
+        <script defer='defer' src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/apache.min.js'/>
+    </b:if>
+
+    <b:skin><![CDATA[
+    /* ==== [1] Tokens: dark "console" (default) / light "paper log" ==== */
+    :root {
+        --bg: #141210; --surface: #1c1a17; --raise: #24211d;
+        --line: #2e2a24; --line2: #3a352e; --control: #6f685d;
+        --text: #ece6da; --sub: #bdb5a8; --dim: #958d80; --faint: #91897e;
+        --amber: #f5a524; --amber-soft: rgba(245,165,36,.12); --on-amber: #1a1408;
+        --red: #e65d55; --green: #7bc67e;
+        --code-bg: #0f0e0c; --code-line: #2a2621;
+        --mono: 'JetBrains Mono', ui-monospace, Consolas, 'D2Coding', monospace;
+        --sans: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+        --top-h: 56px;
+    }
+    [data-theme='light'] {
+        --bg: #f7f4ee; --surface: #fffdf9; --raise: #efe9df;
+        --line: #e2dbcf; --line2: #d2c8b8; --control: #8f8679;
+        --text: #1f1b16; --sub: #4c463d; --dim: #5f584d; --faint: #6e665a;
+        --amber: #9a5a00; --amber-soft: rgba(154,90,0,.10); --on-amber: #fff8ec;
+        --red: #b73d37; --green: #2c7637;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--top-h) + 16px); }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.7; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; word-break: keep-all; overflow-wrap: break-word; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
+    body.lock { overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; color: inherit; }
+    img { max-width: 100%; }
+    [hidden] { display: none !important; }
+    :focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .skip-link { position: absolute; left: -9999px; top: 8px; z-index: 3000; background: var(--amber); color: var(--on-amber); padding: 8px 14px; font-weight: 600; }
+    .skip-link:focus { left: 8px; }
+    kbd { font-family: var(--mono); font-size: 11px; color: var(--sub); border: 1px solid var(--line2); border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; }
+    .ico { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .mono { font-family: var(--mono); }
+
+    /* ==== [2] Top bar ==== */
+    .top { position: sticky; top: 0; z-index: 1000; background: var(--bg); border-bottom: 1px solid var(--line); }
+    .top-in { max-width: 1440px; margin: 0 auto; height: var(--top-h); display: flex; align-items: center; gap: 24px; padding: 0 32px; }
+    .progress { position: absolute; left: 0; bottom: -1px; height: 2px; width: 0; background: var(--amber); }
+    .logo { font-family: 'Dancing Script', cursive; font-size: 26px; line-height: 1; color: var(--text); white-space: nowrap; }
+    .logo b { color: var(--amber); font-weight: 600; }
+    .host { font-family: var(--mono); font-size: 12px; color: var(--dim); white-space: nowrap; }
+    .nav { display: flex; gap: 2px; margin-left: auto; align-items: center; }
+    .nav-group { position: relative; }
+    .nav-title { background: none; border: 0; cursor: pointer; font-family: var(--mono); font-size: 12.5px; color: var(--sub); padding: 8px 10px; border-radius: 4px; }
+    .nav-title:hover, .nav-group.open .nav-title, .nav-title.on { color: var(--amber); }
+    .nav-dd { position: absolute; top: calc(100% + 8px); right: 0; min-width: 220px; max-height: 60vh; overflow-y: auto; background: var(--surface); border: 1px solid var(--line2); border-radius: 6px; padding: 6px; display: none; z-index: 1001; }
+    .nav-group.open .nav-dd, .nav-group:focus-within .nav-dd { display: block; }
+    @media (hover: hover) { .nav-group:hover .nav-dd { display: block; } }
+    .nav-dd a { display: flex; justify-content: space-between; gap: 16px; padding: 7px 10px; font-family: var(--mono); font-size: 12.5px; color: var(--sub); border-radius: 4px; }
+    .nav-dd a span { color: var(--faint); }
+    .nav-dd a:hover { background: var(--raise); color: var(--amber); }
+    .top-actions { display: flex; align-items: center; gap: 4px; }
+    .nav + .top-actions { margin-left: 8px; }
+    .icon-btn { width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; background: none; border: 1px solid transparent; border-radius: 6px; color: var(--sub); cursor: pointer; }
+    .icon-btn:hover { color: var(--amber); background: var(--raise); }
+    .menu-btn { display: none; }
+    .theme-btn .i-sun { display: none; }
+    [data-theme='light'] .theme-btn .i-sun { display: block; }
+    [data-theme='light'] .theme-btn .i-moon { display: none; }
+
+    /* ==== [3] Command line search (grep) ==== */
+    .cmd-wrap { max-width: 1440px; width: 100%; margin: 20px auto 0; padding: 0 32px; position: relative; z-index: 900; }
+    .cmd { height: 60px; display: flex; align-items: center; gap: 14px; padding: 0 20px; background: var(--surface); border: 1px solid var(--control); border-radius: 6px; font-family: var(--mono); font-size: 17px; transition: border-color .12s; }
+    .cmd:focus-within { border-color: var(--amber); }
+    .cmd .prompt { color: var(--amber); font-weight: 600; white-space: nowrap; }
+    .cmd input { flex: 1; min-width: 0; height: 100%; background: none; border: 0; outline: none; font-family: var(--mono); font-size: 17px; color: var(--text); caret-color: var(--amber); }
+    .cmd input::placeholder { color: var(--dim); }
+    .cmd input::-webkit-search-cancel-button { display: none; }
+    .cmd-count { font-size: 12px; color: var(--amber); white-space: nowrap; }
+    .cmd .hint { display: flex; gap: 14px; font-size: 12px; color: var(--dim); white-space: nowrap; }
+    .grep-panel { position: absolute; left: 32px; right: 32px; top: calc(100% + 6px); max-height: 60vh; overflow-y: auto; background: var(--surface); border: 1px solid var(--line2); border-radius: 6px; }
+    .grep-empty { padding: 22px 24px; font-family: var(--mono); font-size: 13px; color: var(--dim); line-height: 1.8; }
+    .grep-empty a { color: var(--amber); }
+    .grep-sug { position: absolute; left: 32px; top: calc(100% + 6px); width: min(600px, calc(100% - 64px)); z-index: 2; padding: 6px 0; background: var(--surface); border: 1px solid var(--line2); border-radius: 6px; font-family: var(--mono); font-size: 13px; }
+    .sug-h { display: flex; justify-content: space-between; align-items: center; padding: 6px 16px 4px; font-size: 11.5px; color: var(--dim); }
+    .sug-clear { background: none; border: 0; padding: 4px 0; font: inherit; color: var(--dim); cursor: pointer; }
+    .sug-clear:hover { color: var(--amber); }
+    .opt { position: relative; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; width: 100%; padding: 9px 16px; background: none; border: 0; text-align: left; font: inherit; color: var(--text); cursor: pointer; }
+    .opt::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--amber); transform: scaleY(0); transition: transform .12s ease-out; }
+    .opt:hover, .opt.active { background: var(--raise); }
+    .opt:hover::before, .opt.active::before { transform: scaleY(1); }
+    .opt > span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .opt .p { color: var(--amber); }
+    .opt .n { color: var(--dim); font-size: 12px; }
+    .sug-tip { margin-top: 4px; padding: 10px 16px 6px; border-top: 1px solid var(--line); font-size: 12px; line-height: 1.9; color: var(--dim); }
+    .sug-tip:first-child { margin-top: 0; border-top: 0; }
+    .sug-tip b { font-weight: 500; color: var(--amber); }
+    .sug-tip { display: flex; flex-wrap: wrap; gap: 0 18px; }
+    .sug-tip > span { white-space: nowrap; }
+    .grep-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 24px; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 12px; color: var(--dim); }
+    .gb-q { min-width: 0; color: var(--amber); overflow-wrap: anywhere; }
+    .gb-sort { display: flex; align-items: center; gap: 2px; margin-left: auto; white-space: nowrap; }
+    .gb-k { margin-right: 6px; }
+    .gb-sort button { background: none; border: 0; border-radius: 0 4px 4px 0; padding: 6px 8px; font: inherit; color: var(--sub); cursor: pointer; }
+    .gb-sort button:hover { background: var(--raise); color: var(--text); }
+    .gb-sort button[aria-pressed='true'] { color: var(--amber); box-shadow: inset 2px 0 0 var(--amber); }
+
+    /* ==== [4] Layout ==== */
+    .shell { flex: 1; width: 100%; max-width: 1440px; margin: 20px auto 0; padding: 0 32px; }
+    .layout { display: grid; grid-template-columns: 232px minmax(0, 1fr) 300px; border-top: 1px solid var(--line); align-items: start; }
+    .is-post .layout { display: block; border-top: 0; }
+    .is-post .tree, .is-post .side { display: none; }
+    .content { min-width: 0; }
+    .is-index .content { border-left: 1px solid var(--line); border-right: 1px solid var(--line); min-height: 60vh; }
+
+    /* left tree */
+    .tree { position: sticky; top: calc(var(--top-h) + 12px); padding: 18px 18px 24px 0; font-family: var(--mono); font-size: 13px; line-height: 2; max-height: calc(100vh - var(--top-h) - 24px); overflow-y: auto; }
+    .tree-h { color: var(--dim); font-size: 11px; letter-spacing: .08em; margin-bottom: 4px; }
+    .tree details > summary { list-style: none; cursor: pointer; color: var(--sub); display: flex; justify-content: space-between; }
+    .tree details > summary::-webkit-details-marker { display: none; }
+    .tree details > summary::before { content: '\25B8'; width: 16px; color: var(--faint); }
+    .tree details[open] > summary { color: var(--text); }
+    .tree details[open] > summary::before { content: '\25BE'; }
+    .tree summary span:first-child { flex: 1; }
+    .tree .n { color: var(--faint); }
+    .tree .f { display: flex; justify-content: space-between; padding-left: 16px; color: var(--dim); }
+    .tree .f:hover { color: var(--amber); }
+    .tree .f.on { color: var(--amber); }
+    .tree .home-link { display: block; color: var(--sub); }
+    .tree .home-link:hover { color: var(--amber); }
+
+    /* right side */
+    .side { position: sticky; top: calc(var(--top-h) + 12px); padding: 18px 0 24px 24px; max-height: calc(100vh - var(--top-h) - 24px); overflow-y: auto; }
+    .side h3 { font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--dim); letter-spacing: .08em; margin: 0 0 10px; }
+    .stat { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: 6px; margin-bottom: 22px; }
+    .stat div { padding: 12px 14px; font-family: var(--mono); min-width: 0; }
+    .stat div + div { border-left: 1px solid var(--line); }
+    .stat b { display: block; font-size: 20px; color: var(--text); font-weight: 600; white-space: nowrap; }
+    .stat span { font-size: 11px; color: var(--dim); }
+    .upd { list-style: none; margin-bottom: 22px; }
+    .upd li a { display: grid; grid-template-columns: 46px 1fr; gap: 8px; padding: 8px 0; border-bottom: 1px dashed var(--line); font-size: 13.5px; line-height: 1.45; color: var(--sub); }
+    .upd li a:hover { color: var(--amber); }
+    .upd li em { font-style: normal; font-family: var(--mono); font-size: 11.5px; color: var(--amber); padding-top: 2px; }
+    .whoami { border: 1px solid var(--line); border-radius: 6px; padding: 14px; margin-bottom: 22px; }
+    .whoami .who { font-family: var(--mono); font-size: 12px; color: var(--dim); margin-bottom: 6px; }
+    .whoami .who b { color: var(--amber); font-weight: 500; }
+    .whoami p { font-size: 13.5px; color: var(--sub); line-height: 1.6; margin-bottom: 10px; }
+    .social-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .social-row:empty { display: none; }
+    .social-btn { width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--line2); border-radius: 6px; color: var(--sub); background: none; cursor: pointer; }
+    .social-btn:hover { color: var(--amber); border-color: var(--amber); }
+
+    /* toolbox shortcut (home side panel) */
+    .tbx-go { border: 1px solid var(--line); border-radius: 6px; margin-bottom: 22px; font-family: var(--mono); }
+    .tbx-go-main { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; font-size: 13px; color: var(--amber); border-bottom: 1px solid var(--line); }
+    .tbx-go-main:hover { background: var(--raise); }
+    .tbx-go-main span:last-child { transition: transform .12s ease-out; }
+    .tbx-go-main:hover span:last-child { transform: translateX(3px); }
+    .tbx-go-list { display: flex; flex-wrap: wrap; gap: 2px 12px; padding: 10px 14px 12px; font-size: 12px; color: var(--dim); }
+    .tbx-go-list a { padding: 3px 0; }
+    .tbx-go-list a:hover { color: var(--amber); }
+    .drawer-link { display: block; margin-top: 14px; padding: 10px 0; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 15px; color: var(--amber); }
+
+    /* ==== [5] Log list (index) ==== */
+    .status { padding: 14px 24px; font-family: var(--mono); font-size: 13px; font-weight: 400; line-height: 1.7; letter-spacing: 0; color: var(--sub); border-bottom: 1px solid var(--line); }
+    .status b { color: var(--amber); font-weight: 500; }
+    .status a { color: var(--amber); }
+    .colhead, .row { display: grid; grid-template-columns: 112px 172px minmax(0, 1fr); gap: 16px; }
+    .colhead { padding: 10px 24px; font-family: var(--mono); font-size: 11px; color: var(--dim); letter-spacing: .06em; border-bottom: 1px solid var(--line); }
+    .row { position: relative; align-items: baseline; padding: 13px 24px; border-bottom: 1px solid var(--line); }
+    .row::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--amber); transform: scaleY(0); transition: transform .12s ease-out; }
+    .row:hover, .row.active { background: var(--raise); }
+    .row:hover::before, .row.active::before { transform: scaleY(1); }
+    .ts { font-family: var(--mono); font-size: 12.5px; color: var(--dim); white-space: nowrap; }
+    .lv { font-family: var(--mono); font-size: 12px; color: var(--sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-transform: uppercase; }
+    .lv i { font-style: normal; }
+    .lv i:first-child { color: var(--amber); }
+    .lv i.err { color: var(--red); }
+    .ttl { font-size: 15.5px; font-weight: 600; color: var(--text); letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ex { display: none; grid-column: 3; margin-top: 6px; color: var(--sub); font-size: 14px; line-height: 1.65; }
+    .ex .go { display: block; margin-top: 8px; font-family: var(--mono); font-size: 12px; color: var(--amber); }
+    .row mark { background: none; color: var(--amber); box-shadow: inset 0 -2px 0 var(--amber); }
+    [data-home='1'] #post-list .row:first-of-type { background: var(--surface); }
+    [data-home='1'] #post-list .row:first-of-type::before { transform: scaleY(1); }
+    [data-home='1'] #post-list .row:first-of-type .ttl { white-space: normal; font-size: 19px; font-weight: 600; line-height: 1.4; }
+    [data-home='1'] #post-list .row:first-of-type .ex, .row.has-ex .ex { display: block; }
+    .grep-results .row { animation: row-in .18s ease-out both; }
+    @keyframes row-in { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
+    .empty { padding: 40px 24px; font-family: var(--mono); font-size: 13px; color: var(--dim); }
+    .empty a { color: var(--amber); }
+    .pager { display: flex; justify-content: space-between; gap: 12px; padding: 18px 24px 8px; font-family: var(--mono); font-size: 13px; }
+    .pager a { color: var(--amber); padding: 10px 0; }
+    .pager a:hover { text-decoration: underline; text-underline-offset: 4px; }
+    .pager .older { margin-left: auto; }
+
+    /* ==== [6] Post ==== */
+    h3.post-title.entry-title, .post-title.entry-title { display: none !important; }
+    .post-layout { display: grid; grid-template-columns: minmax(0, 760px) 240px; gap: 56px; justify-content: center; align-items: start; padding-top: 12px; }
+    .post-layout.no-toc { grid-template-columns: minmax(0, 760px); }
+    .post-col { min-width: 0; }
+    .path { font-family: var(--mono); font-size: 12.5px; color: var(--dim); margin-bottom: 18px; overflow-wrap: anywhere; }
+    .path a:hover { color: var(--amber); }
+    .post-tags-top { font-family: var(--mono); font-size: 12.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .post-tags-top a { color: var(--sub); margin-right: 8px; }
+    .post-tags-top a:first-child { color: var(--amber); }
+    .post-tags-top a:hover { color: var(--amber); }
+    .post-h1 { font-size: 34px; font-weight: 600; line-height: 1.32; letter-spacing: -.025em; margin-bottom: 14px; }
+    .post-meta { display: flex; flex-wrap: wrap; gap: 4px 18px; padding-bottom: 20px; margin-bottom: 30px; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 12.5px; color: var(--dim); }
+    .post-body .legacy-meta { display: none !important; }
+    /* posts written in the Blogger compose editor: neutralise the colours and fonts it hard-codes */
+    .post-body [style*='color: black'], .post-body [style*='color:black'], .post-body [style*='color: #000000'], .post-body [style*='color:#000000'],
+    .post-body [style*='color: rgb(0, 0, 0)'], .post-body [style*='color: #222222'], .post-body [style*='color: #333333'], .post-body [style*='color: #444444'],
+    .post-body [style*='color: windowtext'], .post-body font[color='#000000'], .post-body font[color='black'] { color: inherit !important; }
+    .post-body [style*='background-color: white'], .post-body [style*='background-color: #ffffff'], .post-body [style*='background-color: rgb(255, 255, 255)'],
+    .post-body [style*='background: white'], .post-body [style*='background: #ffffff'] { background-color: transparent !important; }
+    .post-body :not(pre):not(code)[style*='font-family'], .post-body font[face] { font-family: inherit !important; }
+    .post-body :not(pre):not(code)[style*='font-family'][style*='ourier'], .post-body :not(pre):not(code)[style*='font-family'][style*='onospace'], .post-body font[face*='ourier'] { font-family: var(--mono) !important; font-size: .9em; }
+    .post-body [style*='font-size: x-small'], .post-body [style*='font-size: xx-small'], .post-body font[size='1'] { font-size: 14px !important; }
+    .post-body pre[style*='color'], .post-body pre [style*='color'] { color: #e3dccd !important; }
+    .post-body table[border] { border: 0 !important; }
+    .post-body table[border] td, .post-body table[border] th { border: 0 !important; border-bottom: 1px solid var(--line) !important; }
+
+    .post-body { font-size: 17px; line-height: 1.85; color: var(--text); }
+    .post-body p { margin-bottom: 1.4em; }
+    .post-body a { color: var(--amber); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+    .post-body strong { color: var(--text); font-weight: 600; }
+    .post-body img, .post-body video { max-width: 100%; height: auto; border-radius: 4px; border: 1px solid var(--line); }
+    .post-body iframe { max-width: 100%; border: 0; border-radius: 4px; }
+    .post-body iframe[src*='youtube'], .post-body iframe[src*='youtu.be'] { width: 100%; height: auto; aspect-ratio: 16 / 9; }
+    .post-body .separator, .post-body .separator a { margin: 0 !important; float: none !important; }
+    .post-body figure { margin: 2em 0; }
+    .post-body figcaption, .post-body .tr-caption { font-family: var(--mono); font-size: 12px; color: var(--dim); margin-top: 6px; }
+    .post-body hr { border: 0; border-top: 1px dashed var(--line2); margin: 3em 0; }
+    .post-body h2 { font-size: 24px; font-weight: 600; letter-spacing: -.02em; line-height: 1.4; margin: 2em 0 .8em; padding-top: .9em; border-top: 1px solid var(--line); }
+    .post-body h2::before { content: '## '; font-family: var(--mono); font-size: .7em; font-weight: 500; color: var(--amber); vertical-align: .12em; }
+    .post-body h3 { font-size: 19px; font-weight: 600; margin: 1.7em 0 .6em; }
+    .post-body h3::before { content: '### '; font-family: var(--mono); font-size: .72em; font-weight: 500; color: var(--dim); vertical-align: .1em; }
+    .post-body h4 { font-size: 17px; font-weight: 600; margin: 1.6em 0 .6em; }
+    .post-body ul, .post-body ol { margin: 0 0 1.5em 1.4em; }
+    .post-body li { margin-bottom: .5em; }
+    .post-body li::marker { color: var(--amber); }
+    .post-body blockquote { margin: 1.8em 0 !important; padding: .2em 0 .2em 1.2em !important; background: none !important; border: 0 !important; border-left: 2px solid var(--amber) !important; border-radius: 0 !important; color: var(--sub) !important; font-style: normal !important; box-shadow: none !important; }
+    .post-body blockquote p { margin-bottom: .8em !important; color: inherit !important; }
+    .post-body blockquote p:last-child { margin-bottom: 0 !important; }
+    .post-body kbd { font-size: .8em; }
+
+    /* inline code + code blocks (always a dark terminal) */
+    .post-body code:not(pre code) { font-family: var(--mono); font-size: .86em; color: var(--amber); background: var(--amber-soft); padding: 1px 6px; border-radius: 4px; overflow-wrap: anywhere; }
+    .post-body pre { background: var(--code-bg) !important; color: #e3dccd; border: 1px solid var(--code-line) !important; border-radius: 6px; margin: 1.8em 0; overflow-x: auto; padding: 16px 18px !important; font-family: var(--mono); font-size: 14px; line-height: 1.65; white-space: pre; tab-size: 4; -webkit-overflow-scrolling: touch; }
+    .post-body pre code { font-family: var(--mono) !important; font-size: 14px !important; color: inherit; background: none !important; padding: 0 !important; border: 0 !important; white-space: pre; display: block; }
+    .post-body .code-block { margin: 1.8em 0; border: 1px solid var(--code-line); border-radius: 6px; background: var(--code-bg); overflow: hidden; }
+    .post-body .code-block > pre { margin: 0; border: 0 !important; border-radius: 0; }
+    .code-head { display: flex; align-items: center; justify-content: space-between; height: 36px; padding: 0 8px 0 16px; border-bottom: 1px solid var(--code-line); font-family: var(--mono); font-size: 11.5px; color: #958d80; }
+    .code-head .lang::before { content: '$ '; color: #f5a524; }
+    .code-copy { background: none; border: 1px solid #3a352e; border-radius: 4px; color: #bdb5a8; font-family: var(--mono); font-size: 11px; padding: 3px 10px; min-height: 26px; cursor: pointer; }
+    .code-copy:hover { color: #f5a524; border-color: #f5a524; }
+    .post-body .code-block.is-output pre, .post-body pre.output { color: #a39b8e; }
+    .post-body .code-block.is-output .code-head .lang::before { content: '> '; }
+    .hljs-keyword, .hljs-selector-tag, .hljs-built_in, .hljs-name, .hljs-section { color: #f5a524; }
+    .hljs-string, .hljs-attr-value, .hljs-template-variable, .hljs-addition { color: #9fd08a; }
+    .hljs-comment, .hljs-quote, .hljs-meta { color: #847b6e; font-style: italic; }
+    .hljs-number, .hljs-literal, .hljs-symbol, .hljs-deletion { color: #e98a6b; }
+    .hljs-attr, .hljs-attribute, .hljs-variable, .hljs-property, .hljs-params { color: #e8cf9a; }
+    .hljs-title, .hljs-type, .hljs-class .hljs-title, .hljs-tag { color: #d6c6a8; }
+
+    /* tables */
+    .table-wrap { width: 100%; overflow-x: auto; margin: 1.6em 0; -webkit-overflow-scrolling: touch; }
+    .table-wrap > table { margin: 0 !important; }
+    .post-body table { width: 100%; border-collapse: collapse; font-size: 15px; margin: 1.6em 0; }
+    .post-body th { font-family: var(--mono); font-size: 11.5px; font-weight: 500; color: var(--dim); text-align: left; padding: 8px 14px; border-bottom: 1px solid var(--line2); white-space: nowrap; }
+    .post-body td { padding: 10px 14px; border-bottom: 1px solid var(--line); color: var(--sub); vertical-align: top; }
+    .post-body tr:hover td { background: var(--raise); }
+
+    /* post components (kept compatible with existing posts) */
+    .post-body .post-summary { border: 1px solid var(--line2); border-left: 2px solid var(--amber); background: var(--surface); padding: 16px 20px; margin: 0 0 2em; }
+    .post-body .post-summary::before { content: '# TL;DR'; display: block; font-family: var(--mono); font-size: 12px; color: var(--amber); margin-bottom: 6px; }
+    .post-body .post-summary p, .post-body .post-summary ul { margin-bottom: 0; }
+    .post-body .post-summary li { margin-bottom: .25em; }
+    .post-body table.env-table { width: auto; min-width: 60%; }
+    .post-body table.env-table th { width: 120px; text-transform: none; border-bottom: 1px solid var(--line); }
+    .post-body .callout { border-left: 2px solid var(--amber); background: var(--surface); padding: 14px 18px; margin: 1.8em 0; font-size: 16px; }
+    .post-body .callout::before { display: block; font-family: var(--mono); font-size: 12px; margin-bottom: 4px; }
+    .post-body .callout p { margin-bottom: .5em; }
+    .post-body .callout p:last-child, .post-body .callout ul:last-child { margin-bottom: 0; }
+    .post-body .callout.note::before { content: '[NOTE]'; color: var(--amber); }
+    .post-body .callout.tip { border-left-color: var(--green); }
+    .post-body .callout.tip::before { content: '[TIP]'; color: var(--green); }
+    .post-body .callout.warn { border-left-color: var(--amber); }
+    .post-body .callout.warn::before { content: '[WARN]'; color: var(--amber); }
+    .post-body .callout.danger { border-left-color: var(--red); }
+    .post-body .callout.danger::before { content: '[ERROR]'; color: var(--red); }
+    .post-body ol.steps { list-style: none; counter-reset: step; margin-left: 0; }
+    .post-body ol.steps > li { counter-increment: step; position: relative; padding-left: 44px; margin-bottom: .8em; }
+    .post-body ol.steps > li::before { content: counter(step, decimal-leading-zero); position: absolute; left: 0; top: .15em; font-family: var(--mono); font-size: 13px; color: var(--amber); border: 1px solid var(--amber); border-radius: 4px; padding: 0 6px; line-height: 1.6; }
+    .post-body table.param-table td:first-child { font-family: var(--mono); font-size: 14px; color: var(--text); }
+    .post-body table.param-table td.rec { color: var(--green); font-weight: 600; }
+    .post-body table.param-table td.def { color: var(--dim); }
+    .post-body .ts-step { border-left: 2px solid var(--line2); padding: 2px 0 2px 18px; margin: 2em 0; }
+    .post-body .ts-step > h3 { margin-top: 0; }
+    .post-body .ts-step.symptom { border-left-color: var(--red); }
+    .post-body .ts-step.symptom > h3 { color: var(--red); }
+    .post-body .ts-step.cause { border-left-color: var(--amber); }
+    .post-body .ts-step.cause > h3 { color: var(--amber); }
+    .post-body .ts-step.solution { border-left-color: var(--green); }
+    .post-body .ts-step.solution > h3 { color: var(--green); }
+    .post-body .ver { display: inline-block; font-family: var(--mono); font-size: 12px; color: var(--amber); border: 1px solid var(--amber); border-radius: 4px; padding: 0 6px; line-height: 1.5; vertical-align: .1em; }
+    .post-body ul.ref-links li a::after { content: ' \2197'; }
+    .post-body .post-changelog { font-family: var(--mono); font-size: 12.5px; color: var(--dim); border-top: 1px dashed var(--line2); margin-top: 3em; padding-top: 1.2em; }
+    .post-body .post-changelog ul { margin: .4em 0 0 1.2em; }
+
+    /* inline toc (narrow screens) */
+    .post-body nav.toc:empty { display: none; }
+    .toc-box { border: 1px solid var(--line); border-radius: 6px; margin: 0 0 2em; font-size: 15px; }
+    .toc-box summary { list-style: none; cursor: pointer; padding: 12px 16px; font-family: var(--mono); font-size: 12px; color: var(--dim); min-height: 44px; display: flex; align-items: center; justify-content: space-between; }
+    .toc-box summary::-webkit-details-marker { display: none; }
+    .toc-box summary::after { content: '+'; }
+    .toc-box[open] summary::after { content: '\2212'; }
+    .toc-box ol { list-style: none; margin: 0 16px 14px !important; }
+    .toc-box li { margin: 0 !important; }
+    .toc-box a { display: block; padding: 5px 0; color: var(--sub) !important; text-decoration: none !important; }
+    .toc-box a.sub { padding-left: 16px; font-size: 14px; }
+
+    /* toc rail (desktop) */
+    .toc-rail { position: sticky; top: calc(var(--top-h) + 24px); max-height: calc(100vh - var(--top-h) - 48px); overflow-y: auto; border-left: 1px solid var(--line); padding-left: 14px; font-size: 13.5px; }
+    .toc-rail:empty { display: none; }
+    .rail-title { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--dim); margin-bottom: 8px; }
+    .toc-rail a { display: block; padding: 4px 0 4px 10px; margin-left: -15px; border-left: 2px solid transparent; color: var(--dim); line-height: 1.45; }
+    .toc-rail a.sub { padding-left: 22px; font-size: 12.5px; }
+    .toc-rail a:hover { color: var(--text); }
+    .toc-rail a.on { color: var(--amber); border-left-color: var(--amber); }
+
+    /* post footer */
+    .post-foot { margin-top: 3em; padding-top: 20px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
+    .post-foot .tags { font-family: var(--mono); font-size: 12.5px; text-transform: uppercase; }
+    .post-foot .tags a { color: var(--sub); margin-right: 8px; }
+    .post-foot .tags a:hover { color: var(--amber); }
+    .share { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+    .share .lbl { font-family: var(--mono); font-size: 12px; color: var(--dim); margin-right: 4px; }
+    .whoami-card { display: grid; grid-template-columns: 1fr auto; gap: 12px 20px; align-items: center; border: 1px solid var(--line); border-radius: 6px; padding: 18px 20px; margin-top: 28px; }
+    .whoami-card .who { font-family: var(--mono); font-size: 12.5px; color: var(--dim); }
+    .whoami-card .who b { color: var(--amber); font-weight: 500; }
+    .whoami-card p { font-size: 14.5px; color: var(--sub); margin-top: 4px; line-height: 1.6; }
+    .post-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; font-family: var(--mono); font-size: 13px; }
+    .post-nav a { border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; color: var(--sub); min-height: 48px; }
+    .post-nav a:hover { color: var(--amber); border-color: var(--amber); }
+    .post-nav .older { grid-column: 2; text-align: right; }
+    .block-h { font-family: var(--mono); font-size: 12px; color: var(--dim); letter-spacing: .06em; margin: 40px 0 0; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+    .related .row { grid-template-columns: 112px minmax(0, 1fr); padding-left: 16px; padding-right: 16px; }
+    .comments-box { margin-top: 40px; }
+    .comments-box .cm-hint { font-size: 14px; color: var(--dim); margin: 12px 0 14px; }
+    .cm-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+    .cm-tab { font-family: var(--mono); font-size: 12.5px; background: none; border: 1px solid var(--line2); border-radius: 4px; padding: 6px 12px; color: var(--sub); cursor: pointer; min-height: 36px; }
+    .cm-tab.on { color: var(--on-amber); background: var(--amber); border-color: var(--amber); }
+
+    /* ==== [6b] Toolbox page (/p/tools.html, body = <div id="toolbox-app"></div>) ==== */
+    .post-layout:has(#toolbox-app), .is-tools .post-layout { grid-template-columns: minmax(0, 1fr); gap: 0; padding-top: 0; }
+    .post-layout:has(#toolbox-app) .toc-rail, .post-col:has(#toolbox-app) .path, .post-col:has(#toolbox-app) .post-tags-top, .post-col:has(#toolbox-app) .post-h1, .post-col:has(#toolbox-app) .post-meta, .is-tools .toc-rail { display: none; }
+    .tbx { font-family: var(--sans); font-size: 15px; line-height: 1.6; color: var(--text); }
+    .tbx-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 24px; padding: 4px 0 18px; }
+    .tbx-title { font-family: var(--mono); font-size: 22px; font-weight: 600; letter-spacing: 0; }
+    .tbx-title b { color: var(--amber); }
+    .tbx-sub { font-size: 14px; color: var(--sub); }
+    .tbx-keys { margin-left: auto; display: flex; gap: 14px; font-family: var(--mono); font-size: 12px; color: var(--dim); white-space: nowrap; }
+    .tbx-grid { display: grid; grid-template-columns: 300px minmax(0, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); align-items: stretch; }
+    .tbx-list { list-style: none; border-right: 1px solid var(--line); padding: 8px 0; }
+    .tbx-item { position: relative; display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 0 8px; padding: 9px 16px 9px 14px; }
+    .tbx-item::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--amber); transform: scaleY(0); transition: transform .12s ease-out; }
+    .tbx-item:hover, .tbx-item.on { background: var(--raise); }
+    .tbx-item:hover::before, .tbx-item.on::before { transform: scaleY(1); }
+    .tbx-item .n { grid-row: span 2; font-family: var(--mono); font-size: 12px; color: var(--faint); padding-top: 2px; }
+    .tbx-item .nm { font-family: var(--mono); font-size: 14px; color: var(--text); font-weight: 500; }
+    .tbx-item .ds { font-size: 12.5px; color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .tbx-item.on .nm, .tbx-item.on .n { color: var(--amber); }
+    .tbx-panel { min-width: 0; max-width: 880px; padding: 22px 32px 30px; animation: row-in .18s ease-out both; }
+    .tbx-back { display: none; background: none; border: 0; font-family: var(--mono); font-size: 13px; color: var(--amber); padding: 10px 0; min-height: 44px; cursor: pointer; }
+    .tbx-cmd { font-family: var(--mono); font-size: 12.5px; color: var(--dim); }
+    .tbx-cmd b { color: var(--amber); font-weight: 500; }
+    .tbx-h { font-size: 24px; font-weight: 600; letter-spacing: -.02em; line-height: 1.35; margin: 2px 0 4px; }
+    .tbx-desc { font-size: 14.5px; color: var(--sub); margin-bottom: 20px; max-width: 640px; }
+    .tbx-form { display: flex; flex-wrap: wrap; gap: 12px 14px; align-items: flex-end; margin-bottom: 22px; }
+    .tbx-f { display: flex; flex-direction: column; gap: 5px; min-width: 0; flex: 1 1 160px; max-width: 320px; }
+    .tbx-f.wide { flex-basis: 100%; max-width: 640px; }
+    .tbx-f.narrow { flex: 0 1 120px; }
+    .tbx-f > span { font-family: var(--mono); font-size: 11.5px; color: var(--dim); }
+    .tbx-in, .tbx-sel, .tbx-ta { width: 100%; height: 44px; background: var(--bg); border: 1px solid var(--control); border-radius: 4px; padding: 0 12px; color: var(--text); font-family: var(--mono); font-size: 16px; transition: border-color .12s; }
+    .tbx-sel { cursor: pointer; font-size: 14px; }
+    .tbx-ta { height: 96px; padding: 10px 12px; resize: vertical; line-height: 1.5; }
+    .tbx-in:focus, .tbx-sel:focus, .tbx-ta:focus { border-color: var(--amber); }
+    .tbx-btn { height: 44px; padding: 0 14px; background: none; border: 1px solid var(--line2); border-radius: 4px; font-family: var(--mono); font-size: 13px; color: var(--sub); cursor: pointer; }
+    .tbx-btn:hover { color: var(--amber); border-color: var(--amber); }
+    .tbx-out-h { font-family: var(--mono); font-size: 11.5px; color: var(--dim); letter-spacing: .06em; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+    .tbx-out { display: grid; grid-template-columns: 150px minmax(0, 1fr) auto; gap: 4px 16px; align-items: center; padding: 9px 0; border-bottom: 1px dashed var(--line); font-family: var(--mono); font-size: 14px; }
+    .tbx-out .k { color: var(--dim); font-size: 12.5px; }
+    .tbx-out .v { color: var(--text); overflow-wrap: anywhere; min-width: 0; }
+    .tbx-out.hl .v { color: var(--amber); font-weight: 600; }
+    .tbx-out.top { align-items: start; }
+    .tbx-out.block { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'k c' 'v v'; }
+    .tbx-out.block .k { grid-area: k; }
+    .tbx-out.block > :last-child { grid-area: c; }
+    .tbx-out.block .v { grid-area: v; white-space: pre; overflow-x: auto; overflow-wrap: normal; -webkit-overflow-scrolling: touch; background: var(--code-bg); color: #e3dccd; border: 1px solid var(--code-line); border-radius: 4px; padding: 10px 12px; font-size: 13.5px; line-height: 1.6; }
+    .tbx-copy { background: none; border: 1px solid var(--line2); border-radius: 4px; font-family: var(--mono); font-size: 11px; color: var(--sub); padding: 3px 10px; min-height: 30px; cursor: pointer; align-self: start; }
+    .tbx-copy:hover, .tbx-copy.done { color: var(--amber); border-color: var(--amber); }
+    .tbx-note { font-size: 13px; color: var(--dim); margin-top: 14px; max-width: 640px; }
+    .tbx-note code { font-family: var(--mono); font-size: 12.5px; color: var(--sub); white-space: nowrap; margin: 0 2px; }
+    .tbx-note a { color: var(--amber); }
+    .lvl-ok { color: var(--green) !important; }
+    .lvl-warn { color: var(--amber) !important; }
+    .lvl-crit { color: var(--red) !important; }
+    .tbx-bar { height: 6px; background: var(--bg); border: 1px solid var(--line); border-radius: 3px; margin: 12px 0 4px; overflow: hidden; max-width: 640px; }
+    .tbx-bar i { display: block; height: 100%; width: 0; background: var(--green); transition: width .3s; }
+    .tbx-ports { width: 100%; max-width: 640px; border-collapse: collapse; font-family: var(--mono); font-size: 13.5px; }
+    .tbx-ports td { padding: 7px 12px 7px 0; border-bottom: 1px dashed var(--line); color: var(--sub); vertical-align: top; }
+    .tbx-ports td:first-child { width: 80px; color: var(--amber); }
+    .tbx-perm { border-collapse: collapse; font-family: var(--mono); font-size: 13px; margin-bottom: 4px; }
+    .tbx-perm th, .tbx-perm td { padding: 4px 14px 4px 0; text-align: left; font-weight: 400; color: var(--dim); }
+    .tbx-perm label { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; cursor: pointer; color: var(--sub); }
+    .tbx-perm input { width: 18px; height: 18px; accent-color: var(--amber); }
+    .tbx-runs { list-style: none; }
+    .tbx-runs li { padding: 2px 0; }
+    .tbx-runs li::before { content: '\25B8  '; color: var(--faint); white-space: pre; }
+
+    /* ==== [7] Drawer (mobile) ==== */
+    .drawer { position: fixed; inset: 0; z-index: 2000; display: none; }
+    .drawer.open { display: block; }
+    .drawer-bg { position: absolute; inset: 0; background: rgba(0,0,0,.55); }
+    .drawer-panel { position: absolute; top: 0; bottom: 0; left: 0; width: min(84vw, 320px); background: var(--bg); border-right: 1px solid var(--line2); overflow-y: auto; padding: 12px 18px calc(24px + env(safe-area-inset-bottom)); }
+    .drawer-head { display: flex; align-items: center; justify-content: space-between; height: 44px; margin-bottom: 8px; }
+    .drawer .tree { position: static; border: 0; padding: 0; max-height: none; font-size: 15px; line-height: 2.6; }
+    .drawer .social-row { margin-top: 18px; }
+
+    /* ==== [8] Footer / misc ==== */
+    .site-footer { max-width: 1440px; width: 100%; margin: 48px auto 0; padding: 22px 32px calc(28px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: center; gap: 10px 24px; font-family: var(--mono); font-size: 12px; color: var(--dim); }
+    .site-footer .eof { color: var(--faint); }
+    .site-footer a:hover { color: var(--amber); }
+    .site-footer .social-row { margin-left: auto; }
+    .to-top { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom)); width: 44px; height: 44px; border-radius: 6px; background: var(--surface); border: 1px solid var(--line2); color: var(--sub); display: none; align-items: center; justify-content: center; cursor: pointer; z-index: 800; }
+    .to-top.show { display: flex; }
+    .to-top:hover { color: var(--amber); border-color: var(--amber); }
+    .hidden-data { display: none !important; }
+
+    /* ==== [9] Responsive ==== */
+    @media (max-width: 1240px) {
+        .layout { grid-template-columns: 210px minmax(0, 1fr); }
+        .is-index .content { border-right: 0; }
+        .side { position: static; grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--line); padding: 20px 0 0; max-height: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0 28px; }
+        .post-layout { grid-template-columns: minmax(0, 760px); }
+        .toc-rail { display: none; }
+        .host { display: none; }
+    }
+    @media (min-width: 1241px) { .is-post .post-body nav.toc { display: none; } }
+    @media (max-width: 900px) {
+        :root { --top-h: 52px; }
+        .top-in { padding: 0 8px 0 4px; gap: 4px; }
+        .menu-btn { display: inline-flex; }
+        .nav { display: none; }
+        .top-actions { margin-left: auto; }
+        .logo { font-size: 23px; }
+        .cmd-wrap { margin-top: 12px; padding: 0 14px; }
+        .cmd { height: 52px; padding: 0 14px; gap: 10px; font-size: 15px; }
+        .cmd input { font-size: 16px; }
+        .cmd .hint { display: none; }
+        .grep-panel { left: 14px; right: 14px; }
+        .grep-sug { left: 14px; right: 14px; width: auto; }
+        .opt { min-height: 44px; align-items: center; }
+        .sug-tip { line-height: 2; }
+        .grep-bar { padding: 6px 4px; flex-wrap: wrap; gap: 4px 12px; }
+        .gb-sort button { padding: 10px 8px; }
+        .shell { padding: 0 14px; margin-top: 12px; }
+        .layout { display: block; }
+        .is-index .content { border-left: 0; border-right: 0; min-height: 0; }
+        .layout > .tree { display: none; }
+        .colhead { display: none; }
+        .row { grid-template-columns: auto minmax(0, 1fr); gap: 2px 12px; padding: 12px 4px 13px 12px; min-height: 56px; }
+        .row .ttl { grid-column: 1 / -1; white-space: normal; font-size: 16px; line-height: 1.45; }
+        .ex { grid-column: 1 / -1; }
+        .status { padding: 12px 4px; }
+        .pager { padding: 16px 4px 4px; }
+        .pager a { padding: 12px 0; }
+        .side { display: block; padding-top: 24px; }
+        .side .stat { display: none; }
+        .post-h1 { font-size: 26px; }
+        .post-body { font-size: 16.5px; line-height: 1.82; }
+        .post-body h2 { font-size: 21px; }
+        .post-body pre, .post-body pre code { font-size: 13px !important; }
+        .post-body ul, .post-body ol { margin-left: 1.1em; }
+        .share { margin-left: 0; }
+        .whoami-card { grid-template-columns: 1fr; }
+        .post-nav { grid-template-columns: 1fr; }
+        .post-nav .older { grid-column: 1; text-align: left; }
+        .related .row { grid-template-columns: 1fr; padding-left: 12px; }
+        .site-footer { padding: 18px 14px calc(24px + env(safe-area-inset-bottom)); }
+        .site-footer .social-row { margin-left: 0; width: 100%; }
+        .site-footer .copy { flex: 1 0 calc(100% - 100px); } /* fill line 1 after EOF so links wrap together */
+        .tbx-head { padding: 0 0 14px; }
+        .tbx-title { font-size: 19px; }
+        .tbx-keys { display: none; }
+        .tbx-grid { display: block; border-bottom: 0; }
+        .tbx-list { border-right: 0; padding: 0; }
+        .tbx-item { padding: 12px 8px 12px 12px; min-height: 56px; border-bottom: 1px solid var(--line); }
+        .tbx-item .nm { font-size: 15px; }
+        .tbx-item .ds { font-size: 13.5px; white-space: normal; }
+        .tbx-panel { display: none; padding: 0 0 24px; }
+        .tbx.open .tbx-list, .tbx.open .tbx-head { display: none; }
+        .tbx.open .tbx-panel { display: block; }
+        .tbx-back { display: inline-block; }
+        .tbx-copy { min-height: 40px; padding: 3px 14px; }
+        .tbx-h { font-size: 21px; }
+        .tbx-f, .tbx-f.narrow { flex: 1 1 100%; max-width: none; }
+        .tbx-f.half { flex: 1 1 calc(50% - 8px); }
+        .tbx-out { grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; }
+        .tbx-out:not(.block) .k { grid-column: 1 / -1; }
+        .tbx:not(.picked) .tbx-item.on { background: none; }
+        .tbx:not(.picked) .tbx-item.on::before { transform: scaleY(0); }
+        .tbx:not(.picked) .tbx-item.on .nm { color: var(--text); }
+        .tbx:not(.picked) .tbx-item.on .n { color: var(--faint); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        * { transition: none !important; animation: none !important; }
+    }
+    @media print {
+        .top, .cmd-wrap, .tree, .side, .toc-rail, .site-footer, .post-nav, .comments-box, .share, .related, .to-top, .code-copy, .whoami-card { display: none !important; }
+        body { background: #fff; color: #000; }
+    }
+    ]]></b:skin>
+</head>
+<body expr:class='data:view.isMultipleItems ? &quot;is-index&quot; : &quot;is-post&quot;' expr:data-home='data:view.isHomepage ? &quot;1&quot; : &quot;0&quot;'>
+    <a class='skip-link' href='#main-content'>본문으로 건너뛰기</a>
+
+    <header class='top'>
+        <div class='top-in'>
+            <button aria-controls='drawer' aria-label='카테고리 메뉴 열기' class='icon-btn menu-btn' id='menu-btn' type='button'><svg aria-hidden='true' class='ico' viewBox='0 0 24 24'><path d='M4 7h16M4 12h16M4 17h10'/></svg></button>
+            <a class='logo' expr:href='data:blog.homepageUrl'>Binary <b>Garden</b></a>
+            <span class='host'>yeonju@garden:~/logs</span>
+            <nav aria-label='카테고리' class='nav' id='nav'/>
+            <div class='top-actions'>
+                <button aria-label='라이트/다크 테마 전환' class='icon-btn theme-btn' id='theme-btn' type='button'>
+                    <svg aria-hidden='true' class='ico i-moon' viewBox='0 0 24 24'><path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'/></svg>
+                    <svg aria-hidden='true' class='ico i-sun' viewBox='0 0 24 24'><circle cx='12' cy='12' r='4.5'/><path d='M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4'/></svg>
+                </button>
+            </div>
+        </div>
+        <div class='progress' id='read-progress'/>
+    </header>
+
+    <!-- Command line search: live grep over every post (Blogger JSON feed) -->
+    <div class='cmd-wrap'>
+        <form action='/search' class='cmd' id='cmd' method='get' role='search'>
+            <label class='prompt' for='grep-input'>$ grep -i</label>
+            <input aria-autocomplete='list' aria-controls='grep-sug' aria-expanded='false' autocapitalize='off' autocomplete='off' id='grep-input' name='q' placeholder='에러 메시지, 설정 키, label:tomcat' spellcheck='false' type='search'/>
+            <span aria-live='polite' class='cmd-count' id='grep-count'/>
+            <span class='hint'><span><kbd>/</kbd> 검색</span><span><kbd>&#8593;</kbd><kbd>&#8595;</kbd> 이동</span><span><kbd>&#8629;</kbd> 열기</span></span>
+        </form>
+        <div class='grep-panel' hidden='hidden' id='grep-panel'/>
+        <div class='grep-sug' hidden='hidden' id='grep-sug'/>
+    </div>
+
+    <div aria-hidden='true' class='drawer' id='drawer'>
+        <div class='drawer-bg' data-drawer-close='1'/>
+        <div aria-label='카테고리' class='drawer-panel' role='dialog'>
+            <div class='drawer-head'>
+                <a class='logo' expr:href='data:blog.homepageUrl'>Binary <b>Garden</b></a>
+                <button aria-label='메뉴 닫기' class='icon-btn' data-drawer-close='1' type='button'><svg aria-hidden='true' class='ico' viewBox='0 0 24 24'><path d='M18 6L6 18M6 6l12 12'/></svg></button>
+            </div>
+            <div class='tree' id='drawer-tree'/>
+            <a class='drawer-link' href='/p/tools.html'>$ ./toolbox &#8594;</a>
+            <div class='social-row js-social'/>
+        </div>
+    </div>
+
+    <div class='shell'>
+        <div class='layout'>
+            <aside aria-label='INDEX' class='tree' id='tree'/>
+
+            <main class='content' id='main-content'>
+                <b:section id='Main' showaddelement='yes'>
+                  <b:widget id='Blog1' locked='true' title='블로그 게시물' type='Blog' version='2' visible='true'>
+                    <b:widget-settings>
+                      <b:widget-setting name='showDateHeader'>false</b:widget-setting>
+                      <b:widget-setting name='commentLabel'>Comments</b:widget-setting>
+                      <b:widget-setting name='showShareButtons'>false</b:widget-setting>
+                      <b:widget-setting name='authorLabel'>by</b:widget-setting>
+                      <b:widget-setting name='showCommentLink'>false</b:widget-setting>
+                      <b:widget-setting name='postLocationLabel'>Location:</b:widget-setting>
+                      <b:widget-setting name='showAuthor'>false</b:widget-setting>
+                      <b:widget-setting name='style.unittype'>TextAndImage</b:widget-setting>
+                      <b:widget-setting name='reactionsLabel'/>
+                      <b:widget-setting name='showAuthorProfile'>false</b:widget-setting>
+                      <b:widget-setting name='style.layout'>1x1</b:widget-setting>
+                      <b:widget-setting name='showLabels'>true</b:widget-setting>
+                      <b:widget-setting name='showLocation'>false</b:widget-setting>
+                      <b:widget-setting name='postLabelsLabel'>Tags</b:widget-setting>
+                      <b:widget-setting name='showTimestamp'>true</b:widget-setting>
+                      <b:widget-setting name='postsPerAd'>1</b:widget-setting>
+                      <b:widget-setting name='showBacklinks'>false</b:widget-setting>
+                      <b:widget-setting name='showInlineAds'>false</b:widget-setting>
+                      <b:widget-setting name='showReactions'>false</b:widget-setting>
+                    </b:widget-settings>
+                    <b:includable id='main'>
+                        <b:if cond='data:view.isHomepage'>
+                            <h1 class='sr-only'><data:blog.title/> &#8212; 미들웨어 엔지니어링 로그</h1>
+                        </b:if>
+
+                        <b:if cond='data:view.isError'>
+                            <h1 class='status'>$ cat <b>404</b>: 요청한 로그가 없습니다. <a expr:href='data:blog.homepageUrl'>~/logs 로 돌아가기</a> 또는 위 명령행에서 검색하세요.</h1>
+                        <b:elseif cond='data:view.isLabelSearch'/>
+                            <h1 class='status' data-label='1'>$ ls ~/logs/<b><data:view.search.label/></b>/</h1>
+                        <b:elseif cond='data:view.search.query'/>
+                            <h1 class='status'>$ grep -ri &quot;<b><data:view.search.query/></b>&quot; ~/logs</h1>
+                        <b:elseif cond='data:view.isArchive'/>
+                            <h1 class='status'>$ ls ~/logs/<b><data:view.title/></b>/</h1>
+                        </b:if>
+
+                        <b:if cond='data:view.isMultipleItems'>
+                            <div class='log' id='post-list'>
+                                <div aria-hidden='true' class='colhead'><span>DATE</span><span>TAGS</span><span>TITLE</span></div>
+                                <b:loop values='data:posts' var='post'>
+                                    <a class='row' expr:href='data:post.url'>
+                                        <time class='ts' expr:datetime='data:post.date.iso8601'><data:post.date/></time>
+                                        <span class='lv'><b:loop values='data:post.labels' var='label'><i>[<data:label.name/>]</i> </b:loop></span>
+                                        <span class='ttl'><data:post.title/></span>
+                                        <span class='ex'><data:post.snippet/><span class='go'>&#8629; 열기</span></span>
+                                    </a>
+                                </b:loop>
+                            </div>
+                            <div class='empty' hidden='hidden' id='empty-state'>0 matches. 다른 키워드로 검색하거나 <a expr:href='data:blog.homepageUrl'>~/logs</a> 로 돌아가세요.</div>
+                            <nav aria-label='페이지' class='pager' id='pager'>
+                                <b:if cond='data:newerPageUrl'>
+                                    <a class='newer' expr:href='data:newerPageUrl'>&#8592; $ less --newer</a>
+                                </b:if>
+                                <b:if cond='data:olderPageUrl'>
+                                    <a class='older' expr:href='data:olderPageUrl'>$ less --older &#8594;</a>
+                                </b:if>
+                            </nav>
+                        <b:else/>
+                            <div class='post-layout' id='layout-post'>
+                              <div class='post-col'>
+                                <b:loop values='data:posts' var='post'>
+                                    <b:include data='post' name='postMeta'/>
+                                    <article>
+                                        <nav aria-label='경로' class='path'><a expr:href='data:blog.homepageUrl'>~/logs</a>/<b:if cond='data:post.labels'><a expr:href='data:post.labels.first.url'><data:post.labels.first.name/></a>/</b:if></nav>
+                                        <b:if cond='data:post.labels'>
+                                            <div class='post-tags-top'><b:loop values='data:post.labels' var='label'><a expr:href='data:label.url'>[<data:label.name/>]</a></b:loop></div>
+                                        </b:if>
+                                        <h1 class='post-h1'><data:post.title/></h1>
+                                        <div class='post-meta'>
+                                            <time expr:datetime='data:post.date.iso8601'><data:post.date/></time>
+                                            <span id='read-time'/>
+                                            <span id='updated-at'/>
+                                        </div>
+                                        <div class='post-body entry-content' expr:id='&quot;post-body-&quot; + data:post.id'><data:post.body/></div>
+                                        <b:if cond='data:view.isPost'>
+                                            <div class='post-foot'>
+                                                <b:if cond='data:post.labels'>
+                                                    <div class='tags'><b:loop values='data:post.labels' var='label'><a expr:href='data:label.url'>[<data:label.name/>]</a></b:loop></div>
+                                                </b:if>
+                                                <div class='share' id='share'/>
+                                            </div>
+                                        </b:if>
+                                    </article>
+
+                                    <b:if cond='data:view.isPost'>
+                                        <div class='whoami-card'>
+                                            <div><div class='who'>$ whoami &#8594; <b id='author-name'>YeonJu</b></div><p class='js-bio'/></div>
+                                            <div class='social-row js-social'/>
+                                        </div>
+                                        <nav aria-label='이전/다음 글' class='post-nav'>
+                                            <b:if cond='data:newerPageUrl'><a class='newer' expr:href='data:newerPageUrl'>&#8592; newer</a></b:if>
+                                            <b:if cond='data:olderPageUrl'><a class='older' expr:href='data:olderPageUrl'>older &#8594;</a></b:if>
+                                        </nav>
+                                        <section aria-label='관련 로그' class='related' hidden='hidden' id='related'>
+                                            <h2 class='block-h'>$ grep --related</h2>
+                                            <div id='related-list'/>
+                                        </section>
+                                        <section aria-labelledby='cm-title' class='comments-box' hidden='hidden' id='comments-root'>
+                                            <h2 class='block-h' id='cm-title'># comments</h2>
+                                            <p class='cm-hint'>Google · Facebook · X · GitHub 계정으로 로그인해서 남길 수 있습니다.</p>
+                                            <div class='cm-tabs' id='cm-tabs'/>
+                                            <div id='cm-disqus' hidden='hidden'><div id='disqus_thread'/></div>
+                                            <div id='cm-giscus' hidden='hidden'/>
+                                        </section>
+                                    </b:if>
+                                </b:loop>
+                              </div>
+                              <aside aria-label='On this page' class='toc-rail' id='toc-rail'/>
+                            </div>
+                        </b:if>
+                    </b:includable>
+                    <b:includable id='postMeta' var='post'>
+                        <b:include data='post' name='postMetadataJSON'/>
+                        <b:if cond='data:view.isPost and data:post.labels'>
+                            <script type='application/ld+json'>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"<data:blog.title.jsonEscaped/>","item":"<data:blog.canonicalHomepageUrl.jsonEscaped/>"},{"@type":"ListItem","position":2,"name":"<data:post.labels.first.name.jsonEscaped/>","item":"<data:post.labels.first.url.canonical.jsonEscaped/>"},{"@type":"ListItem","position":3,"name":"<data:post.title.jsonEscaped/>"}]}</script>
+                        </b:if>
+                    </b:includable>
+                  </b:widget>
+                </b:section>
+            </main>
+
+            <aside aria-label='상태' class='side'>
+                <div class='stat'><div><b id='stat-posts'>-</b><span>posts</span></div><div><b id='stat-last'>-</b><span>last write</span></div></div>
+                <div>
+                    <h3>RECENTLY UPDATED</h3>
+                    <ol class='upd' id='upd-list'/>
+                </div>
+                <div>
+                    <h3>WHOAMI</h3>
+                    <div class='whoami'>
+                        <div class='who'>$ whoami &#8594; <b class='js-author'>YeonJu</b></div>
+                        <p class='js-bio'/>
+                        <div class='social-row js-social'/>
+                    </div>
+                </div>
+                <div>
+                    <h3>TOOLBOX</h3>
+                    <div class='tbx-go'>
+                        <a class='tbx-go-main' href='/p/tools.html'><span>$ ./toolbox</span><span aria-hidden='true'>&#8594;</span></a>
+                        <div class='tbx-go-list'><a href='/p/tools.html#jvm'>jvm</a><a href='/p/tools.html#cidr'>cidr</a><a href='/p/tools.html#chmod'>chmod</a><a href='/p/tools.html#cron'>cron</a><a href='/p/tools.html#cert'>cert</a><a href='/p/tools.html'>+7</a></div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <b:section class='hidden-data' id='TagSection' showaddelement='yes'>
+          <b:widget id='Label1' locked='false' title='Labels' type='Label' version='2' visible='true'>
+            <b:widget-settings>
+              <b:widget-setting name='sorting'>ALPHA</b:widget-setting>
+              <b:widget-setting name='display'>LIST</b:widget-setting>
+              <b:widget-setting name='selectedLabelsList'/>
+              <b:widget-setting name='showType'>ALL</b:widget-setting>
+              <b:widget-setting name='showFreqNumbers'>false</b:widget-setting>
+            </b:widget-settings>
+            <b:includable id='main'>
+                <div id='original-tags'>
+                    <b:loop values='data:labels' var='label'>
+                        <div class='tag-data' expr:data-count='data:label.count' expr:data-link='data:label.url' expr:data-name='data:label.name'/>
+                    </b:loop>
+                </div>
+            </b:includable>
+          </b:widget>
+        </b:section>
+    </div>
+
+    <footer class='site-footer'>
+        <span class='eof'>-- EOF --</span>
+        <span class='copy'>&#169; <span id='footer-year'>2024</span> Binary Garden</span>
+        <a href='/p/tools.html'>tools</a>
+        <a href='/p/about.html'>about</a>
+        <a href='/p/privacy.html'>privacy</a>
+        <a href='/feeds/posts/default'>rss</a>
+        <div class='social-row js-social'/>
+    </footer>
+
+    <button aria-label='맨 위로' class='to-top' id='to-top' type='button'><svg aria-hidden='true' class='ico' viewBox='0 0 24 24'><path d='M12 19V5M5 12l7-7 7 7'/></svg></button>
+
+    <script>
+    //<![CDATA[
+    /* ============================================================
+       BLOG_CONFIG  -  SNS / 댓글 / 카테고리는 여기만 고치면 됩니다
+       ============================================================ */
+    var BLOG_CONFIG = {
+        author: {
+            name: 'YeonJu',
+            bio: 'Middleware & Security Engineer. WAS/WEB 설치·튜닝·장애 대응을 기록합니다.'
+        },
+
+        /* 내 SNS: url 을 채운 항목만 표시됩니다 (우측 whoami, 글 하단, 메뉴 서랍, 푸터). */
+        social: [
+            { id: 'github',    label: 'GitHub',    url: '' },
+            { id: 'linkedin',  label: 'LinkedIn',  url: '' },
+            { id: 'instagram', label: 'Instagram', url: '' },
+            { id: 'x',         label: 'X',         url: '' },
+            { id: 'youtube',   label: 'YouTube',   url: '' },
+            { id: 'facebook',  label: 'Facebook',  url: '' },
+            { id: 'link',      label: 'Kakao 오픈채팅 / Naver 등', url: '' },
+            { id: 'mail',      label: 'Email',     url: '' },   /* mailto:me@example.com */
+            { id: 'rss',       label: 'RSS',       url: '/feeds/posts/default' }
+        ],
+
+        /* 댓글: Disqus(Google/Facebook/X 로그인) + giscus(GitHub 로그인). 비우면 댓글 영역 숨김. */
+        comments: {
+            disqusShortname: '',
+            giscus: { repo: '', repoId: '', category: 'Announcements', categoryId: '' }
+        },
+
+        /* 카테고리: 라벨 이름에 keys 가 포함되면 해당 폴더(/web 등)로 묶입니다. */
+        tagGroups: {
+            'web':      ['apache', 'nginx', 'ihs', 'webtob', 'http', 'ibm httpserver', 'ibm http server'],
+            'was':      ['tomcat', 'jboss', 'jeus', 'weblogic', 'websphere', 'was', 'liberty', 'eap6', 'eap7', 'eap8', 'wildfly'],
+            'os':       ['linux', 'windows', 'aix', 'shell', 'unix', 'ubuntu', 'command'],
+            'security': ['security', 'ssl', 'tls', 'cert', 'firewall', 'waf', 'auth', 'samsung pass'],
+            'apm':      ['scouter', 'jennifer', 'dynatrace', 'apm'],
+            'issue':    ['issue', 'error', 'bug', 'troubleshoot'],
+            'life':     ['life', 'daily', 'hobby']
+        },
+        errorGroups: ['issue'],          /* 이 폴더 라벨은 목록에서 빨간색 [TAG] */
+        hiddenTags: ['hidden', 'secret', 'temp'],
+        etcGroupName: 'etc',
+
+        search: { cacheMinutes: 60, maxResults: 40 },
+        autoTocMinHeadings: 3,
+        readCharsPerMinute: 500,
+        relatedCount: 5,
+        recentUpdatedCount: 5,
+        langLabels: {
+            'bash': 'bash', 'shell': 'shell', 'sh': 'sh', 'xml': 'xml', 'ini': 'ini', 'properties': 'properties',
+            'apache': 'httpd.conf', 'nginx': 'nginx.conf', 'yaml': 'yaml', 'json': 'json', 'java': 'java',
+            'python': 'python', 'sql': 'sql', 'plaintext': 'text'
+        }
+    };
+
+    /* ---------- helpers ---------- */
+    function $(s, r) { return (r || document).querySelector(s); }
+    function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+    function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
+    }
+    function escapeRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+    function ymd(iso) {
+        var d = new Date(iso); if (isNaN(d)) return '';
+        return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+    }
+    function safeUrl(u) { return /^(https?:|mailto:|\/)/i.test(u) ? u : ''; }
+    function groupOf(label) {
+        var n = String(label).toLowerCase(), G = BLOG_CONFIG.tagGroups;
+        for (var g in G) { if (G[g].some(function (k) { return n.indexOf(k) >= 0; })) return g; }
+        return BLOG_CONFIG.etcGroupName;
+    }
+    function isErrLabel(label) { return BLOG_CONFIG.errorGroups.indexOf(groupOf(label)) >= 0; }
+
+    var ICONS = {
+        github: '<path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>',
+        linkedin: '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>',
+        instagram: '<rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/>',
+        x: '<path d="M4 4l16 16M20 4L4 20"/>',
+        youtube: '<path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><path d="M9.75 15.02l5.75-3.27-5.75-3.27z"/>',
+        facebook: '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>',
+        mail: '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/>',
+        rss: '<path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/>',
+        link: '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+        copy: '<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+        share: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/>'
+    };
+    function icon(name) { return '<svg aria-hidden="true" class="ico" viewBox="0 0 24 24">' + (ICONS[name] || ICONS.link) + '</svg>'; }
+
+    /* ---------- theme ---------- */
+    function currentTheme() { return document.documentElement.getAttribute('data-theme') || 'dark'; }
+    function setTheme(t) {
+        document.documentElement.setAttribute('data-theme', t);
+        document.documentElement.style.colorScheme = t;
+        try { localStorage.setItem('bg-theme', t); } catch (e) {}
+        var m = $('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#f7f4ee' : '#141210');
+        var f = $('iframe.giscus-frame');
+        if (f && f.contentWindow) f.contentWindow.postMessage({ giscus: { setConfig: { theme: t } } }, 'https://giscus.app');
+    }
+    function initTheme() {
+        var b = $('#theme-btn');
+        if (b) b.addEventListener('click', function () { setTheme(currentTheme() === 'dark' ? 'light' : 'dark'); });
+    }
+
+    /* ---------- author + social ---------- */
+    function renderSocial() {
+        var html = BLOG_CONFIG.social.filter(function (s) { return s.url && safeUrl(s.url); }).map(function (s) {
+            var ext = /^https?:/i.test(s.url) && s.url.indexOf(location.host) < 0;
+            return '<a class="social-btn" href="' + escapeHtml(s.url) + '" aria-label="' + escapeHtml(s.label) + '" title="' + escapeHtml(s.label) + '"' + (ext ? ' target="_blank" rel="noopener noreferrer me"' : '') + '>' + icon(s.id) + '</a>';
+        }).join('');
+        $$('.js-social').forEach(function (el) { el.innerHTML = html; });
+        $$('.js-bio').forEach(function (el) { el.textContent = BLOG_CONFIG.author.bio; });
+        $$('.js-author, #author-name').forEach(function (el) { el.textContent = BLOG_CONFIG.author.name; });
+    }
+
+    /* ---------- categories: top dropdowns + INDEX tree (desktop + drawer) ---------- */
+    var GROUPS = [];
+    function collectGroups() {
+        var original = $('#original-tags');
+        if (!original) return;
+        var tags = $$('.tag-data', original).map(function (el) {
+            return { name: el.getAttribute('data-name'), link: el.getAttribute('data-link'), count: parseInt(el.getAttribute('data-count'), 10) || 0 };
+        }).filter(function (t) { return BLOG_CONFIG.hiddenTags.indexOf(t.name.toLowerCase()) < 0; });
+        var byGroup = {};
+        tags.forEach(function (t) { var g = groupOf(t.name); (byGroup[g] = byGroup[g] || []).push(t); });
+        Object.keys(BLOG_CONFIG.tagGroups).concat([BLOG_CONFIG.etcGroupName]).forEach(function (g) {
+            if (!byGroup[g]) return;
+            var list = byGroup[g].sort(function (a, b) { return b.count - a.count; });
+            GROUPS.push({ name: g, tags: list, total: list.reduce(function (s, t) { return s + t.count; }, 0) });
+        });
+        GROUPS.allTags = tags;
+    }
+    function currentLabel() {
+        var m = location.pathname.match(/\/search\/label\/([^/?#]+)/);
+        return m ? decodeURIComponent(m[1]).toLowerCase() : '';
+    }
+    function treeHtml() {
+        var cur = currentLabel(), homeUrl = ($('.logo') || {}).href || '/';
+        return '<div class="tree-h">INDEX</div><a class="home-link" href="' + escapeHtml(homeUrl) + '">~/logs</a>' + GROUPS.map(function (g) {
+            var open = g.tags.some(function (t) { return t.name.toLowerCase() === cur; });
+            return '<details' + (open ? ' open' : '') + '><summary><span>/' + escapeHtml(g.name) + '</span><span class="n">' + g.total + '</span></summary>' +
+                g.tags.map(function (t) {
+                    return '<a class="f' + (t.name.toLowerCase() === cur ? ' on' : '') + '" href="' + escapeHtml(t.link) + '"' + (t.name.toLowerCase() === cur ? ' aria-current="page"' : '') + '><span>' + escapeHtml(t.name.toLowerCase()) + '</span><span class="n">' + t.count + '</span></a>';
+                }).join('') + '</details>';
+        }).join('');
+    }
+    function buildNav() {
+        var nav = $('#nav'), tree = $('#tree'), dtree = $('#drawer-tree'), cur = currentLabel();
+        var html = treeHtml();
+        if (tree) tree.innerHTML = html;
+        if (dtree) dtree.innerHTML = html;
+        if (tree && !$('details[open]', tree) && $('details', tree)) $$('details', tree).slice(0, 2).forEach(function (d) { d.open = true; });
+        if (!nav) return;
+        nav.innerHTML = GROUPS.filter(function (g) { return g.name !== BLOG_CONFIG.etcGroupName; }).map(function (g, i) {
+            var on = g.tags.some(function (t) { return t.name.toLowerCase() === cur; });
+            return '<div class="nav-group"><button type="button" class="nav-title' + (on ? ' on' : '') + '" aria-expanded="false" aria-controls="nav-dd-' + i + '">/' + escapeHtml(g.name) + '</button>' +
+                '<div class="nav-dd" id="nav-dd-' + i + '">' + g.tags.map(function (t) {
+                    return '<a href="' + escapeHtml(t.link) + '">' + escapeHtml(t.name.toLowerCase()) + '<span>' + t.count + '</span></a>';
+                }).join('') + '</div></div>';
+        }).join('') + '<a class="nav-title' + (/^\/p\/tools\.html/.test(location.pathname) || $('#toolbox-app') ? ' on' : '') + '" href="/p/tools.html">tools</a><a class="nav-title" href="/p/about.html">about</a>';
+        nav.addEventListener('click', function (e) {
+            var b = e.target.closest('.nav-group > .nav-title'); if (!b) return;
+            var g = b.parentNode, open = !g.classList.contains('open');
+            closeGroups(); if (open) { g.classList.add('open'); b.setAttribute('aria-expanded', 'true'); }
+        });
+        document.addEventListener('click', function (e) { if (!e.target.closest('.nav-group')) closeGroups(); });
+    }
+    function closeGroups() { $$('.nav-group.open').forEach(function (g) { g.classList.remove('open'); $('.nav-title', g).setAttribute('aria-expanded', 'false'); }); }
+    function initDrawer() {
+        var d = $('#drawer'), b = $('#menu-btn');
+        if (!d || !b) return;
+        function open() { d.classList.add('open'); d.setAttribute('aria-hidden', 'false'); document.body.classList.add('lock'); var f = $('[data-drawer-close].icon-btn', d); if (f) f.focus(); }
+        function close() { d.classList.remove('open'); d.setAttribute('aria-hidden', 'true'); document.body.classList.remove('lock'); b.focus(); }
+        b.addEventListener('click', open);
+        d.addEventListener('click', function (e) { if (e.target.closest('[data-drawer-close]')) close(); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && d.classList.contains('open')) close(); });
+    }
+
+    /* ---------- index of all posts (Blogger JSON feed, cached 1h) ---------- */
+    var Index = (function () {
+        var data = null, pending = null, KEY = 'bg-index-v4';
+        function parse(e) {
+            var link = (e.link || []).filter(function (l) { return l.rel === 'alternate'; })[0];
+            return {
+                t: e.title.$t, u: link ? link.href.replace(/^https?:/, location.protocol) : '#',
+                d: e.published.$t, m: (e.updated && e.updated.$t) || e.published.$t,
+                l: (e.category || []).map(function (c) { return c.term; }),
+                s: ((e.summary && e.summary.$t) || '').replace(/\s+/g, ' ').slice(0, 200)
+            };
+        }
+        function fetchAll() {
+            var out = [];
+            function page(start) {
+                return fetch('/feeds/posts/summary?alt=json&max-results=150&start-index=' + start).then(function (r) { return r.json(); }).then(function (j) {
+                    var es = (j.feed && j.feed.entry) || [];
+                    es.forEach(function (e) { out.push(parse(e)); });
+                    return es.length === 150 ? page(start + 150) : out;
+                });
+            }
+            return page(1);
+        }
+        function load() {
+            if (data) return Promise.resolve(data);
+            if (pending) return pending;
+            try {
+                var c = JSON.parse(localStorage.getItem(KEY) || 'null');
+                if (c && Date.now() - c.t < BLOG_CONFIG.search.cacheMinutes * 60000) { data = c.d; return Promise.resolve(data); }
+            } catch (e) {}
+            pending = fetchAll().then(function (d) {
+                data = d;
+                try { localStorage.setItem(KEY, JSON.stringify({ t: Date.now(), d: d })); } catch (e) {}
+                return d;
+            }).catch(function () { data = []; return data; });
+            return pending;
+        }
+        return { load: load };
+    })();
+
+    /* ---------- live grep ---------- */
+    function hl(text, re) {
+        if (!re) return escapeHtml(text);
+        return String(text).split(re).map(function (p, i) { return i % 2 ? '<mark>' + escapeHtml(p) + '</mark>' : escapeHtml(p); }).join('');
+    }
+    function rowHtml(p, re, withEx) {
+        var tags = p.l.slice(0, 3).map(function (l) { return '<i' + (isErrLabel(l) ? ' class="err"' : '') + '>[' + hl(l, re) + ']</i>'; }).join(' ');
+        return '<a class="row' + (withEx ? ' has-ex' : '') + '" href="' + escapeHtml(p.u) + '">' +
+            '<time class="ts" datetime="' + escapeHtml(p.d) + '">' + ymd(p.d) + '</time>' +
+            '<span class="lv">' + tags + '</span>' +
+            '<span class="ttl">' + hl(p.t, re) + '</span>' +
+            (withEx && p.s ? '<span class="ex">' + hl(p.s, re) + '</span>' : '') + '</a>';
+    }
+    /* query syntax: words (AND), "phrase", label:tomcat (tag: alias), -word, -label:x, sort:new|upd|rel */
+    function parseQuery(raw) {
+        var q = { text: [], labels: [], notLabels: [], not: [], sort: '' };
+        var re = /(-?)(?:(label|tag|sort):)?(?:"([^"]*)"?|(\S+))/gi, m;
+        while ((m = re.exec(raw))) {
+            var neg = m[1] === '-', key = (m[2] || '').toLowerCase(), val = (m[3] !== undefined ? m[3] : m[4] || '').trim().toLowerCase();
+            if (!key && /^-?(label|tag|sort):$/i.test(m[0])) continue;
+            if (!val) continue;
+            if (key === 'sort') { if (/^(new|newest|date)$/.test(val)) q.sort = 'new'; else if (/^(upd|updated|modified)$/.test(val)) q.sort = 'upd'; else if (/^(rel|relevance|score)$/.test(val)) q.sort = 'rel'; }
+            else if (key) (neg ? q.notLabels : q.labels).push(val);
+            else (neg ? q.not : q.text).push(val);
+        }
+        return q;
+    }
+    function labelHit(labels, v) {
+        for (var i = 0; i < labels.length; i++) { var l = labels[i].toLowerCase(); if (l === v || l.indexOf(v) === 0 || l.replace(/\s+/g, '') === v.replace(/\s+/g, '')) return true; }
+        return false;
+    }
+    function queryEmpty(q) { return !q.text.length && !q.labels.length && !q.notLabels.length && !q.not.length; }
+
+    var Grep = (function () {
+        var input, count, panel, sug, list, pager, status, results, items = [], active = -1, timer = null;
+        var onIndex = false, sortPick = '', sugOpts = [], sugActive = -1, RKEY = 'bg-recent-v1';
+
+        function search(all, q) {
+            var out = [];
+            all.forEach(function (p) {
+                var ti = p.t.toLowerCase(), la = p.l.join(' ').toLowerCase(), su = p.s.toLowerCase(), hay = ti + ' ' + la + ' ' + su, score = 0, i;
+                for (i = 0; i < q.labels.length; i++) if (!labelHit(p.l, q.labels[i])) return;
+                for (i = 0; i < q.notLabels.length; i++) if (labelHit(p.l, q.notLabels[i])) return;
+                for (i = 0; i < q.not.length; i++) if (hay.indexOf(q.not[i]) >= 0) return;
+                for (i = 0; i < q.text.length; i++) {
+                    var tk = q.text[i], hit = 0;
+                    if (ti.indexOf(tk) >= 0) hit += ti.indexOf(tk) === 0 ? 8 : 5;
+                    if (la.indexOf(tk) >= 0) hit += 3;
+                    if (su.indexOf(tk) >= 0) hit += 1;
+                    if (!hit) return;
+                    score += hit;
+                }
+                out.push({ p: p, s: score });
+            });
+            return out;
+        }
+        function sortMode(q) { return q.sort || sortPick || (q.text.length ? 'rel' : 'new'); }
+        function sortList(found, mode) {
+            return found.sort(function (a, b) {
+                if (mode === 'upd') return a.p.m < b.p.m ? 1 : a.p.m > b.p.m ? -1 : 0;
+                if (mode === 'rel' && b.s !== a.s) return b.s - a.s;
+                return a.p.d < b.p.d ? 1 : a.p.d > b.p.d ? -1 : 0;
+            }).map(function (x) { return x.p; });
+        }
+        function barHtml(q, mode) {
+            var f = q.labels.map(function (v) { return 'label:' + v; })
+                .concat(q.notLabels.map(function (v) { return '-label:' + v; }), q.not.map(function (v) { return '-' + v; }));
+            var opts = (q.text.length ? [['rel', 'relevance']] : []).concat([['new', 'newest'], ['upd', 'updated']]);
+            return '<div class="grep-bar"><span class="gb-q">' + (f.length ? escapeHtml(f.join('  ')) : '') + '</span>' +
+                '<span class="gb-sort" role="group" aria-label="정렬"><span class="gb-k">sort</span>' + opts.map(function (o) {
+                    return '<button type="button" data-sort="' + o[0] + '" aria-pressed="' + (mode === o[0]) + '">' + o[1] + '</button>';
+                }).join('') + '</span></div>';
+        }
+
+        /* recent searches: this browser only */
+        function recent() { try { var r = JSON.parse(localStorage.getItem(RKEY) || '[]'); return Array.isArray(r) ? r.filter(function (x) { return typeof x === 'string'; }) : []; } catch (e) { return []; } }
+        function remember(q) {
+            q = (q || '').trim(); if (!q) return;
+            var r = recent().filter(function (x) { return x.toLowerCase() !== q.toLowerCase(); });
+            r.unshift(q.slice(0, 80));
+            try { localStorage.setItem(RKEY, JSON.stringify(r.slice(0, 8))); } catch (e) {}
+        }
+        function forget() { try { localStorage.removeItem(RKEY); } catch (e) {} }
+
+        /* dropdown under the command line: recent searches or label completion */
+        function hideSug() { sug.hidden = true; sugOpts = []; sugActive = -1; input.setAttribute('aria-expanded', 'false'); markActive(); }
+        function showSug(html) {
+            sug.innerHTML = html; sug.hidden = false; input.setAttribute('aria-expanded', 'true');
+            sugOpts = $$('.opt', sug); sugActive = -1;
+            sugOpts.forEach(function (o, i) { o.id = 'grep-opt-' + i; });
+            markActive();
+        }
+        var TIP = '<div class="sug-tip"><span><b>label:</b>tomcat 라벨로 좁히기</span><span><b>-</b>단어 빼기</span><span><b>"</b>문구<b>"</b> 그대로</span><span><b>sort:</b>new 최신순</span></div>';
+        function showRecent() {
+            var r = recent().slice(0, 5);
+            showSug((r.length ? '<div class="sug-h"><span># recent</span><button type="button" class="sug-clear">clear</button></div>' +
+                r.map(function (x) { return '<button type="button" class="opt" data-q="' + escapeHtml(x) + '"><span><span class="p">$ grep -i</span> ' + escapeHtml(x) + '</span></button>'; }).join('') : '') + TIP);
+        }
+        function labelToken() {
+            if (input.selectionStart !== input.value.length) return null;
+            var m = input.value.match(/(^|\s)(-?)(label|tag):("?)([^\s"]*)$/i);
+            return m ? { start: input.value.length - m[0].length + m[1].length, neg: m[2], part: m[5].toLowerCase() } : null;
+        }
+        function showLabels(tok, all) {
+            var counts = {};
+            all.forEach(function (p) { p.l.forEach(function (l) { if (BLOG_CONFIG.hiddenTags.indexOf(l.toLowerCase()) < 0) counts[l] = (counts[l] || 0) + 1; }); });
+            var names = Object.keys(counts).filter(function (l) { var s = l.toLowerCase(); return !tok.part || s.indexOf(tok.part) === 0 || s.replace(/\s+/g, '').indexOf(tok.part) === 0; })
+                .sort(function (a, b) { return counts[b] - counts[a] || (a < b ? -1 : 1); }).slice(0, 8);
+            if (!names.length || (names.length === 1 && names[0].toLowerCase() === tok.part)) { hideSug(); return; }
+            showSug('<div class="sug-h"><span># labels</span><span><kbd>Tab</kbd> 완성</span></div>' + names.map(function (l) {
+                var v = /\s/.test(l) ? '"' + l.toLowerCase() + '"' : l.toLowerCase();
+                return '<button type="button" class="opt" data-label="' + escapeHtml(tok.neg + 'label:' + v) + '"><span><span class="p">' + escapeHtml(tok.neg) + 'label:</span>' + escapeHtml(l.toLowerCase()) + '</span><span class="n">' + counts[l] + '</span></button>';
+            }).join(''));
+        }
+        function updateSug() {
+            if (!input.value.trim()) { showRecent(); return; }
+            var tok = labelToken();
+            if (!tok) { hideSug(); return; }
+            Index.load().then(function (all) { if (labelToken()) showLabels(labelToken(), all); });
+        }
+        function pickOpt(o) {
+            if (!o) return;
+            if (o.hasAttribute('data-q')) { input.value = o.getAttribute('data-q'); hideSug(); run(); }
+            else if (o.hasAttribute('data-label')) {
+                var tok = labelToken(); if (!tok) return;
+                input.value = input.value.slice(0, tok.start) + o.getAttribute('data-label') + ' ';
+                hideSug(); run();
+            }
+            input.focus();
+        }
+
+        function restore() {
+            items = []; active = -1; count.textContent = ''; sortPick = '';
+            if (onIndex) { results.hidden = true; list.hidden = false; if (pager) pager.hidden = false; if (status) status.hidden = false; $('#empty-state').hidden = true; }
+            else panel.hidden = true;
+        }
+        function run() {
+            var raw = input.value.trim();
+            if (!raw) { restore(); return; }
+            Index.load().then(function (all) {
+                if (input.value.trim() !== raw) return;
+                var box = onIndex ? results : panel;
+                if (!all.length) {
+                    count.textContent = '';
+                    box.innerHTML = '<div class="grep-empty">검색 색인을 불러오지 못했습니다. Enter 를 누르면 블로그 기본 검색으로 찾습니다.</div>';
+                    if (onIndex) { results.hidden = false; list.hidden = true; } else panel.hidden = false;
+                    return;
+                }
+                var q = parseQuery(raw), mode = sortMode(q);
+                if (queryEmpty(q)) { restore(); return; }
+                var words = q.text.filter(function (w) { return w.length > 0; });
+                var re = words.length ? new RegExp('(' + words.map(escapeRe).join('|') + ')', 'ig') : null;
+                var found = sortList(search(all, q), mode);
+                items = found.slice(0, BLOG_CONFIG.search.maxResults);
+                active = items.length ? 0 : -1;
+                count.textContent = found.length + ' match' + (found.length === 1 ? '' : 'es');
+                box.innerHTML = (items.length ? barHtml(q, mode) + items.map(function (p) { return rowHtml(p, re, true); }).join('')
+                    : '<div class="grep-empty">0 matches. ' + (q.labels.length ? 'label: 이름을 확인하거나 조건을 줄여 보세요.' : '제품명(tomcat), 에러 문구, 설정 키로 다시 찾아보세요.') + '</div>');
+                $$('.row', box).forEach(function (r, i) { r.style.animationDelay = Math.min(i, 10) * 40 + 'ms'; r.id = 'grep-row-' + i; });
+                markActive();
+                if (onIndex) { results.hidden = false; list.hidden = true; if (pager) pager.hidden = true; if (status) status.hidden = true; }
+                else panel.hidden = false;
+            });
+        }
+        function markActive() {
+            var box = onIndex ? results : panel, id = '';
+            if (box) $$('.row', box).forEach(function (r, i) {
+                var on = sugActive < 0 && i === active;
+                r.classList.toggle('active', on);
+                if (on) { id = r.id; if (!onIndex || window.innerWidth > 900) r.scrollIntoView({ block: 'nearest' }); }
+            });
+            sugOpts.forEach(function (o, i) { o.classList.toggle('active', i === sugActive); if (i === sugActive) id = o.id; });
+            if (id) input.setAttribute('aria-activedescendant', id); else input.removeAttribute('aria-activedescendant');
+        }
+        function onBox(e) {
+            var b = e.target.closest('[data-sort]');
+            if (b) { sortPick = b.getAttribute('data-sort'); input.value = input.value.replace(/(^|\s)sort:\S+/gi, '').trim(); run(); return; }
+            if (e.target.closest('.row')) remember(input.value);
+        }
+        function init() {
+            input = $('#grep-input'); count = $('#grep-count'); panel = $('#grep-panel'); sug = $('#grep-sug');
+            list = $('#post-list'); pager = $('#pager'); status = $('.content .status');
+            if (!input) return;
+            if (window.matchMedia && window.matchMedia('(max-width: 900px)').matches) input.placeholder = '키워드 또는 label:ssl';
+            onIndex = !!list;
+            if (onIndex) {
+                results = document.createElement('div');
+                results.className = 'log grep-results'; results.id = 'grep-results'; results.hidden = true;
+                list.parentNode.insertBefore(results, list.nextSibling);
+                results.addEventListener('click', onBox);
+            }
+            panel.addEventListener('click', onBox);
+            sug.addEventListener('mousedown', function (e) { e.preventDefault(); });
+            sug.addEventListener('click', function (e) {
+                if (e.target.closest('.sug-clear')) { forget(); showRecent(); input.focus(); return; }
+                pickOpt(e.target.closest('.opt'));
+            });
+            input.addEventListener('input', function () { sugActive = -1; updateSug(); clearTimeout(timer); timer = setTimeout(run, 80); });
+            input.addEventListener('focus', function () { Index.load(); updateSug(); if (!onIndex && input.value.trim()) run(); });
+            input.addEventListener('blur', function () { setTimeout(function () { if (document.activeElement !== input) hideSug(); }, 120); });
+            input.addEventListener('keydown', function (e) {
+                if (!sug.hidden && sugOpts.length && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
+                    e.preventDefault();
+                    var n = sugOpts.length;
+                    sugActive = e.key === 'ArrowDown' ? (sugActive + 1 >= n ? -1 : sugActive + 1) : (sugActive < 0 ? n - 1 : sugActive - 1);
+                    markActive(); return;
+                }
+                if (!sug.hidden && sugActive >= 0 && e.key === 'Enter') { e.preventDefault(); pickOpt(sugOpts[sugActive]); return; }
+                if (!sug.hidden && e.key === 'Tab' && !e.shiftKey && labelToken() && sugOpts.length) { e.preventDefault(); pickOpt(sugOpts[Math.max(sugActive, 0)]); return; }
+                if (e.key === 'Escape' && !sug.hidden) { e.preventDefault(); hideSug(); return; }
+                if (e.key === 'ArrowDown' && items.length) { e.preventDefault(); hideSug(); active = (active + 1) % items.length; markActive(); }
+                else if (e.key === 'ArrowUp' && items.length) { e.preventDefault(); hideSug(); active = (active - 1 + items.length) % items.length; markActive(); }
+                else if (e.key === 'Enter' && active >= 0 && items[active]) { e.preventDefault(); remember(input.value); location.href = items[active].u; }
+                else if (e.key === 'Escape') { input.value = ''; restore(); hideSug(); input.blur(); }
+            });
+            $('#cmd').addEventListener('submit', function () { remember(input.value); });
+            document.addEventListener('keydown', function (e) {
+                var t = (e.target.tagName || '').toLowerCase(), typing = t === 'input' || t === 'textarea' || t === 'select' || e.target.isContentEditable;
+                if ((e.key === '/' && !typing) || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k')) { e.preventDefault(); input.focus(); input.select(); }
+            });
+            document.addEventListener('click', function (e) { if (!e.target.closest('.cmd-wrap')) { hideSug(); if (!onIndex) panel.hidden = true; } });
+            // arriving from Blogger search (/search?q=...) -> show the live result list
+            var q = new URLSearchParams(location.search).get('q');
+            if (q && /^\/search/.test(location.pathname)) { input.value = q; remember(q); run(); }
+            else setTimeout(function () { Index.load(); }, 1500);
+        }
+        return { init: init, parse: parseQuery };
+    })();
+
+    /* ---------- side panel: stats + recently updated ---------- */
+    function fillSide() {
+        if (!$('#stat-posts')) return;
+        Index.load().then(function (all) {
+            if (!all.length) return;
+            $('#stat-posts').textContent = all.length;
+            var newest = all.reduce(function (m, p) { return p.d > m ? p.d : m; }, all[0].d);
+            $('#stat-last').textContent = ymd(newest).slice(2).replace(/-/g, '.');
+            var upd = all.slice().sort(function (a, b) { return a.m < b.m ? 1 : -1; }).slice(0, BLOG_CONFIG.recentUpdatedCount);
+            $('#upd-list').innerHTML = upd.map(function (p) {
+                return '<li><a href="' + escapeHtml(p.u) + '"><em>' + ymd(p.m).slice(5) + '</em><span>' + escapeHtml(p.t) + '</span></a></li>';
+            }).join('');
+        });
+    }
+
+    /* ---------- list rows: normalize dates, mark error tags, label status count ---------- */
+    function polishRows() {
+        $$('time[datetime]').forEach(function (t) { var s = ymd(t.getAttribute('datetime')); if (s) t.textContent = s; });
+        $$('#post-list .lv i').forEach(function (i) { if (isErrLabel(i.textContent.replace(/[\[\]]/g, ''))) i.classList.add('err'); });
+        var grid = $('#post-list'), empty = $('#empty-state');
+        if (grid && empty && !$('.row', grid)) { empty.hidden = false; $('.colhead', grid).hidden = true; }
+        var st = $('.status[data-label]'), cur = currentLabel();
+        if (st && cur && GROUPS.allTags) {
+            var t = GROUPS.allTags.filter(function (x) { return x.name.toLowerCase() === cur; })[0];
+            if (t) st.insertAdjacentHTML('beforeend', ' <span style="color:var(--dim)">&#8594; ' + t.count + ' logs</span>');
+        }
+    }
+
+    /* ---------- post: code / tables / toc / meta ---------- */
+    function copyText(text) {
+        if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+        return new Promise(function (resolve) {
+            var ta = document.createElement('textarea');
+            ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+            document.body.appendChild(ta); ta.select();
+            try { document.execCommand('copy'); } catch (e) {}
+            document.body.removeChild(ta); resolve();
+        });
+    }
+    function enhanceCodeBlocks() {
+        $$('.post-body pre').forEach(function (pre) {
+            if (pre.parentNode.classList.contains('code-block')) return;
+            var code = $('code', pre);
+            var m = code && code.className.match(/language-([\w-]+)/);
+            var lang = m ? m[1].toLowerCase() : '';
+            var isOut = pre.classList.contains('output');
+            var wrap = document.createElement('div');
+            wrap.className = 'code-block' + (isOut ? ' is-output' : '');
+            var head = document.createElement('div'); head.className = 'code-head';
+            var label = document.createElement('span'); label.className = 'lang';
+            label.textContent = isOut ? 'output' : (BLOG_CONFIG.langLabels[lang] || lang || 'terminal');
+            var btn = document.createElement('button');
+            btn.type = 'button'; btn.className = 'code-copy'; btn.textContent = 'copy'; btn.setAttribute('aria-label', '코드 복사');
+            btn.addEventListener('click', function () {
+                copyText((code || pre).innerText).then(function () { btn.textContent = 'copied'; setTimeout(function () { btn.textContent = 'copy'; }, 1500); });
+            });
+            head.appendChild(label); head.appendChild(btn);
+            pre.parentNode.insertBefore(wrap, pre);
+            wrap.appendChild(head); wrap.appendChild(pre);
+            if (code && lang && lang !== 'plaintext' && !isOut) code.setAttribute('data-hl', '1');
+        });
+    }
+    function highlightCode() {
+        if (!window.hljs) return;
+        $$('.post-body code[data-hl]').forEach(function (code) { code.removeAttribute('data-hl'); try { window.hljs.highlightElement(code); } catch (e) {} });
+    }
+    function wrapTables() {
+        $$('.post-body table').forEach(function (t) {
+            if (t.parentNode.classList.contains('table-wrap')) return;
+            var w = document.createElement('div'); w.className = 'table-wrap';
+            t.parentNode.insertBefore(w, t); w.appendChild(t);
+        });
+    }
+    function buildToc() {
+        var body = $('.is-post .post-body'), layout = $('#layout-post'), rail = $('#toc-rail');
+        if (!body) return;
+        var heads = $$('h2, h3', body).filter(function (h) { return h.textContent.trim(); });
+        var inline = $('nav.toc', body);
+        if (!heads.length || ($$('h2', body).length < BLOG_CONFIG.autoTocMinHeadings && !inline)) { if (layout) layout.classList.add('no-toc'); return; }
+        heads.forEach(function (h, i) { if (!h.id) h.id = 'sec-' + (i + 1); });
+        var links = heads.map(function (h) {
+            return '<a href="#' + encodeURIComponent(h.id) + '" class="' + (h.tagName === 'H3' ? 'sub' : '') + '" data-for="' + escapeHtml(h.id) + '">' + escapeHtml(h.textContent) + '</a>';
+        }).join('');
+        if (!inline) { inline = document.createElement('nav'); inline.className = 'toc'; var first = $('h2', body) || heads[0]; first.parentNode.insertBefore(inline, first); }
+        inline.setAttribute('aria-label', '목차');
+        inline.innerHTML = '<details class="toc-box"><summary>$ cat --toc</summary><ol><li>' + links.replace(/<\/a><a/g, '</a></li><li><a') + '</li></ol></details>';
+        if (rail) {
+            rail.innerHTML = '<div class="rail-title">ON THIS PAGE</div>' + links;
+            if ('IntersectionObserver' in window) {
+                var io = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (en) {
+                        if (en.isIntersecting) $$('a', rail).forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-for') === en.target.id); });
+                    });
+                }, { rootMargin: '-80px 0px -70% 0px' });
+                heads.forEach(function (h) { io.observe(h); });
+            }
+        }
+    }
+    function postMeta() {
+        var body = $('.is-post .post-body'), rt = $('#read-time');
+        if (body && rt) rt.textContent = Math.max(1, Math.round(body.innerText.replace(/\s+/g, '').length / BLOG_CONFIG.readCharsPerMinute)) + ' min read';
+        $$('.post-body a[target="_blank"]').forEach(function (a) { a.setAttribute('rel', 'noopener noreferrer'); });
+        // legacy in-body meta line of pre-v2 posts (calendar emoji + "분 읽기")
+        if (body) {
+            var CAL = '📅', READ = '분 읽기', blocks = $$('div', body);
+            for (var i = 0; i < blocks.length && i < 6; i++) {
+                var el = blocks[i], txt = el.textContent;
+                if (txt.length < 120 && txt.indexOf(CAL) >= 0 && txt.indexOf(READ) >= 0 && el.querySelectorAll('span').length <= 6) { el.classList.add('legacy-meta'); break; }
+            }
+        }
+        // "updated" from the feed when the post was revised after publishing
+        var upd = $('#updated-at');
+        if (upd) Index.load().then(function (all) {
+            var me = all.filter(function (p) { try { return new URL(p.u, location.href).pathname === location.pathname; } catch (e) { return false; } })[0];
+            if (me && ymd(me.m) !== ymd(me.d)) upd.textContent = 'updated ' + ymd(me.m);
+        });
+    }
+
+    /* ---------- share / related / comments ---------- */
+    function buildShare() {
+        var box = $('#share');
+        if (!box) return;
+        var canon = ($('link[rel="canonical"]') || {}).href || location.href, url = encodeURIComponent(canon), title = encodeURIComponent(document.title);
+        var btns = [
+            ['x', 'X 공유', 'https://twitter.com/intent/tweet?url=' + url + '&text=' + title],
+            ['facebook', 'Facebook 공유', 'https://www.facebook.com/sharer/sharer.php?u=' + url],
+            ['linkedin', 'LinkedIn 공유', 'https://www.linkedin.com/sharing/share-offsite/?url=' + url]
+        ];
+        box.innerHTML = '<span class="lbl">share</span>' + btns.map(function (b) {
+            return '<a class="social-btn" target="_blank" rel="noopener noreferrer" href="' + b[2] + '" aria-label="' + b[1] + '" title="' + b[1] + '">' + icon(b[0]) + '</a>';
+        }).join('') + '<button type="button" class="social-btn" id="share-copy" aria-label="링크 복사" title="링크 복사">' + icon('copy') + '</button>' +
+            (navigator.share ? '<button type="button" class="social-btn" id="share-native" aria-label="공유하기" title="공유하기">' + icon('share') + '</button>' : '');
+        $('#share-copy').addEventListener('click', function () {
+            var b = this; copyText(canon).then(function () { b.style.color = 'var(--green)'; b.title = '복사됨'; setTimeout(function () { b.style.color = ''; b.title = '링크 복사'; }, 1500); });
+        });
+        var n = $('#share-native');
+        if (n) n.addEventListener('click', function () { navigator.share({ title: document.title, url: canon }).catch(function () {}); });
+    }
+    function buildRelated() {
+        var sec = $('#related'), box = $('#related-list');
+        if (!sec || !box) return;
+        var mine = $$('.post-tags-top a').map(function (a) { return a.textContent.replace(/[\[\]]/g, '').trim(); });
+        Index.load().then(function (all) {
+            var cand = all.filter(function (p) { try { return new URL(p.u, location.href).pathname !== location.pathname; } catch (e) { return true; } }).map(function (p) {
+                return { p: p, s: p.l.filter(function (l) { return mine.indexOf(l) >= 0; }).length };
+            }).filter(function (x) { return x.s > 0; }).sort(function (a, b) { return b.s - a.s || (a.p.d < b.p.d ? 1 : -1); }).slice(0, BLOG_CONFIG.relatedCount);
+            if (!cand.length) return;
+            box.innerHTML = cand.map(function (x) {
+                return '<a class="row" href="' + escapeHtml(x.p.u) + '"><time class="ts">' + ymd(x.p.d) + '</time><span class="ttl">' + escapeHtml(x.p.t) + '</span></a>';
+            }).join('');
+            sec.hidden = false;
+        });
+    }
+    function initComments() {
+        var root = $('#comments-root');
+        if (!root) return;
+        var C = BLOG_CONFIG.comments, tabs = [];
+        if (C.disqusShortname) tabs.push({ id: 'disqus', label: 'Google · Facebook · X' });
+        if (C.giscus && C.giscus.repo && C.giscus.repoId && C.giscus.categoryId) tabs.push({ id: 'giscus', label: 'GitHub' });
+        if (!tabs.length) return;
+        root.hidden = false;
+        var tabBox = $('#cm-tabs'), loaded = {}, canon = ($('link[rel="canonical"]') || {}).href || location.href.split(/[?#]/)[0];
+        function loadDisqus() {
+            window.disqus_config = function () { this.page.url = canon; this.page.identifier = location.pathname; };
+            var s = document.createElement('script');
+            s.src = 'https://' + C.disqusShortname + '.disqus.com/embed.js'; s.async = true;
+            s.setAttribute('data-timestamp', +new Date());
+            document.body.appendChild(s);
+        }
+        function loadGiscus() {
+            var g = C.giscus, s = document.createElement('script');
+            s.src = 'https://giscus.app/client.js'; s.async = true; s.crossOrigin = 'anonymous';
+            var a = { 'data-repo': g.repo, 'data-repo-id': g.repoId, 'data-category': g.category, 'data-category-id': g.categoryId,
+                'data-mapping': 'pathname', 'data-strict': '0', 'data-reactions-enabled': '1', 'data-emit-metadata': '0',
+                'data-input-position': 'top', 'data-theme': currentTheme(), 'data-lang': 'ko', 'data-loading': 'lazy' };
+            Object.keys(a).forEach(function (k) { s.setAttribute(k, a[k]); });
+            $('#cm-giscus').appendChild(s);
+        }
+        function show(id) {
+            tabs.forEach(function (t) { $('#cm-' + t.id).hidden = t.id !== id; });
+            $$('.cm-tab', tabBox).forEach(function (c) { c.classList.toggle('on', c.getAttribute('data-tab') === id); c.setAttribute('aria-pressed', c.getAttribute('data-tab') === id); });
+            if (!loaded[id]) { loaded[id] = true; (id === 'disqus' ? loadDisqus : loadGiscus)(); }
+        }
+        if (tabs.length > 1) {
+            tabBox.innerHTML = tabs.map(function (t) { return '<button type="button" class="cm-tab" data-tab="' + t.id + '">' + t.label + '</button>'; }).join('');
+            tabBox.addEventListener('click', function (e) { var c = e.target.closest('[data-tab]'); if (c) show(c.getAttribute('data-tab')); });
+        } else { tabBox.hidden = true; }
+        if ('IntersectionObserver' in window) {
+            var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { io.disconnect(); show(tabs[0].id); } }, { rootMargin: '400px' });
+            io.observe(root);
+        } else show(tabs[0].id);
+    }
+
+    /* ---------- reading progress / to-top ---------- */
+    function initScroll() {
+        var bar = $('#read-progress'), top = $('#to-top'), body = $('.is-post .post-body'), ticking = false;
+        function update() {
+            ticking = false;
+            if (bar && body) {
+                var r = body.getBoundingClientRect(), total = body.offsetHeight - window.innerHeight * 0.5;
+                bar.style.width = (total > 0 ? Math.min(1, Math.max(0, (-r.top + window.innerHeight * 0.3) / total)) : 0) * 100 + '%';
+            }
+            if (top) top.classList.toggle('show', window.pageYOffset > 700);
+        }
+        window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+        if (top) top.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+        update();
+    }
+
+    /* ---------- toolbox page: /p/tools.html body = <div id="toolbox-app"></div> ----------
+       All calculations run in the browser; nothing is sent anywhere. */
+    var Toolbox = (function () {
+        var p2 = function (n) { return ('0' + n).slice(-2); };
+        var num = function (el) { return parseFloat(el.value); };
+        function fmt(n, d) { return n.toLocaleString(undefined, { minimumFractionDigits: d }); }
+        function field(id, label, attrs, cls) {
+            return '<label class="tbx-f' + (cls ? ' ' + cls : '') + '"><span>' + label + '</span><input class="tbx-in" id="tb-' + id + '" autocomplete="off" spellcheck="false" ' + (attrs || '') + '></label>';
+        }
+        function select(id, label, opts, sel, cls) {
+            return '<label class="tbx-f' + (cls ? ' ' + cls : ' narrow') + '"><span>' + label + '</span><select class="tbx-sel" id="tb-' + id + '">' + opts.map(function (o) {
+                var v = o[0] !== undefined && typeof o !== 'string' ? o : [o, o];
+                return '<option value="' + v[0] + '"' + (v[0] === sel ? ' selected' : '') + '>' + v[1] + '</option>';
+            }).join('') + '</select></label>';
+        }
+        function out(id, key, opt) {
+            opt = opt || {};
+            return '<div class="tbx-out' + (opt.hl ? ' hl' : '') + (opt.block ? ' block' : '') + (opt.top ? ' top' : '') + '"><span class="k">' + key + '</span><output class="v" id="tb-' + id + '">-</output>' +
+                (opt.copy ? '<button type="button" class="tbx-copy" data-copy="tb-' + id + '" aria-label="' + String(key).replace(/<[^>]*>/g, '').replace(/"/g, '') + ' 복사">copy</button>' : '<span></span>') + '</div>';
+        }
+        function set(id, v) { var el = document.getElementById('tb-' + id); if (el) el.textContent = v; return el; }
+        function $t(id) { return document.getElementById('tb-' + id); }
+        function bind(ids, fn) { ids.forEach(function (i) { var el = $t(i); if (el) { el.addEventListener('input', fn); el.addEventListener('change', fn); } }); fn(); }
+        function level(el, cls) { el.classList.remove('lvl-ok', 'lvl-warn', 'lvl-crit'); if (cls) el.classList.add(cls); }
+        function fmtDate(ms, offH) {
+            var d = new Date(ms + offH * 3600000);
+            return d.getUTCFullYear() + '-' + p2(d.getUTCMonth() + 1) + '-' + p2(d.getUTCDate()) + ' ' + p2(d.getUTCHours()) + ':' + p2(d.getUTCMinutes()) + ':' + p2(d.getUTCSeconds());
+        }
+        function localStr(d) { return d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()) + ' ' + p2(d.getHours()) + ':' + p2(d.getMinutes()); }
+        var DOW = ['일', '월', '화', '수', '목', '금', '토'];
+
+        /* ---- cron ---- */
+        function cronField(s, lo, hi, names, off) {
+            var set = {};
+            s.split(',').forEach(function (part) {
+                var m = part.match(/^(\*|[A-Za-z0-9]+(?:-[A-Za-z0-9]+)?)(?:\/(\d+))?$/);
+                if (!m) throw new Error(part);
+                var step = m[2] ? parseInt(m[2], 10) : 1, a, b;
+                var val = function (x) {
+                    if (names) { var k = names.indexOf(x.toUpperCase()); if (k >= 0) return k + off; }
+                    if (!/^\d+$/.test(x)) throw new Error(x);
+                    return parseInt(x, 10);
+                };
+                if (m[1] === '*') { a = lo; b = hi; }
+                else { var r = m[1].split('-'); a = val(r[0]); b = r.length > 1 ? val(r[1]) : (m[2] ? hi : a); }
+                if (step < 1 || a < lo || b > hi || a > b) throw new Error(part);
+                for (var i = a; i <= b; i += step) set[i] = 1;
+            });
+            return { set: set, star: s.charAt(0) === '*', raw: s };
+        }
+        var CRON_MACRO = { '@yearly': '0 0 1 1 *', '@annually': '0 0 1 1 *', '@monthly': '0 0 1 * *', '@weekly': '0 0 * * 0', '@daily': '0 0 * * *', '@midnight': '0 0 * * *', '@hourly': '0 * * * *' };
+        function cronParse(expr) {
+            expr = expr.trim().replace(/\s+/g, ' ');
+            if (CRON_MACRO[expr.toLowerCase()]) expr = CRON_MACRO[expr.toLowerCase()];
+            var f = expr.split(' ');
+            if (f.length !== 5) throw new Error('fields');
+            var c = {
+                mi: cronField(f[0], 0, 59), h: cronField(f[1], 0, 23), dom: cronField(f[2], 1, 31),
+                mon: cronField(f[3], 1, 12, ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'], 1),
+                dow: cronField(f[4], 0, 7, ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'], 0)
+            };
+            if (c.dow.set[7]) { c.dow.set[0] = 1; delete c.dow.set[7]; }
+            return c;
+        }
+        function keys(set) { return Object.keys(set).map(Number).sort(function (a, b) { return a - b; }); }
+        function compress(set, nameOf, sep) {
+            var k = keys(set), outp = [], i = 0;
+            while (i < k.length) {
+                var j = i; while (j + 1 < k.length && k[j + 1] === k[j] + 1) j++;
+                if (j - i >= 2) outp.push(nameOf(k[i]) + '–' + nameOf(k[j]));
+                else for (var x = i; x <= j; x++) outp.push(nameOf(k[x]));
+                i = j + 1;
+            }
+            return outp.join(sep || ', ');
+        }
+        function cronDescribe(c) {
+            var id = function (n) { return String(n); }, single = function (f) { return keys(f.set).length === 1; };
+            var mm = keys(c.mi.set)[0], time, clock = false, stepM = c.mi.raw.match(/^\*\/(\d+)$/), stepH = c.h.raw.match(/^\*\/(\d+)$/);
+            if (single(c.mi) && single(c.h)) { time = p2(keys(c.h.set)[0]) + ':' + p2(mm); clock = true; }
+            else if (c.mi.raw === '*' && c.h.raw === '*') time = '매분';
+            else if (stepM && c.h.raw === '*') time = stepM[1] + '분마다';
+            else if (single(c.mi) && c.h.raw === '*') time = '매시 ' + p2(mm) + '분';
+            else if (single(c.mi) && stepH) time = stepH[1] + '시간마다 ' + p2(mm) + '분';
+            else if (single(c.mi)) { time = compress(c.h.set, id) + '시 ' + p2(mm) + '분'; clock = true; }
+            else if (c.mi.raw === '*' || stepM) time = compress(c.h.set, id) + '시 동안 ' + (stepM ? stepM[1] + '분마다' : '매분');
+            else time = compress(c.h.set, id) + '시 ' + compress(c.mi.set, id) + '분';
+            var day = [];
+            if (!c.mon.star) day.push(compress(c.mon.set, id) + '월');
+            var dd = [];
+            if (!c.dom.star) dd.push((c.mon.star ? '매월 ' : '') + compress(c.dom.set, id) + '일');
+            if (!c.dow.star) dd.push(compress(c.dow.set, function (n) { return DOW[n]; }, '·') + '요일');
+            if (dd.length) day.push(dd.join(' 또는 '));
+            if (!day.length) return clock ? '매일 ' + time : time;
+            return day.join(' ') + ' ' + time;
+        }
+        function cronNext(c, from, count) {
+            var d = new Date(from); d.setSeconds(0, 0); d.setMinutes(d.getMinutes() + 1);
+            var limit = from + 5 * 366 * 86400000, res = [];
+            var dayOk = function (x) {
+                var a = !!c.dom.set[x.getDate()], b = !!c.dow.set[x.getDay()];
+                if (c.dom.star && c.dow.star) return true;
+                if (c.dom.star) return b;
+                if (c.dow.star) return a;
+                return a || b;
+            };
+            while (res.length < count && d.getTime() < limit) {
+                if (!c.mon.set[d.getMonth() + 1]) { d.setMonth(d.getMonth() + 1, 1); d.setHours(0, 0, 0, 0); continue; }
+                if (!dayOk(d)) { d.setDate(d.getDate() + 1); d.setHours(0, 0, 0, 0); continue; }
+                if (!c.h.set[d.getHours()]) { d.setHours(d.getHours() + 1, 0, 0, 0); continue; }
+                if (!c.mi.set[d.getMinutes()]) { d.setMinutes(d.getMinutes() + 1, 0, 0); continue; }
+                res.push(new Date(d.getTime())); d.setMinutes(d.getMinutes() + 1, 0, 0);
+            }
+            return res;
+        }
+
+        /* ---- utf-8 base64 ---- */
+        function b64enc(s) { var b = new TextEncoder().encode(s), bin = ''; for (var i = 0; i < b.length; i++) bin += String.fromCharCode(b[i]); return btoa(bin); }
+        function b64dec(s) {
+            s = s.replace(/\s+/g, '').replace(/-/g, '+').replace(/_/g, '/');
+            while (s.length % 4) s += '=';
+            var bin = atob(s), u = new Uint8Array(bin.length);
+            for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+            return new TextDecoder('utf-8', { fatal: true }).decode(u);
+        }
+
+        /* ---- ipv4 ---- */
+        function ip2n(s) {
+            var m = s.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
+            if (!m) return null;
+            for (var i = 1; i < 5; i++) if (+m[i] > 255) return null;
+            return ((+m[1] << 24) >>> 0) + (+m[2] << 16) + (+m[3] << 8) + (+m[4]);
+        }
+        function n2ip(n) { return [n >>> 24, (n >>> 16) & 255, (n >>> 8) & 255, n & 255].join('.'); }
+
+        var PORTS = [
+            [22, 'SSH'], [80, 'HTTP'], [443, 'HTTPS'], [1099, 'RMI Registry'], [1521, 'Oracle DB listener'], [3306, 'MySQL / MariaDB'],
+            [5432, 'PostgreSQL'], [7001, 'WebLogic HTTP'], [7002, 'WebLogic SSL'], [8005, 'Tomcat shutdown'], [8009, 'AJP (mod_jk)'],
+            [8080, 'Tomcat / JBoss HTTP'], [8443, 'Tomcat SSL'], [8787, 'JPDA Debug'], [9043, 'WebSphere Admin SSL'], [9060, 'WebSphere Admin'],
+            [9080, 'WebSphere HTTP'], [9443, 'WebSphere SSL'], [9990, 'WildFly / EAP Admin'], [9993, 'EAP Admin HTTPS']
+        ];
+        var CMD = {
+            p12:    { name: 'PKCS12 keystore 만들기', need: ['alias', 'base'], note: '인증서·개인키·체인을 한 파일로 묶습니다. 비밀번호는 실행할 때 입력합니다.',
+                      f: function (v) { return 'openssl pkcs12 -export \\\n  -in ' + v.base + '.crt -inkey ' + v.base + '.key \\\n  -certfile chain.crt \\\n  -name ' + v.alias + ' -out ' + v.base + '.p12'; } },
+            chain:  { name: '서버 인증서 체인 확인', need: ['host', 'port'], note: 's:(subject) 와 i:(issuer) 가 위에서 아래로 이어지는지 봅니다.',
+                      f: function (v) { return 'openssl s_client -connect ' + v.host + ':' + v.port + ' -servername ' + v.host + ' -showcerts </dev/null \\\n  | grep -E "s:|i:"'; } },
+            expiry: { name: '만료일 조회', need: ['host', 'port', 'base'], note: '원격 서버와 로컬 파일 두 가지입니다. 결과의 notAfter 를 cert 도구에 붙여넣으면 남은 일수가 나옵니다.',
+                      f: function (v) { return 'echo | openssl s_client -connect ' + v.host + ':' + v.port + ' -servername ' + v.host + ' 2>/dev/null \\\n  | openssl x509 -noout -subject -enddate\n\nopenssl x509 -in ' + v.base + '.crt -noout -enddate'; } },
+            list:   { name: 'keystore 목록', need: ['alias', 'base'], note: 'Valid until 과 Certificate chain length 를 확인합니다.',
+                      f: function (v) { return 'keytool -list -v -keystore ' + v.base + '.p12 -storetype PKCS12 -alias ' + v.alias; } },
+            csr:    { name: 'CSR + 개인키 만들기', need: ['host', 'base'], note: 'SAN 이 필요하면 -addext "subjectAltName=DNS:..." 를 붙입니다 (OpenSSL 1.1.1 이상).',
+                      f: function (v) { return 'openssl req -new -newkey rsa:2048 -nodes \\\n  -keyout ' + v.base + '.key -out ' + v.base + '.csr \\\n  -subj "/CN=' + v.host + '"'; } },
+            jks:    { name: 'JKS → PKCS12 변환', need: ['base'], note: 'JDK 9 이상은 PKCS12 가 기본 형식입니다.',
+                      f: function (v) { return 'keytool -importkeystore \\\n  -srckeystore ' + v.base + '.jks \\\n  -destkeystore ' + v.base + '.p12 -deststoretype PKCS12'; } }
+        };
+
+        var TOOLS = [
+            { id: 'bytes', title: '용량 단위 변환', desc: 'B·KB·MB·GB·TB, 1024 기준', lead: '로그·힙 덤프·디스크 크기를 단위를 바꿔 가며 비교할 때. 1 KB = 1024 B 로 계산합니다.',
+              html: function () { return '<div class="tbx-form">' + field('bytes-v', 'value', 'type="number" inputmode="decimal" value="1024"') + select('bytes-u', 'unit', ['B', 'KB', 'MB', 'GB', 'TB'], 'MB') + '</div>' +
+                    out('bytes-b', 'B', { hl: 1, copy: 1 }) + out('bytes-kb', 'KB', { copy: 1 }) + out('bytes-mb', 'MB', { hl: 1, copy: 1 }) + out('bytes-gb', 'GB', { copy: 1 }) + out('bytes-tb', 'TB', { copy: 1 }); },
+              run: function () {
+                  bind(['bytes-v', 'bytes-u'], function () {
+                      var n = num($t('bytes-v')) || 0, u = { 'B': 1, 'KB': 1024, 'MB': 1048576, 'GB': 1073741824, 'TB': 1099511627776 }, b = n * u[$t('bytes-u').value];
+                      set('bytes-b', Math.round(b).toLocaleString()); set('bytes-kb', fmt(b / 1024, 2)); set('bytes-mb', fmt(b / 1048576, 2));
+                      set('bytes-gb', fmt(b / 1073741824, 4)); set('bytes-tb', fmt(b / 1099511627776, 6));
+                  });
+              } },
+            { id: 'usage', title: '사용률 계산', desc: '사용률 %와 남은 양, 70·90% 경고', lead: '디스크·힙·커넥션 풀 사용률. 70% 를 넘으면 주의, 90% 를 넘으면 위험으로 표시합니다.',
+              html: function () { return '<div class="tbx-form">' + field('usage-a', 'used', 'type="number" inputmode="decimal" value="120"', 'half') + field('usage-b', 'total', 'type="number" inputmode="decimal" value="200"', 'half') + '</div>' +
+                    out('usage-p', 'usage', { hl: 1, copy: 1 }) + '<div class="tbx-bar"><i id="tb-usage-bar"></i></div>' + out('usage-r', 'remain', { copy: 1 }) + out('usage-l', 'level'); },
+              run: function () {
+                  bind(['usage-a', 'usage-b'], function () {
+                      var a = num($t('usage-a')) || 0, b = num($t('usage-b')) || 0, bar = $t('usage-bar');
+                      if (b <= 0) { set('usage-p', '-'); set('usage-r', '-'); set('usage-l', 'total 은 0 보다 커야 합니다'); bar.style.width = '0'; return; }
+                      var p = a / b * 100, lv = p > 90 ? 'crit' : p > 70 ? 'warn' : 'ok';
+                      level(set('usage-p', p.toFixed(1) + '%'), 'lvl-' + lv);
+                      level(set('usage-l', lv === 'crit' ? '[CRIT] 90% 초과' : lv === 'warn' ? '[WARN] 70% 초과' : '[OK] 70% 이하'), 'lvl-' + lv);
+                      set('usage-r', (b - a).toLocaleString());
+                      bar.style.width = Math.min(100, Math.max(0, p)) + '%'; bar.style.background = 'var(--' + (lv === 'crit' ? 'red' : lv === 'warn' ? 'amber' : 'green') + ')';
+                  });
+              } },
+            { id: 'time', title: '시간 단위 변환', desc: 'ms·s·m·h·d, 타임아웃 값 맞출 때', lead: 'timeout, keepalive, 세션 만료처럼 설정마다 단위가 다른 값을 맞출 때.',
+              html: function () { return '<div class="tbx-form">' + field('time-v', 'value', 'type="number" inputmode="decimal" value="3600"') + select('time-u', 'unit', ['ms', 's', 'm', 'h', 'd'], 's') + '</div>' +
+                    out('time-ms', 'ms', { hl: 1, copy: 1 }) + out('time-s', 'sec', { copy: 1 }) + out('time-m', 'min', { copy: 1 }) + out('time-h', 'hour', { copy: 1 }) + out('time-d', 'day', { copy: 1 }) + out('time-x', 'readable'); },
+              run: function () {
+                  bind(['time-v', 'time-u'], function () {
+                      var n = num($t('time-v')) || 0, k = { 'ms': 1, 's': 1000, 'm': 60000, 'h': 3600000, 'd': 86400000 }, ms = n * k[$t('time-u').value];
+                      set('time-ms', Math.round(ms).toLocaleString()); set('time-s', fmt(ms / 1000, 2)); set('time-m', fmt(ms / 60000, 4));
+                      set('time-h', fmt(ms / 3600000, 6)); set('time-d', fmt(ms / 86400000, 6));
+                      var r = Math.abs(Math.round(ms)), parts = [], u = [['d', 86400000], ['h', 3600000], ['m', 60000], ['s', 1000], ['ms', 1]];
+                      u.forEach(function (x) { var q = Math.floor(r / x[1]); r -= q * x[1]; if (q) parts.push(q + x[0]); });
+                      set('time-x', parts.join(' ') || '0s');
+                  });
+              } },
+            { id: 'jvm', title: 'JVM 힙 계산', desc: '서버 메모리 → -Xms -Xmx 명령어', lead: '서버 메모리와 힙 비율로 -Xms, -Xmx, Metaspace 값을 정하고 JAVA_OPTS 한 줄로 복사합니다.',
+              html: function () { return '<div class="tbx-form">' + field('jvm-ram', 'ram (MB)', 'type="number" inputmode="numeric" value="8192"', 'half') + field('jvm-ratio', 'heap ratio (%)', 'type="number" inputmode="numeric" value="60"', 'half') + '</div>' +
+                    out('jvm-xms', '-Xms', { copy: 1 }) + out('jvm-xmx', '-Xmx', { hl: 1, copy: 1 }) + out('jvm-meta', 'MaxMetaspace', { copy: 1 }) + out('jvm-cmd', 'JAVA_OPTS', { block: 1, copy: 1 }) +
+                    '<p class="tbx-note">Xms 는 힙의 절반, Metaspace 는 메모리의 10% (최대 512m). 같은 서버의 다른 인스턴스와 OS 몫을 빼고 비율을 정하세요.</p>'; },
+              run: function () {
+                  bind(['jvm-ram', 'jvm-ratio'], function () {
+                      var r = num($t('jvm-ram')) || 0, ratio = (num($t('jvm-ratio')) || 60) / 100;
+                      if (r <= 0) { ['jvm-xms', 'jvm-xmx', 'jvm-meta', 'jvm-cmd'].forEach(function (i) { set(i, '-'); }); return; }
+                      var heap = Math.floor(r * ratio), xms = Math.floor(heap * 0.5), meta = Math.min(512, Math.floor(r * 0.1));
+                      set('jvm-xms', xms + 'm'); set('jvm-xmx', heap + 'm'); set('jvm-meta', meta + 'm');
+                      set('jvm-cmd', '-Xms' + xms + 'm -Xmx' + heap + 'm -XX:MaxMetaspaceSize=' + meta + 'm');
+                  });
+              } },
+            { id: 'ports', title: '자주 쓰는 포트', desc: 'WAS·WEB·DB 기본 포트 찾기', lead: 'WAS·웹서버·DB 의 기본 포트. 번호 앞자리나 제품 이름으로 거릅니다.',
+              html: function () { return '<div class="tbx-form">' + field('ports-q', 'filter', 'type="search" placeholder="8443 또는 weblogic"', 'wide') + '</div>' +
+                    '<div class="tbx-out-h" id="tb-ports-n"></div><table class="tbx-ports"><tbody id="tb-ports-t"></tbody></table>'; },
+              run: function () {
+                  bind(['ports-q'], function () {
+                      var q = $t('ports-q').value.trim().toLowerCase();
+                      var rows = PORTS.filter(function (p) { return !q || String(p[0]).indexOf(q) === 0 || p[1].toLowerCase().indexOf(q) >= 0; });
+                      $t('ports-t').innerHTML = rows.map(function (p) { return '<tr><td>' + p[0] + '</td><td>' + escapeHtml(p[1]) + '</td></tr>'; }).join('');
+                      set('ports-n', rows.length + ' ports' + (q ? ' matching "' + q + '"' : ''));
+                  });
+              } },
+            { id: 'epoch', title: '유닉스 시간 변환', desc: 'epoch 초·밀리초 ↔ KST·UTC 날짜', lead: '로그의 epoch 값을 읽을 수 있는 시각으로, 날짜를 epoch 로 바꿉니다. 13자리 이상은 밀리초로 봅니다.',
+              html: function () { return '<div class="tbx-form">' + field('epoch-v', 'epoch (sec / ms)', 'inputmode="numeric"') + '<button type="button" class="tbx-btn" id="tb-epoch-now">now</button></div>' +
+                    out('epoch-unit', 'detected') + out('epoch-kst', 'KST (UTC+9)', { hl: 1, copy: 1 }) + out('epoch-utc', 'UTC', { copy: 1 }) + out('epoch-iso', 'ISO 8601', { copy: 1 }) +
+                    '<div class="tbx-form" style="margin-top:26px">' + field('epoch-d', 'date → epoch', 'placeholder="2026-11-13 09:30:00"') + select('epoch-tz', 'zone', ['KST', 'UTC'], 'KST') + '</div>' +
+                    out('epoch-s', 'epoch sec', { hl: 1, copy: 1 }) + out('epoch-ms', 'epoch ms', { copy: 1 }); },
+              run: function () {
+                  bind(['epoch-v'], function () {
+                      var v = $t('epoch-v').value.trim();
+                      if (!/^-?\d+$/.test(v)) { ['epoch-unit', 'epoch-kst', 'epoch-utc', 'epoch-iso'].forEach(function (i) { set(i, '-'); }); return; }
+                      var n = parseInt(v, 10), isMs = Math.abs(n) >= 1e11, ms = isMs ? n : n * 1000;
+                      set('epoch-unit', isMs ? 'milliseconds' : 'seconds');
+                      set('epoch-kst', fmtDate(ms, 9)); set('epoch-utc', fmtDate(ms, 0)); set('epoch-iso', new Date(ms).toISOString());
+                  });
+                  bind(['epoch-d', 'epoch-tz'], function () {
+                      var m = $t('epoch-d').value.trim().match(/^(\d{4})-(\d{1,2})-(\d{1,2})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2}))?)?$/);
+                      if (!m) { set('epoch-s', '-'); set('epoch-ms', '-'); return; }
+                      var ms = Date.UTC(+m[1], +m[2] - 1, +m[3], +(m[4] || 0), +(m[5] || 0), +(m[6] || 0)) - ($t('epoch-tz').value === 'KST' ? 9 * 3600000 : 0);
+                      set('epoch-s', String(Math.floor(ms / 1000))); set('epoch-ms', String(ms));
+                  });
+                  $t('epoch-now').addEventListener('click', function () { var i = $t('epoch-v'); i.value = String(Math.floor(Date.now() / 1000)); i.dispatchEvent(new Event('input')); });
+              } },
+            { id: 'cidr', title: 'CIDR 서브넷 계산', desc: '네트워크·브로드캐스트·호스트 범위 (IPv4)', lead: '방화벽 신청서나 ACL 을 쓸 때 대역의 시작·끝 주소와 호스트 수를 확인합니다.',
+              html: function () { return '<div class="tbx-form">' + field('cidr-v', 'ip/prefix 또는 ip netmask', 'value="192.168.10.0/24"', 'wide') + '</div>' +
+                    out('cidr-net', 'network', { hl: 1, copy: 1 }) + out('cidr-bc', 'broadcast', { copy: 1 }) + out('cidr-mask', 'netmask', { copy: 1 }) + out('cidr-wc', 'wildcard', { copy: 1 }) +
+                    out('cidr-first', 'first host', { copy: 1 }) + out('cidr-last', 'last host', { copy: 1 }) + out('cidr-hosts', 'usable hosts', { hl: 1 }) + out('cidr-total', 'addresses'); },
+              run: function () {
+                  var ids = ['cidr-net', 'cidr-bc', 'cidr-mask', 'cidr-wc', 'cidr-first', 'cidr-last', 'cidr-hosts', 'cidr-total'];
+                  bind(['cidr-v'], function () {
+                      var v = $t('cidr-v').value.trim(), m = v.match(/^([\d.]+)\s*(?:\/\s*(\d{1,2})|\s+([\d.]+))$/), ip, pre;
+                      if (m) {
+                          ip = ip2n(m[1]);
+                          if (m[2] !== undefined) pre = +m[2];
+                          else { var mk = ip2n(m[3]); if (mk !== null) { var b = (~mk >>> 0) + 1; pre = (b & (b - 1)) === 0 ? 32 - Math.round(Math.log(b) / Math.LN2) : -1; } }
+                      }
+                      if (!m || ip === null || pre === undefined || pre < 0 || pre > 32) { ids.forEach(function (i) { set(i, '-'); }); set('cidr-hosts', '형식: 10.0.0.0/16 또는 10.0.0.0 255.255.0.0'); return; }
+                      var mask = pre === 0 ? 0 : (0xFFFFFFFF << (32 - pre)) >>> 0, net = (ip & mask) >>> 0, bc = (net | (~mask >>> 0)) >>> 0, total = Math.pow(2, 32 - pre);
+                      var hosts = pre === 32 ? 1 : pre === 31 ? 2 : total - 2;
+                      set('cidr-net', n2ip(net) + '/' + pre); set('cidr-bc', n2ip(bc)); set('cidr-mask', n2ip(mask)); set('cidr-wc', n2ip(~mask >>> 0));
+                      set('cidr-first', n2ip(pre >= 31 ? net : net + 1)); set('cidr-last', n2ip(pre >= 31 ? bc : bc - 1));
+                      set('cidr-hosts', hosts.toLocaleString()); set('cidr-total', total.toLocaleString());
+                  });
+              } },
+            { id: 'chmod', title: '파일 권한 변환', desc: '체크박스 ↔ 640 ↔ rw-r-----', lead: '체크박스, 숫자, 기호 중 하나를 바꾸면 나머지가 따라 바뀝니다.',
+              html: function () {
+                  var who = [['u', 'owner'], ['g', 'group'], ['o', 'other']], bits = [['r', 4], ['w', 2], ['x', 1]];
+                  return '<table class="tbx-perm"><tbody>' + who.map(function (w) {
+                      return '<tr><th scope="row">' + w[1] + '</th>' + bits.map(function (b) { return '<td><label><input type="checkbox" id="tb-chmod-' + w[0] + b[0] + '" data-v="' + b[1] + '"> ' + b[0] + '</label></td>'; }).join('') + '</tr>';
+                  }).join('') + '</tbody></table>' +
+                  '<div class="tbx-form">' + field('chmod-n', 'numeric', 'inputmode="numeric" maxlength="4" value="644"', 'half') + field('chmod-s', 'symbolic', 'maxlength="10"', 'half') + '</div>' +
+                  out('chmod-cmd', 'command', { hl: 1, copy: 1 }) + out('chmod-ls', 'ls -l'); },
+              run: function () {
+                  var W = ['u', 'g', 'o'], B = ['r', 'w', 'x'];
+                  function apply(digits, from) {
+                      W.forEach(function (w, i) { var d = +digits[i]; B.forEach(function (b, j) { $t('chmod-' + w + b).checked = !!(d & (4 >> j)); }); });
+                      var sym = digits.split('').map(function (d) { d = +d; return (d & 4 ? 'r' : '-') + (d & 2 ? 'w' : '-') + (d & 1 ? 'x' : '-'); }).join('');
+                      if (from !== 'n') $t('chmod-n').value = digits;
+                      if (from !== 's') $t('chmod-s').value = sym;
+                      set('chmod-cmd', 'chmod ' + digits + ' FILE'); set('chmod-ls', '-' + sym);
+                  }
+                  function fromBoxes() { apply(W.map(function (w) { return B.reduce(function (s, b, j) { return s + ($t('chmod-' + w + b).checked ? 4 >> j : 0); }, 0); }).join(''), 'c'); }
+                  W.forEach(function (w) { B.forEach(function (b) { $t('chmod-' + w + b).addEventListener('change', fromBoxes); }); });
+                  $t('chmod-n').addEventListener('input', function () { var v = this.value.trim(); if (/^0?[0-7]{3}$/.test(v)) apply(v.slice(-3), 'n'); });
+                  $t('chmod-s').addEventListener('input', function () {
+                      var v = this.value.trim(); if (v.length === 10) v = v.slice(1);
+                      if (!/^([r-][w-][xsStT-]){3}$/.test(v)) return;
+                      apply([0, 3, 6].map(function (i) { return (v[i] === 'r' ? 4 : 0) + (v[i + 1] === 'w' ? 2 : 0) + (/[xst]/.test(v[i + 2]) ? 1 : 0); }).join(''), 's');
+                  });
+                  apply($t('chmod-n').value, '');
+              } },
+            { id: 'cron', title: 'cron 표현식 풀이', desc: '5필드 cron → 한국어 + 다음 실행 5회', lead: 'crontab 한 줄을 풀어 읽고, 다음 실행 시각 5개를 확인합니다.',
+              html: function () { return '<div class="tbx-form">' + field('cron-v', '분 시 일 월 요일', 'value="0 2 * * 1-5"', 'wide') + '</div>' +
+                    out('cron-d', '풀이', { hl: 1 }) + '<div class="tbx-out top"><span class="k">다음 실행</span><ol class="v tbx-runs" id="tb-cron-n"></ol><span></span></div>' +
+                    '<p class="tbx-note">브라우저 시간대 기준입니다. <code>*/5</code> <code>1-5</code> <code>1,15</code> <code>MON-FRI</code> <code>@daily</code> 를 지원합니다.</p>'; },
+              run: function () {
+                  bind(['cron-v'], function () {
+                      var c;
+                      try { c = cronParse($t('cron-v').value); } catch (e) { level(set('cron-d', '[ERROR] 5개 필드(분 시 일 월 요일)를 확인하세요'), 'lvl-crit'); $t('cron-n').innerHTML = ''; return; }
+                      level(set('cron-d', cronDescribe(c)), '');
+                      var runs = cronNext(c, Date.now(), 5);
+                      $t('cron-n').innerHTML = runs.length ? runs.map(function (d) { return '<li>' + localStr(d).replace(' ', ' (' + DOW[d.getDay()] + ') ') + '</li>'; }).join('') : '<li>5년 안에 실행되지 않습니다</li>';
+                  });
+              } },
+            { id: 'encode', title: 'URL · Base64 인코딩', desc: '인코딩/디코딩, UTF-8', lead: 'URL 파라미터, Basic 인증 헤더, 설정 파일의 Base64 값을 만들거나 풉니다. UTF-8 기준.',
+              html: function () { return '<div class="tbx-form">' + select('enc-m', 'mode', [['url-enc', 'URL encode'], ['url-dec', 'URL decode'], ['b64-enc', 'Base64 encode'], ['b64-dec', 'Base64 decode']], 'url-enc', 'half') +
+                    '<label class="tbx-f wide"><span>input</span><textarea class="tbx-ta" id="tb-enc-v" spellcheck="false">q=SSLHandshakeException 한글</textarea></label></div>' +
+                    out('enc-o', 'output', { block: 1, copy: 1 }) + out('enc-len', 'length'); },
+              run: function () {
+                  bind(['enc-m', 'enc-v'], function () {
+                      var m = $t('enc-m').value, v = $t('enc-v').value, r, el;
+                      try {
+                          r = m === 'url-enc' ? encodeURIComponent(v) : m === 'url-dec' ? decodeURIComponent(v.replace(/\+/g, ' ')) : m === 'b64-enc' ? b64enc(v) : b64dec(v);
+                          el = set('enc-o', r); level(el, ''); set('enc-len', v.length + ' → ' + r.length + ' chars');
+                      } catch (e) { level(set('enc-o', '[ERROR] 이 모드로 디코딩할 수 없는 입력입니다'), 'lvl-crit'); set('enc-len', '-'); }
+                  });
+              } },
+            { id: 'cert', title: '인증서 만료일 계산', desc: '만료일 → 남은 일수, 30일 이하 경고', lead: '만료일이나 openssl·keytool 출력 한 줄을 붙여넣으면 남은 일수를 계산합니다.',
+              html: function () { return '<div class="tbx-form">' + field('cert-v', '만료일 또는 notAfter / Valid until 줄', 'placeholder="notAfter=Nov 13 23:59:59 2027 GMT 또는 2027-11-13"', 'wide') + '</div>' +
+                    out('cert-days', '남은 일수', { hl: 1 }) + out('cert-at', '만료 시각 (KST)', { copy: 1 }) + out('cert-l', 'level') +
+                    '<p class="tbx-note">만료일을 뽑는 명령은 <a href="#cmd">./cmd</a> 의 &#8216;만료일 조회&#8217;에 있습니다.</p>'; },
+              run: function () {
+                  bind(['cert-v'], function () {
+                      var v = $t('cert-v').value.trim(), t = NaN, m;
+                      if ((m = v.match(/^(\d{4})[-.\/](\d{1,2})[-.\/](\d{1,2})$/))) t = Date.UTC(+m[1], +m[2] - 1, +m[3], 23, 59, 59) - 9 * 3600000;
+                      else if (v) {
+                          var s = v.replace(/^.*?(notAfter=|until:\s*|Not After\s*:\s*)/i, '').replace(/\bKST\b/, 'GMT+0900');
+                          t = Date.parse(s);
+                      }
+                      if (isNaN(t)) { set('cert-days', '-'); set('cert-at', '-'); level(set('cert-l', v ? '[ERROR] 날짜를 읽지 못했습니다' : '-'), v ? 'lvl-crit' : ''); return; }
+                      var days = Math.floor((t - Date.now()) / 86400000), lv = days < 0 ? 'crit' : days <= 30 ? 'warn' : 'ok';
+                      level(set('cert-days', days < 0 ? Math.abs(days) + ' days ago' : days + ' days'), 'lvl-' + lv);
+                      set('cert-at', fmtDate(t, 9));
+                      level(set('cert-l', lv === 'crit' ? '[EXPIRED] 이미 만료되었습니다' : lv === 'warn' ? '[WARN] 30일 이하, 교체 일정을 잡으세요' : '[OK] 30일 넘게 남았습니다'), 'lvl-' + lv);
+                  });
+              } },
+            { id: 'cmd', title: 'keytool · openssl 명령어', desc: 'PKCS12·체인·만료일·keystore 목록', lead: '인증서 작업에 자주 쓰는 명령어를 호스트와 파일 이름에 맞춰 만듭니다. 비밀번호는 넣지 않습니다.',
+              html: function () { return '<div class="tbx-form">' + select('cmd-t', 'task', Object.keys(CMD).map(function (k) { return [k, CMD[k].name]; }), 'p12', 'wide') +
+                    field('cmd-host', 'host', 'value="www.example.com"', 'half" data-need="host') + field('cmd-port', 'port', 'inputmode="numeric" value="443"', 'narrow" data-need="port') +
+                    field('cmd-alias', 'alias', 'value="tomcat"', 'half" data-need="alias') + field('cmd-base', 'file name (확장자 없이)', 'value="server"', 'half" data-need="base') + '</div>' +
+                    out('cmd-o', 'command', { block: 1, copy: 1 }) + '<p class="tbx-note" id="tb-cmd-note"></p>'; },
+              run: function () {
+                  bind(['cmd-t', 'cmd-host', 'cmd-port', 'cmd-alias', 'cmd-base'], function () {
+                      var t = CMD[$t('cmd-t').value], v = {};
+                      ['host', 'port', 'alias', 'base'].forEach(function (k) { v[k] = $t('cmd-' + k).value.replace(/[^A-Za-z0-9._\-*\/:]/g, '') || k.toUpperCase(); });
+                      $$('#tool-cmd [data-need]').forEach(function (f) { f.hidden = t.need.indexOf(f.getAttribute('data-need')) < 0; });
+                      set('cmd-o', t.f(v)); set('cmd-note', t.note);
+                  });
+              } }
+        ];
+
+        function copyText(text, btn) {
+            var done = function () { btn.textContent = 'copied'; btn.classList.add('done'); setTimeout(function () { btn.textContent = 'copy'; btn.classList.remove('done'); }, 1400); };
+            if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(text).then(done, function () { legacy(); }); return; }
+            legacy();
+            function legacy() {
+                var ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+                document.body.appendChild(ta); ta.select();
+                try { document.execCommand('copy'); done(); } catch (e) {}
+                document.body.removeChild(ta);
+            }
+        }
+
+        function init() {
+            var app = $('#toolbox-app');
+            if (!app) return;
+            document.body.classList.add('is-tools');
+            // lift the app out of .post-body (keeps post typography off the tools); hide the empty page shell
+            var col = $('.post-col'), art = app.closest('article');
+            if (col && art) {
+                col.insertBefore(app, col.firstChild);
+                var body = $('.post-body', art);
+                if (!body || !body.textContent.trim()) {
+                    art.hidden = true;
+                    var h1 = $('.post-h1', art); if (h1) h1.parentNode.removeChild(h1); // the toolbox title is the page h1
+                }
+            }
+            var layout = $('#layout-post'); if (layout) layout.classList.add('no-toc');
+            app.className = 'tbx';
+            app.innerHTML =
+                '<div class="tbx-head"><h1 class="tbx-title"><b>$</b> ls ./toolbox</h1>' +
+                '<p class="tbx-sub">현장에서 자주 꺼내 쓰는 계산과 명령어 ' + TOOLS.length + '개. 입력값은 이 브라우저 밖으로 나가지 않습니다.</p>' +
+                '<span class="tbx-keys"><span><kbd>&#8593;</kbd><kbd>&#8595;</kbd> 선택</span><span><kbd>1</kbd>–<kbd>12</kbd> 바로 열기</span></span></div>' +
+                '<div class="tbx-grid"><ol class="tbx-list" aria-label="도구 목록">' + TOOLS.map(function (t, i) {
+                    return '<li><a class="tbx-item" href="#' + t.id + '" data-id="' + t.id + '"><span class="n">' + p2(i + 1) + '</span><span class="nm">' + t.id + '</span><span class="ds">' + t.desc + '</span></a></li>';
+                }).join('') + '</ol><div class="tbx-panels">' + TOOLS.map(function (t) {
+                    return '<section class="tbx-panel" id="tool-' + t.id + '" aria-labelledby="tool-h-' + t.id + '" hidden>' +
+                        '<button type="button" class="tbx-back">&#8249; ls ./toolbox</button>' +
+                        '<div class="tbx-cmd"><b>$</b> ./' + t.id + '</div><h2 class="tbx-h" id="tool-h-' + t.id + '">' + t.title + '</h2><p class="tbx-desc">' + t.lead + '</p>' + t.html() + '</section>';
+                }).join('') + '</div></div>';
+            TOOLS.forEach(function (t) { t.run(); });
+
+            var cur = -1, fromClick = false;
+            function pick(i, opts) {
+                opts = opts || {};
+                if (i < 0 || i >= TOOLS.length) return;
+                cur = i;
+                $$('.tbx-item', app).forEach(function (a, k) { a.classList.toggle('on', k === i); if (k === i) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+                $$('.tbx-panel', app).forEach(function (p, k) { p.hidden = k !== i; });
+                if (opts.open) app.classList.add('open', 'picked');
+                if (opts.hash) history.replaceState(null, '', '#' + TOOLS[i].id);
+                if (opts.focus) $$('.tbx-item', app)[i].focus();
+                if (opts.open && window.matchMedia('(max-width: 900px)').matches) window.scrollTo(0, 0);
+            }
+            function fromHash() {
+                var id = location.hash.slice(1), i = TOOLS.map(function (t) { return t.id; }).indexOf(id);
+                if (i >= 0) pick(i, { open: true });
+                else { app.classList.remove('open'); pick(cur < 0 ? 0 : cur); }
+            }
+            window.addEventListener('hashchange', fromHash);
+            fromHash();
+
+            app.addEventListener('click', function (e) {
+                var item = e.target.closest('.tbx-item');
+                if (item) { fromClick = true; if (location.hash === '#' + item.getAttribute('data-id')) { e.preventDefault(); fromHash(); } return; }
+                if (e.target.closest('.tbx-back')) {
+                    if (fromClick) history.back();
+                    else { history.replaceState(null, '', location.pathname + location.search); fromHash(); }
+                    fromClick = false;
+                    return;
+                }
+                var cp = e.target.closest('.tbx-copy');
+                if (cp) { var src = document.getElementById(cp.getAttribute('data-copy')); if (src) copyText(src.textContent, cp); }
+            });
+
+            var digits = '', digitTimer = 0;
+            document.addEventListener('keydown', function (e) {
+                var t = (e.target.tagName || '').toLowerCase();
+                if (t === 'input' || t === 'textarea' || t === 'select' || e.target.isContentEditable || e.ctrlKey || e.metaKey || e.altKey) return;
+                if (e.target.closest && e.target.closest('.tbx-panel')) return;
+                if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    pick((cur + (e.key === 'ArrowDown' ? 1 : TOOLS.length - 1)) % TOOLS.length, { hash: true, focus: true });
+                } else if (/^[0-9]$/.test(e.key)) {
+                    clearTimeout(digitTimer);
+                    digits = (digits + e.key).slice(-2);
+                    var n = parseInt(digits, 10);
+                    if (n < 1 || n > TOOLS.length) { digits = e.key; n = parseInt(digits, 10); }
+                    if (n >= 1 && n <= TOOLS.length) pick(n - 1, { hash: true, open: true, focus: true });
+                    digitTimer = setTimeout(function () { digits = ''; }, 700);
+                }
+            });
+        }
+        return { init: init, cronParse: cronParse, cronDescribe: cronDescribe };
+    })();
+
+    function setFooterYear() {
+        var el = $('#footer-year'), y = new Date().getFullYear();
+        if (el && y > 2024) el.textContent = '2024-' + y;
+    }
+
+    // Code-block headers and table wrappers change layout, so build them right away (this script sits at the end
+    // of <body>) instead of after window load. Highlighting waits for DOMContentLoaded, after deferred highlight.js.
+    enhanceCodeBlocks(); wrapTables();
+    document.addEventListener('DOMContentLoaded', function () {
+        highlightCode();
+        initTheme(); renderSocial(); collectGroups(); buildNav(); initDrawer();
+        polishRows(); Grep.init(); fillSide(); Toolbox.init();
+        buildToc(); postMeta(); buildShare(); buildRelated(); initComments();
+        initScroll(); setFooterYear();
+    });
+    //]]>
+    </script>
+</body>
+</html>
