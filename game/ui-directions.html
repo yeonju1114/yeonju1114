@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>몽실이 서바이벌 — UI 방향 비교</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Press+Start+2P&family=Noto+Serif+KR:wght@400;600&display=swap">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#17151a;color:#e8e2d6;font-family:system-ui,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;line-height:1.55;padding:24px 16px 48px}
+h1{font-size:20px;font-weight:600;max-width:1180px;margin:0 auto 6px}
+.lead{max-width:1180px;margin:0 auto 22px;color:#a9a294;font-size:14px}
+.grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.card{background:#211e25;border:1px solid #34303a;border-radius:8px;padding:12px 12px 14px}
+.card canvas{display:block;width:100%;height:auto;border-radius:4px;image-rendering:pixelated}
+.card h2{font-size:15px;font-weight:600;margin:10px 2px 4px}
+.card p{font-size:13px;color:#b9b2a4;margin:0 2px}
+.card .tag{display:inline-block;font-size:11px;border:1px solid #4a4452;border-radius:3px;padding:0 6px;margin:6px 4px 0 2px;color:#cfc8ba}
+@media(max-width:820px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<h1>UI 방향 비교 (같은 장면, 4가지 표현)</h1>
+<p class="lead">현재 버전이 "AI가 만든 느낌"이 나는 이유: 파스텔 + 둥근 알약 UI + 이모지 아이콘 + 완벽히 대칭인 얼굴 + 균일한 굵기 외곽선. 아래는 같은 장면을 다른 미술 방향으로 그린 예시입니다(정적 목업, 실제 게임 로직 없음).</p>
+<div class="grid" id="grid"></div>
+<script>
+var CW = 560, CH = 350;
+function mk(id, title, desc, tags) {
+  var c = document.createElement('div'); c.className = 'card';
+  var cv = document.createElement('canvas'); cv.width = CW; cv.height = CH; cv.id = id; c.appendChild(cv);
+  var h = document.createElement('h2'); h.textContent = title; c.appendChild(h);
+  var p = document.createElement('p'); p.textContent = desc; c.appendChild(p);
+  for (var i = 0; tags.length > i; i++) { var s = document.createElement('span'); s.className = 'tag'; s.textContent = tags[i]; c.appendChild(s); }
+  document.getElementById('grid').appendChild(c);
+  return cv.getContext('2d');
+}
+var seed = 7;
+function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+function wob(x, y, r, n, j) {
+  var pts = [];
+  for (var i = 0; n > i; i++) { var a = i / n * 6.2832, rr = r * (1 + (rnd() - 0.5) * j); pts.push([x + Math.cos(a) * rr, y + Math.sin(a) * rr]); }
+  return pts;
+}
+function poly(ctx, pts) { ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]); for (var i = 1; pts.length > i; i++) { ctx.lineTo(pts[i][0], pts[i][1]); } ctx.closePath(); }
+function layout() {
+  return { cat: [280, 190], sl: [[150, 120], [400, 250], [440, 110]], gh: [[130, 250]], bt: [[330, 90]], st: [[340, 170], [400, 150]], gm: [[230, 240], [200, 130], [370, 215]] };
+}
+
+/* ---------- 1. PIXEL ---------- */
+(function () {
+  var ctx = mk('p1', '① 도트(픽셀) 아트', '제한된 8색 팔레트, 손으로 찍은 스프라이트. 외부 이미지 없이 코드 안의 문자열로 정의해서 Blogger 한 파일에 넣을 수 있습니다.', ['외부 파일 불필요', '고양이 정체성 강함', '구현 난이도 중']);
+  ctx.imageSmoothingEnabled = false;
+  var PAL = { k: '#2a1d2e', o: '#e8913a', O: '#c46a22', w: '#f6e7cf', p: '#e8708a', e: '#2a1d2e', g: '#6fbf73', G: '#3f8f55', u: '#8d6fd1', s: '#e9e9f5', y: '#f4cf4a', r: '#d9473f', h: '#ffffff' };
+  var SPR = {
+    cat: ['.kk......kk.', 'kook....kook', 'koooKkkKoook', 'kooooooooook', 'kooeoooooeok', 'kopooppoopok', 'kooowwwwoook', 'kooooooooook', '.kooooooook.', '..kkkkkkkk..', '..k.k..k.k..'],
+    slime: ['...kkkkkk...', '..kggggggk..', '.kgghgggggk.', 'kgggggggggk.', 'kgegggggegk.', 'kgggggggggk.', 'kGGGGGGGGGk.', '.kkkkkkkkk..'],
+    ghost: ['..kkkkkk..', '.kssssssk.', 'kssssssssk', 'kseessseek', 'ksssssssck', 'kssskksssk', 'kssssssssk', 'ksk.ksk.sk', '.k..k.k..k'],
+    bat: ['k........k', 'kuk.kk.kuk', 'kuukuukuuk', '.kuuuuuuk.', '..kuuuuk..', '...k..k...'],
+    star: ['..y..', '.yyy.', 'yyyyy', '.yyy.', 'y...y'],
+    gem: ['.y.', 'yhy', '.y.'],
+    heart: ['.rr.rr.', 'rrrrrrr', 'rrrrrrr', '.rrrrr.', '..rrr..', '...r...']
+  };
+  function spr(name, x, y, s, flip) {
+    var rows = SPR[name];
+    for (var j = 0; rows.length > j; j++) {
+      for (var i = 0; rows[j].length > i; i++) {
+        var ch = rows[j][i]; if (ch === '.') { continue; }
+        var col = PAL[ch === 'K' ? 'k' : ch === 'c' ? 'k' : ch]; if (!col) { continue; }
+        ctx.fillStyle = col; ctx.fillRect(Math.round(x + i * s), Math.round(y + j * s), s, s);
+      }
+    }
+  }
+  function txt(t, x, y, sz, col, al) { ctx.font = sz + 'px "Press Start 2P", monospace'; ctx.fillStyle = col; ctx.textAlign = al || 'left'; ctx.textBaseline = 'top'; ctx.fillText(t, x, y); }
+  ctx.fillStyle = '#3a3347'; ctx.fillRect(0, 0, CW, CH);
+  // floor checker
+  for (var gy = 0; 9 > gy; gy++) { for (var gx = 0; 14 > gx; gx++) { if ((gx + gy) % 2 === 0) { ctx.fillStyle = '#403852'; ctx.fillRect(gx * 40, gy * 40, 40, 40); } } }
+  var L = layout();
+  for (var i = 0; L.gm.length > i; i++) { spr('gem', L.gm[i][0], L.gm[i][1], 4); }
+  for (i = 0; L.sl.length > i; i++) { spr('slime', L.sl[i][0] - 24, L.sl[i][1] - 16, 4); }
+  spr('ghost', L.gh[0][0] - 20, L.gh[0][1] - 18, 4);
+  spr('bat', L.bt[0][0] - 20, L.bt[0][1] - 12, 4);
+  for (i = 0; L.st.length > i; i++) { spr('star', L.st[i][0], L.st[i][1], 4); }
+  spr('heart', 280 - 68, 190 - 8, 3); spr('heart', 280 + 40, 190 + 16, 3);
+  spr('cat', L.cat[0] - 24, L.cat[1] - 22, 4);
+  // HUD
+  ctx.fillStyle = '#1d1824'; ctx.fillRect(0, 0, CW, 30); ctx.fillStyle = '#2a1d2e'; ctx.fillRect(0, 30, CW, 3);
+  spr('heart', 10, 7, 2); ctx.fillStyle = '#6b3a46'; ctx.fillRect(34, 9, 120, 10); ctx.fillStyle = '#e8708a'; ctx.fillRect(34, 9, 84, 10);
+  txt('1:42', CW / 2, 9, 12, '#f6e7cf', 'center'); txt('LV 7', CW - 12, 9, 12, '#f4cf4a', 'right');
+  ctx.fillStyle = '#1d1824'; ctx.fillRect(0, CH - 10, CW, 10); ctx.fillStyle = '#f4cf4a'; ctx.fillRect(0, CH - 10, 250, 10);
+  // level-up cards
+  ctx.fillStyle = 'rgba(20,14,26,.86)'; ctx.fillRect(20, 214, CW - 40, 112);
+  function pcard(x, t1, t2, tag, col) {
+    ctx.fillStyle = '#2a1d2e'; ctx.fillRect(x, 224, 156, 92); ctx.fillStyle = col; ctx.fillRect(x, 224, 156, 4);
+    ctx.strokeStyle = '#f6e7cf'; ctx.lineWidth = 2; ctx.strokeRect(x + 1, 225, 154, 90);
+    txt(tag, x + 8, 236, 7, col); txt(t1, x + 8, 256, 9, '#f6e7cf'); txt(t2, x + 8, 278, 7, '#b9a9c9');
+  }
+  pcard(36, 'STAR GUN', 'LV 2 > 3', 'ACTIVE', '#f4cf4a'); pcard(202, 'YARN', 'NEW!', 'ACTIVE', '#f4cf4a'); pcard(368, 'SNEAKERS', 'SPD +8%', 'PASSIVE', '#6fbf73');
+})();
+
+/* ---------- 2. PAPER CUTOUT ---------- */
+(function () {
+  var ctx = mk('p2', '② 종이 컷아웃 / 스티커북', '삐뚤빼뚤 잘라 붙인 종이 + 흰 스티커 테두리 + 번짐 없는 단단한 그림자. 손으로 만든 느낌이 가장 강하고, 파스텔 대신 흙·겨자·청록 같은 차분한 색을 씁니다.', ['손맛', '색감 차별화', '구현 난이도 중']);
+  seed = 11;
+  var PA = { bg: '#d8c19a', ink: '#3b2a20', mus: '#e3a72f', teal: '#2f8f8b', tom: '#d4533b', cream: '#f5ead3', sage: '#8fae7a' };
+  ctx.fillStyle = PA.bg; ctx.fillRect(0, 0, CW, CH);
+  for (var i = 0; 900 > i; i++) { ctx.fillStyle = 'rgba(90,60,30,' + (rnd() * 0.08) + ')'; ctx.fillRect(rnd() * CW, rnd() * CH, 2, 2); }
+  function sticker(pts, col, dx, dy) {
+    ctx.save(); ctx.translate(dx || 0, dy || 0);
+    poly(ctx, pts); ctx.fillStyle = 'rgba(60,40,20,.35)'; ctx.save(); ctx.translate(3, 4); ctx.fill(); ctx.restore();
+    ctx.lineJoin = 'round'; ctx.lineWidth = 7; ctx.strokeStyle = '#fbf6ea'; ctx.stroke();
+    ctx.fillStyle = col; ctx.fill(); ctx.restore();
+  }
+  function dots(x, y, s) { ctx.fillStyle = PA.ink; ctx.beginPath(); ctx.arc(x - s, y, 2.6, 0, 6.2832); ctx.arc(x + s, y, 2.6, 0, 6.2832); ctx.fill(); }
+  var L = layout(), k;
+  for (k = 0; L.gm.length > k; k++) { sticker(wob(L.gm[k][0], L.gm[k][1], 6, 5, 0.3), PA.mus); }
+  for (k = 0; L.sl.length > k; k++) { sticker(wob(L.sl[k][0], L.sl[k][1], 22, 11, 0.16), PA.sage); dots(L.sl[k][0], L.sl[k][1] - 2, 7); }
+  sticker(wob(L.gh[0][0], L.gh[0][1], 20, 10, 0.14), PA.cream); dots(L.gh[0][0], L.gh[0][1] - 2, 6);
+  sticker(wob(L.bt[0][0], L.bt[0][1], 14, 8, 0.2), PA.teal); sticker([[L.bt[0][0] - 12, L.bt[0][1]], [L.bt[0][0] - 34, L.bt[0][1] - 14], [L.bt[0][0] - 24, L.bt[0][1] + 8]], PA.teal);
+  sticker([[L.bt[0][0] + 12, L.bt[0][1]], [L.bt[0][0] + 34, L.bt[0][1] - 14], [L.bt[0][0] + 24, L.bt[0][1] + 8]], PA.teal);
+  for (k = 0; L.st.length > k; k++) {
+    var pts = []; for (var q = 0; 10 > q; q++) { var a = q * 0.6283 - 1.57, rr = q % 2 === 0 ? 11 : 5; pts.push([L.st[k][0] + Math.cos(a) * rr, L.st[k][1] + Math.sin(a) * rr]); }
+    sticker(pts, PA.mus);
+  }
+  // cat
+  var cx = L.cat[0], cy = L.cat[1];
+  sticker([[cx - 24, cy - 8], [cx - 18, cy - 38], [cx - 2, cy - 22]], PA.tom); sticker([[cx + 24, cy - 8], [cx + 18, cy - 38], [cx + 2, cy - 22]], PA.tom);
+  sticker(wob(cx, cy, 26, 13, 0.1), PA.mus); dots(cx, cy - 3, 9);
+  ctx.strokeStyle = PA.ink; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(cx - 4, cy + 6); ctx.lineTo(cx, cy + 9); ctx.lineTo(cx + 4, cy + 6); ctx.stroke();
+  // HUD as torn paper strips
+  function strip(x, y, w, h, col, rot) {
+    ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.fillStyle = 'rgba(60,40,20,.3)'; ctx.fillRect(3, 3, w, h); ctx.fillStyle = col; ctx.fillRect(0, 0, w, h); ctx.restore();
+  }
+  function ptxt(t, x, y, sz, col, al) { ctx.font = '700 ' + sz + 'px Gaegu, sans-serif'; ctx.fillStyle = col; ctx.textAlign = al || 'left'; ctx.textBaseline = 'middle'; ctx.fillText(t, x, y); }
+  strip(12, 10, 150, 24, PA.cream, -0.02); ctx.fillStyle = PA.tom; ctx.fillRect(18, 17, 100, 10); ptxt('HP', 126, 23, 16, PA.ink);
+  strip(CW / 2 - 40, 8, 80, 28, PA.cream, 0.015); ptxt('1:42', CW / 2, 23, 22, PA.ink, 'center');
+  strip(CW - 112, 10, 100, 24, PA.cream, 0.02); ptxt('레벨 7 · 41마리', CW - 62, 23, 15, PA.ink, 'center');
+  // cards as taped notes
+  function note(x, y, w, h, rot, col, t1, t2, tag) {
+    ctx.save(); ctx.translate(x + w / 2, y + h / 2); ctx.rotate(rot); ctx.translate(-w / 2, -h / 2);
+    ctx.fillStyle = 'rgba(60,40,20,.35)'; ctx.fillRect(4, 5, w, h); ctx.fillStyle = col; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = 'rgba(230,200,150,.85)'; ctx.fillRect(w / 2 - 22, -8, 44, 16);
+    ptxt(tag, 12, 28, 14, PA.tom); ptxt(t1, 12, 52, 24, PA.ink); ptxt(t2, 12, 80, 16, '#6b5a4a'); ctx.restore();
+  }
+  note(30, 226, 150, 96, -0.03, PA.cream, '별 슈터', 'Lv 2 → 3', '무기'); note(205, 230, 150, 96, 0.02, PA.cream, '털실 부메랑', '새로 얻기!', '무기'); note(380, 226, 150, 96, -0.015, PA.cream, '운동화', '이동속도 +8%', '능력');
+})();
+
+/* ---------- 3. INK SKETCH ---------- */
+(function () {
+  var ctx = mk('p3', '③ 잉크 스케치(노트 낙서)', '종이 위에 검은 펜선, 포인트 색은 1개(주홍). 화면이 가장 조용하고 가독성이 좋으며, 한 가지 색이라 "무엇이 위험한지"가 바로 보입니다.', ['가장 깔끔', '색 1개로 위험 표시', '구현 난이도 낮음']);
+  seed = 5;
+  var AC = '#e0432b', INK = '#1d1a17';
+  ctx.fillStyle = '#f3eee3'; ctx.fillRect(0, 0, CW, CH);
+  ctx.strokeStyle = 'rgba(80,110,160,.14)'; ctx.lineWidth = 1; for (var y = 28; CH > y; y += 28) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(CW, y); ctx.stroke(); }
+  function pen(pts, w) { ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.lineWidth = w || 2.2; ctx.strokeStyle = INK; poly(ctx, pts); ctx.stroke(); }
+  function hatch(x, y, r) { ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(29,26,23,.55)'; for (var i = -r; r > i; i += 5) { ctx.beginPath(); ctx.moveTo(x + i, y + r * 0.2); ctx.lineTo(x + i + 5, y + r * 0.85); ctx.stroke(); } }
+  function eyes(x, y, s, col) { ctx.fillStyle = col || INK; ctx.beginPath(); ctx.arc(x - s, y, 2.4, 0, 6.2832); ctx.arc(x + s, y, 2.4, 0, 6.2832); ctx.fill(); }
+  var L = layout(), k;
+  for (k = 0; L.gm.length > k; k++) { ctx.fillStyle = AC; ctx.save(); ctx.translate(L.gm[k][0], L.gm[k][1]); ctx.rotate(0.78); ctx.fillRect(-4, -4, 8, 8); ctx.restore(); }
+  for (k = 0; L.sl.length > k; k++) { var p = wob(L.sl[k][0], L.sl[k][1], 20, 12, 0.18); ctx.fillStyle = '#f3eee3'; poly(ctx, p); ctx.fill(); pen(p, 2.4); hatch(L.sl[k][0], L.sl[k][1], 14); eyes(L.sl[k][0], L.sl[k][1] - 3, 6); }
+  var g = wob(L.gh[0][0], L.gh[0][1], 19, 11, 0.15); ctx.fillStyle = '#f3eee3'; poly(ctx, g); ctx.fill(); pen(g); eyes(L.gh[0][0], L.gh[0][1] - 3, 5);
+  var b = wob(L.bt[0][0], L.bt[0][1], 12, 8, 0.2); ctx.fillStyle = '#f3eee3'; poly(ctx, b); ctx.fill(); pen(b);
+  pen([[L.bt[0][0] - 10, L.bt[0][1]], [L.bt[0][0] - 32, L.bt[0][1] - 12], [L.bt[0][0] - 22, L.bt[0][1] + 8]]); pen([[L.bt[0][0] + 10, L.bt[0][1]], [L.bt[0][0] + 32, L.bt[0][1] - 12], [L.bt[0][0] + 22, L.bt[0][1] + 8]]);
+  for (k = 0; L.st.length > k; k++) { var sp = []; for (var q = 0; 10 > q; q++) { var a = q * 0.6283 - 1.57, rr = q % 2 === 0 ? 11 : 5; sp.push([L.st[k][0] + Math.cos(a) * rr, L.st[k][1] + Math.sin(a) * rr]); } ctx.fillStyle = AC; poly(ctx, sp); ctx.fill(); pen(sp, 1.6); }
+  var cx = L.cat[0], cy = L.cat[1];
+  ctx.fillStyle = AC; poly(ctx, wob(cx, cy, 24, 13, 0.08)); ctx.fill(); pen(wob(cx, cy, 24, 13, 0.08), 2.8);
+  pen([[cx - 22, cy - 8], [cx - 16, cy - 34], [cx - 2, cy - 20]], 2.8); pen([[cx + 22, cy - 8], [cx + 16, cy - 34], [cx + 2, cy - 20]], 2.8);
+  eyes(cx, cy - 3, 8); ctx.strokeStyle = INK; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(cx - 4, cy + 6); ctx.lineTo(cx, cy + 9); ctx.lineTo(cx + 4, cy + 6); ctx.stroke();
+  function itxt(t, x, y, sz, col, al) { ctx.font = '700 ' + sz + 'px Gaegu, sans-serif'; ctx.fillStyle = col || INK; ctx.textAlign = al || 'left'; ctx.textBaseline = 'middle'; ctx.fillText(t, x, y); }
+  ctx.strokeStyle = INK; ctx.lineWidth = 2; ctx.strokeRect(14, 12, 120, 14); ctx.fillStyle = AC; ctx.fillRect(14, 12, 84, 14); itxt('1:42', CW / 2, 20, 24, INK, 'center'); itxt('Lv 7', CW - 16, 20, 22, INK, 'right');
+  ctx.fillStyle = INK; ctx.fillRect(0, CH - 6, CW, 2); ctx.fillStyle = AC; ctx.fillRect(0, CH - 8, 250, 6);
+  function icard(x, t1, t2, tag) { var p = [[x, 228], [x + 154, 230], [x + 152, 322], [x + 2, 320]]; ctx.fillStyle = '#fbf8f1'; poly(ctx, p); ctx.fill(); pen(p, 2.2); itxt(tag, x + 12, 248, 15, AC); itxt(t1, x + 12, 274, 26); itxt(t2, x + 12, 302, 16, '#6a625a'); }
+  icard(30, '별 슈터', 'Lv 2 → 3', '[무기]'); icard(205, '털실 부메랑', '새로 얻기!', '[무기]'); icard(380, '운동화', '이동속도 +8%', '[능력]');
+})();
+
+/* ---------- 4. NIGHT SILHOUETTE ---------- */
+(function () {
+  var ctx = mk('p4', '④ 밤의 고양이(실루엣 + 발광)', '어두운 남색 배경에 달빛. 고양이는 검은 실루엣에 호박색 눈, 적은 어둠 속의 눈동자. UI는 얇은 선과 작은 글씨로 최소화해서 "귀엽다"보다 "분위기"로 승부합니다.', ['분위기', '발광 효과', '모바일 성능 주의']);
+  seed = 3;
+  var g = ctx.createRadialGradient(CW * 0.5, CH * 0.45, 20, CW * 0.5, CH * 0.5, 330); g.addColorStop(0, '#1d2447'); g.addColorStop(1, '#090b18'); ctx.fillStyle = g; ctx.fillRect(0, 0, CW, CH);
+  for (var i = 0; 60 > i; i++) { ctx.fillStyle = 'rgba(220,230,255,' + (0.2 + rnd() * 0.6) + ')'; ctx.fillRect(rnd() * CW, rnd() * CH, 1.5, 1.5); }
+  function glow(c, b) { ctx.shadowColor = c; ctx.shadowBlur = b; }
+  function noglow() { ctx.shadowBlur = 0; }
+  var L = layout(), k;
+  function eyepair(x, y, s, c) { glow(c, 10); ctx.fillStyle = c; ctx.beginPath(); ctx.ellipse(x - s, y, 3, 4.5, 0, 0, 6.2832); ctx.ellipse(x + s, y, 3, 4.5, 0, 0, 6.2832); ctx.fill(); noglow(); }
+  for (k = 0; L.gm.length > k; k++) { glow('#7fd6ff', 10); ctx.fillStyle = '#bfeaff'; ctx.beginPath(); ctx.arc(L.gm[k][0], L.gm[k][1], 3.5, 0, 6.2832); ctx.fill(); noglow(); }
+  for (k = 0; L.sl.length > k; k++) { ctx.fillStyle = '#05060f'; ctx.beginPath(); ctx.ellipse(L.sl[k][0], L.sl[k][1], 24, 19, 0, 0, 6.2832); ctx.fill(); ctx.strokeStyle = 'rgba(120,140,220,.35)'; ctx.lineWidth = 1.5; ctx.stroke(); eyepair(L.sl[k][0], L.sl[k][1] - 2, 8, '#ff6b6b'); }
+  ctx.fillStyle = 'rgba(200,210,255,.18)'; ctx.beginPath(); ctx.ellipse(L.gh[0][0], L.gh[0][1], 21, 24, 0, 0, 6.2832); ctx.fill(); eyepair(L.gh[0][0], L.gh[0][1] - 3, 7, '#e8f0ff');
+  ctx.fillStyle = '#05060f'; ctx.beginPath(); ctx.ellipse(L.bt[0][0], L.bt[0][1], 13, 11, 0, 0, 6.2832); ctx.fill(); ctx.beginPath(); ctx.moveTo(L.bt[0][0] - 10, L.bt[0][1]); ctx.lineTo(L.bt[0][0] - 36, L.bt[0][1] - 14); ctx.lineTo(L.bt[0][0] - 24, L.bt[0][1] + 8); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(L.bt[0][0] + 10, L.bt[0][1]); ctx.lineTo(L.bt[0][0] + 36, L.bt[0][1] - 14); ctx.lineTo(L.bt[0][0] + 24, L.bt[0][1] + 8); ctx.closePath(); ctx.fill(); eyepair(L.bt[0][0], L.bt[0][1], 5, '#c79bff');
+  for (k = 0; L.st.length > k; k++) { glow('#ffcf5a', 16); ctx.fillStyle = '#fff2c4'; ctx.beginPath(); ctx.arc(L.st[k][0], L.st[k][1], 5, 0, 6.2832); ctx.fill(); noglow(); ctx.strokeStyle = 'rgba(255,207,90,.4)'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(L.st[k][0], L.st[k][1]); ctx.lineTo(L.st[k][0] - 30, L.st[k][1] + 8); ctx.stroke(); }
+  var cx = L.cat[0], cy = L.cat[1];
+  glow('rgba(255,190,90,.35)', 26); ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(cx, cy, 24, 0, 6.2832); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(cx - 22, cy - 6); ctx.lineTo(cx - 16, cy - 36); ctx.lineTo(cx - 2, cy - 20); ctx.closePath(); ctx.fill(); ctx.beginPath(); ctx.moveTo(cx + 22, cy - 6); ctx.lineTo(cx + 16, cy - 36); ctx.lineTo(cx + 2, cy - 20); ctx.closePath(); ctx.fill(); noglow();
+  glow('#ffb347', 12); ctx.fillStyle = '#ffc561'; ctx.beginPath(); ctx.ellipse(cx - 8, cy - 3, 3.4, 6, 0, 0, 6.2832); ctx.ellipse(cx + 8, cy - 3, 3.4, 6, 0, 0, 6.2832); ctx.fill(); noglow();
+  ctx.fillStyle = '#e8eaf8';
+  function ntxt(t, x, y, sz, col, al) { ctx.font = sz + 'px "Noto Serif KR", serif'; ctx.fillStyle = col || '#e8eaf8'; ctx.textAlign = al || 'left'; ctx.textBaseline = 'middle'; ctx.fillText(t, x, y); }
+  ctx.strokeStyle = 'rgba(232,234,248,.5)'; ctx.lineWidth = 1; ctx.strokeRect(14, 14, 130, 6); ctx.fillStyle = '#ffb347'; ctx.fillRect(14, 14, 90, 6);
+  ntxt('01:42', CW / 2, 18, 16, '#e8eaf8', 'center'); ntxt('LV 7', CW - 16, 18, 14, '#ffb347', 'right');
+  ctx.fillStyle = 'rgba(232,234,248,.15)'; ctx.fillRect(0, CH - 3, CW, 3); ctx.fillStyle = '#7fd6ff'; ctx.fillRect(0, CH - 3, 250, 3);
+  function ncard(x, t1, t2, tag) { ctx.fillStyle = 'rgba(8,10,24,.8)'; ctx.fillRect(x, 232, 154, 90); ctx.strokeStyle = 'rgba(232,234,248,.4)'; ctx.lineWidth = 1; ctx.strokeRect(x + 0.5, 232.5, 153, 89); ntxt(tag, x + 12, 250, 10, '#ffb347'); ntxt(t1, x + 12, 274, 17); ntxt(t2, x + 12, 300, 12, '#9aa0c0'); }
+  ncard(30, '별 슈터', 'Lv 2 → 3', 'WEAPON'); ncard(205, '털실 부메랑', '새로 얻기', 'WEAPON'); ncard(380, '운동화', '이동속도 +8%', 'PASSIVE');
+})();
+</script>
+</body>
+</html>
