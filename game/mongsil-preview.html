@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ko" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>몽실이 서바이벌 v2 (도트) — 미리보기</title>
+<!DOCTYPE html><html lang="ko" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>몽실이 서바이벌 v3 (스토리) — 미리보기</title>
 <style>    /* ==== [1] Tokens: dark "console" (default) / light "paper log" ==== */
     :root {
         --bg: #141210; --surface: #1c1a17; --raise: #24211d;
@@ -544,16 +544,26 @@
 #bg-game .bgg-pick span{font-size:12px;color:#cdbfd8}
 #bg-game .bgg-pick i{font-style:normal;font-size:11px;color:#9d8fb0}
 #bg-game .k-act em{color:#f4cf4a}#bg-game .k-pas em{color:#6cc7ee}#bg-game .k-evo{border-color:#f4cf4a}#bg-game .k-evo em{color:#f4cf4a}#bg-game .k-fuse{border-color:#b784f0}#bg-game .k-fuse em{color:#b784f0}#bg-game .k-heal em{color:#e8708a}
+#bg-game .bgg-story{justify-content:flex-end;gap:10px;background:rgba(15,11,19,.97)}
+#bg-game .bgg-scene{width:100%;max-width:400px;height:auto;aspect-ratio:5/2;image-rendering:pixelated;image-rendering:crisp-edges;border:3px solid #f6e7cf;background:#000;margin:0}
+#bg-game .bgg-sbox{display:flex;gap:12px;align-items:flex-start;width:100%;max-width:560px;padding:10px 12px;border:3px solid #f6e7cf;background:#2a1d2e;text-align:left;box-shadow:4px 4px 0 #0f0b13}
+#bg-game .bgg-port{width:56px;height:52px;flex:0 0 56px;aspect-ratio:auto;image-rendering:pixelated;image-rendering:crisp-edges;background:transparent;margin:0}
+#bg-game .bgg-stag{font-family:'Press Start 2P',monospace;font-size:9px;color:#f4cf4a;margin-bottom:6px}
+#bg-game .bgg-stx{font-size:15px;line-height:1.6;color:#f6e7cf;min-height:48px;margin:0}
+#bg-game .bgg-sbtn{display:flex;gap:10px}
+#bg-game .bgg-ghost{background:transparent;color:#cdbfd8;box-shadow:0 0 0 2px #6b5a7a}
+#bg-game .bgg-endc{width:288px;max-width:80%;height:auto;aspect-ratio:48/28;image-rendering:pixelated;image-rendering:crisp-edges;border:3px solid #f6e7cf;margin:0;background:#000}
 #bg-game .bgg-list{display:grid;grid-template-columns:1fr 1fr;gap:4px 18px;font-size:13px;text-align:left;color:#cdbfd8}
 #bg-game .bgg-help{margin:8px 0 0;font-size:12px;color:#9d8fb0;text-align:center}
-@media (max-width:640px){#bg-game .bgg-ov{gap:6px;padding:8px}#bg-game .bgg-ov h3{font-size:13px}#bg-game .bgg-ov[data-ov=level] h3,#bg-game .bgg-ov[data-ov=level] .bgg-sub{display:none}#bg-game .bgg-picks{gap:6px}#bg-game .bgg-pick{flex:1 1 100%;max-width:none;min-height:0;padding:5px 8px;gap:8px;flex-direction:row;text-align:left;box-shadow:3px 3px 0 #0f0b13}#bg-game .bgg-pick canvas{flex:0 0 36px;width:36px;height:36px}#bg-game .bgg-pick i{display:none}#bg-game .bgg-w{display:block;min-width:0}#bg-game .bgg-w em{margin-right:6px}#bg-game .bgg-pick em{font-size:9px}#bg-game .bgg-pick b{font-size:13px}#bg-game .bgg-pick span{font-size:11px}#bg-game .bgg-ov p{font-size:12px}}
+@media (max-width:640px){#bg-game .bgg-ov{gap:6px;padding:8px}#bg-game .bgg-ov h3{font-size:13px}#bg-game .bgg-ov[data-ov=level] h3,#bg-game .bgg-ov[data-ov=level] .bgg-sub{display:none}#bg-game .bgg-picks{gap:6px}#bg-game .bgg-pick{flex:1 1 100%;max-width:none;min-height:0;padding:5px 8px;gap:8px;flex-direction:row;text-align:left;box-shadow:3px 3px 0 #0f0b13}#bg-game .bgg-pick canvas{flex:0 0 36px;width:36px;height:36px}#bg-game .bgg-pick i{display:none}#bg-game .bgg-w{display:block;min-width:0}#bg-game .bgg-w em{margin-right:6px}#bg-game .bgg-pick em{font-size:9px}#bg-game .bgg-pick b{font-size:13px}#bg-game .bgg-pick span{font-size:11px}#bg-game .bgg-ov p{font-size:12px}#bg-game .bgg-scene{max-width:170px;border-width:2px}#bg-game .bgg-sbox{padding:6px 8px;gap:8px}#bg-game .bgg-port{width:40px;height:37px;flex:0 0 40px}#bg-game .bgg-stx{font-size:13px;min-height:0}#bg-game .bgg-story .bgg-btn{min-height:38px;padding:0 16px}#bg-game .bgg-endc{max-width:60%}}
 </style>
 <div class="bgg-wrap">
 <canvas width="320" height="200" tabindex="0" aria-label="몽실이 서바이벌 게임 화면"></canvas>
-<div class="bgg-ov" data-ov="start"><div class="bgg-cat"></div><h3>MONGSIL<br>SURVIVOR</h3><p>몰려오는 말랑이들을 버티고, 3분 30초에 나타나는 최종 보스를 쓰러뜨리세요. 공격은 자동으로 나가요.</p><p class="bgg-sub">이동: 방향키 / WASD · 모바일: 화면 드래그 · 카드 선택: 1 2 3 · 일시정지: P</p><button class="bgg-btn" type="button" data-act="start">START</button></div>
+<div class="bgg-ov" data-ov="start"><div class="bgg-cat"></div><h3>MONGSIL<br>SURVIVOR</h3><p>비 오는 밤, 길고양이 몽실이의 이야기. 야외 → 병원 → 집, 세 곳의 보스를 쓰러뜨리면 집고양이가 돼요. 공격은 자동으로 나가요.</p><p class="bgg-sub">이동: 방향키 / WASD · 모바일: 화면 드래그 · 카드 선택: 1 2 3 · 일시정지: P</p><button class="bgg-btn" type="button" data-act="start">START</button></div>
 <div class="bgg-ov" data-ov="level" hidden><h3>LEVEL UP!</h3><p class="bgg-sub">하나를 고르세요 (1 · 2 · 3)</p><div class="bgg-picks"></div></div>
 <div class="bgg-ov" data-ov="over" hidden><h3>GAME OVER</h3><p data-r="over"></p><button class="bgg-btn" type="button" data-act="start">RETRY</button></div>
-<div class="bgg-ov" data-ov="win" hidden><h3>CLEAR!</h3><p data-r="win"></p><button class="bgg-btn" type="button" data-act="start">AGAIN</button></div>
+<div class="bgg-ov" data-ov="win" hidden><canvas class="bgg-endc" width="48" height="28"></canvas><h3>CLEAR!</h3><p data-r="win"></p><button class="bgg-btn" type="button" data-act="start">AGAIN</button></div>
+<div class="bgg-ov bgg-story" data-ov="story" hidden><canvas class="bgg-scene" width="160" height="64"></canvas><div class="bgg-sbox"><canvas class="bgg-port" width="14" height="13"></canvas><div><div class="bgg-stag" data-r="stag"></div><p class="bgg-stx" data-r="stext"></p></div></div><div class="bgg-sbtn"><button class="bgg-btn" type="button" data-act="snext">NEXT</button><button class="bgg-btn bgg-ghost" type="button" data-act="sskip">SKIP</button></div></div>
 <div class="bgg-ov" data-ov="pause" hidden><h3>PAUSE</h3><div class="bgg-list" data-r="items"></div><button class="bgg-btn" type="button" data-act="resume">RESUME</button></div>
 </div>
 <p class="bgg-help">상단 창: 액티브 4칸(노랑) · 패시브 4칸(하늘) · 보스 코어 2칸(보라). 점 5개 = 레벨, ★ = 진화, ◆ = 합성.</p>
@@ -576,12 +586,14 @@
     var fx = f.getContext('2d'); fx.drawImage(c, 0, 0); fx.globalCompositeOperation = 'source-atop'; fx.fillStyle = '#fff'; fx.fillRect(0, 0, c.width, c.height);
     return { c: c, f: f, w: c.width, h: c.height };
   }
-  function mk(rows) {
-    var h = rows.length, w = 0, i, j;
+  function pal(o) { var r = {}, k; for (k in P) { r[k] = P[k]; } for (k in o) { r[k] = o[k]; } return r; }
+  function mk(rows, pl, post) {
+    var pp = pl || P, h = rows.length, w = 0, i, j;
     for (i = 0; h > i; i++) { if (rows[i].length > w) { w = rows[i].length; } }
     var c = document.createElement('canvas'); c.width = w; c.height = h;
     var x = c.getContext('2d');
-    for (j = 0; h > j; j++) { for (i = 0; rows[j].length > i; i++) { var col = P[rows[j][i]]; if (col) { x.fillStyle = col; x.fillRect(i, j, 1, 1); } } }
+    for (j = 0; h > j; j++) { for (i = 0; rows[j].length > i; i++) { var col = pp[rows[j][i]]; if (col) { x.fillStyle = col; x.fillRect(i, j, 1, 1); } } }
+    if (post) { post(x); }
     return finish(c);
   }
   function proc(w, h, fn) {
@@ -600,45 +612,77 @@
 
   var CATH = ['..kk...', 'kOOk...', 'kooookk', 'koooooo', 'koooooo', 'kooeooo', 'kooeooo', 'kopooow', 'kooooww', 'koooooo', '.kooooo', '..kkkkk'];
   var SP = {};
-  SP.cat0 = mk(mirror(CATH.concat(['..kk.kk'])));
-  SP.cat1 = mk(mirror(CATH.concat(['.kk..kk'])));
+  var SK = [
+    { slime: pal({ g: '#6cc7ee', G: '#3f8fb8' }), ghost: pal({ s: '#b8c2cc', S: '#8d98a4' }), bat: pal({ u: '#4a4458', U: '#2e2a38' }), gummy: pal({ n: '#8a9a8a', N: '#5d6c5d', m: '#b8c4b8' }) },
+    { slime: pal({ g: '#9fe8d0', G: '#5fbfa0' }), ghost: pal({ s: '#f3ead2', S: '#cbbf9d' }), bat: pal({ u: '#a0a8b0', U: '#6c747c' }), gummy: pal({ n: '#ffc0cb', N: '#d98aa0', m: '#ffe6ec' }) },
+    { slime: pal({ g: '#b9a58c', G: '#8c7a64' }), ghost: pal({ s: '#f6d2dc', S: '#d88aa0' }), bat: pal({ u: '#d9b97a', U: '#a88a4a' }), gummy: pal({ n: '#6aa8a0', N: '#3f7a74', m: '#a8d4cf' }) }
+  ];
+  var CATPAL = [pal({ o: '#b8a58f', O: '#8c7a64', w: '#d9cfc0' }), P, P];
+  var CATPOST = [
+    function (x) { rc(x, '#8c7a64', 3, 3, 2, 1); rc(x, '#8c7a64', 9, 4, 2, 1); rc(x, '#8c7a64', 4, 8, 2, 1); rc(x, '#8c7a64', 10, 9, 2, 1); },
+    function (x) { rc(x, '#ffffff', 1, 3, 12, 2); rc(x, '#d9473f', 6, 3, 2, 2); },
+    function (x) { rc(x, '#e8708a', 1, 9, 12, 1); rc(x, '#f4cf4a', 6, 10, 2, 2); rc(x, '#c9a02a', 6, 11, 2, 1); }
+  ];
   var SLA = ['..kkkk', '.kgggg', 'kghggg', 'kggggg', 'kggegg', 'kggegg', 'kggggg', 'kGGGGG', '.kkkkk'];
-  SP.slime0 = mk(mirror(SLA));
-  SP.slime1 = mk(mirror(['......', '..kkkk', '.kgggg', 'kghggg', 'kggegg', 'kggegg', 'kggggg', 'kGGGGG', 'kkkkkk']));
+  var SLB = ['......', '..kkkk', '.kgggg', 'kghggg', 'kggegg', 'kggegg', 'kggggg', 'kGGGGG', 'kkkkkk'];
   var GHA = ['..kkkk', '.kssss', 'ksssss', 'ksssss', 'kssess', 'kssess', 'ksssss', 'ksssss', 'ksssss'];
-  SP.ghost0 = mk(mirror(GHA.concat(['kssksk', '.k.k.k'])));
-  SP.ghost1 = mk(mirror(GHA.concat(['ksksks', 'k.k.k.'])));
-  SP.bat0 = mk(mirror(['k....k', 'kuk.ku', 'kuukuu', 'kuuuyu', '.kuuuu', '..kuuu', '...kkk']));
-  SP.bat1 = mk(mirror(['......', 'k....k', 'kuk.ku', 'kuukuu', 'kuuuyu', '.kuuuu', '..kuuu', '...kkk']));
-  SP.gummy = proc(26, 24, function (x) {
-    pxe(x, 5, 5, 5, 5, P.k); pxe(x, 20, 5, 5, 5, P.k); pxe(x, 13, 13, 12, 11, P.k);
-    pxe(x, 5, 5, 4, 4, P.N); pxe(x, 20, 5, 4, 4, P.N); pxe(x, 13, 13, 11, 10, P.n);
-    pxe(x, 13, 17, 6, 4, P.m); rc(x, P.k, 12, 16, 3, 2); rc(x, P.k, 8, 10, 2, 3); rc(x, P.k, 16, 10, 2, 3); rc(x, P.h, 8, 10, 1, 1); rc(x, P.h, 16, 10, 1, 1);
-  });
-  SP.pudding = proc(38, 34, function (x) {
-    pxe(x, 19, 20, 18, 13, P.k); rc(x, P.k, 3, 28, 32, 4);
-    pxe(x, 19, 20, 16, 11, P.q); pxe(x, 19, 13, 16, 6, P.Q); rc(x, P.w, 4, 28, 30, 2); rc(x, P.Y, 4, 30, 30, 1);
-    pxe(x, 19, 4, 4, 4, P.k); pxe(x, 19, 4, 3, 3, P.r);
-    rc(x, P.k, 11, 18, 3, 5); rc(x, P.k, 24, 18, 3, 5); rc(x, P.h, 11, 18, 1, 2); rc(x, P.h, 24, 18, 1, 2);
-    rc(x, P.k, 16, 25, 6, 1); rc(x, P.p, 7, 23, 3, 2); rc(x, P.p, 28, 23, 3, 2);
-  });
-  SP.batq = proc(44, 32, function (x) {
-    pxe(x, 8, 16, 8, 6, P.k); pxe(x, 36, 16, 8, 6, P.k); pxe(x, 22, 17, 11, 11, P.k);
-    pxe(x, 8, 16, 7, 5, P.U); pxe(x, 36, 16, 7, 5, P.U); pxe(x, 22, 17, 10, 10, P.u);
-    rc(x, P.k, 14, 4, 5, 7); rc(x, P.k, 25, 4, 5, 7); rc(x, P.u, 15, 5, 3, 5); rc(x, P.u, 26, 5, 3, 5);
-    rc(x, P.y, 16, 7, 12, 3); rc(x, P.y, 16, 4, 2, 3); rc(x, P.y, 21, 3, 2, 4); rc(x, P.y, 26, 4, 2, 3);
-    rc(x, P.r, 16, 16, 4, 4); rc(x, P.r, 24, 16, 4, 4); rc(x, P.k, 17, 17, 2, 2); rc(x, P.k, 25, 17, 2, 2);
-    rc(x, P.h, 18, 24, 2, 3); rc(x, P.h, 24, 24, 2, 3);
-  });
-  SP.ghostk = proc(48, 48, function (x) {
-    function shp(g, col) { pxe(x, 24, 22, 18 + g, 18 + g, col); rc(x, col, 6 - g, 22, 36 + 2 * g, 18 + g);
-      for (var xx = 6 - g; 42 + g >= xx; xx++) { if ((xx % 8) > 3) { rc(x, col, xx, 40, 1, 3 + g); } } }
-    shp(1, P.k); shp(0, P.s);
-    rc(x, P.S, 8, 30, 32, 4);
-    rc(x, P.y, 14, 3, 20, 4); rc(x, P.y, 14, 0, 3, 3); rc(x, P.y, 22, 0, 3, 3); rc(x, P.y, 31, 0, 3, 3);
-    rc(x, P.k, 14, 18, 6, 8); rc(x, P.k, 28, 18, 6, 8); rc(x, P.r, 16, 20, 2, 4); rc(x, P.r, 30, 20, 2, 4);
-    rc(x, P.k, 20, 30, 8, 5);
-  });
+  var BTA = ['k....k', 'kuk.ku', 'kuukuu', 'kuuuyu', '.kuuuu', '..kuuu', '...kkk'];
+  var BTB = ['......', 'k....k', 'kuk.ku', 'kuukuu', 'kuuuyu', '.kuuuu', '..kuuu', '...kkk'];
+  function gummyOf(q) {
+    return proc(26, 24, function (x) {
+      pxe(x, 5, 5, 5, 5, q.k); pxe(x, 20, 5, 5, 5, q.k); pxe(x, 13, 13, 12, 11, q.k);
+      pxe(x, 5, 5, 4, 4, q.N); pxe(x, 20, 5, 4, 4, q.N); pxe(x, 13, 13, 11, 10, q.n);
+      pxe(x, 13, 17, 6, 4, q.m); rc(x, q.k, 12, 16, 3, 2); rc(x, q.k, 8, 10, 2, 3); rc(x, q.k, 16, 10, 2, 3); rc(x, q.h, 8, 10, 1, 1); rc(x, q.h, 16, 10, 1, 1);
+    });
+  }
+  function bossTrash() {
+    return proc(40, 40, function (x) {
+      rc(x, P.k, 5, 14, 30, 26); rc(x, '#7b8794', 6, 15, 28, 24);
+      rc(x, '#5d6c78', 11, 15, 2, 24); rc(x, '#5d6c78', 19, 15, 2, 24); rc(x, '#5d6c78', 27, 15, 2, 24);
+      rc(x, '#9aa6b2', 6, 15, 28, 2);
+      pxe(x, 20, 10, 14, 6, P.k); pxe(x, 20, 10, 13, 5, '#9aa6b2'); rc(x, P.k, 16, 3, 8, 3); rc(x, '#b0bcc7', 17, 3, 6, 2);
+      pxe(x, 20, 9, 8, 3, P.q); pxe(x, 20, 8, 6, 2, P.Q); rc(x, P.r, 19, 4, 3, 3);
+      rc(x, '#6fbf73', 8, 15, 5, 6); rc(x, '#6fbf73', 29, 15, 4, 9);
+      rc(x, P.k, 12, 24, 5, 6); rc(x, P.k, 23, 24, 5, 6); rc(x, P.h, 12, 24, 1, 2); rc(x, P.h, 23, 24, 1, 2);
+      rc(x, P.k, 16, 33, 8, 2); rc(x, P.p, 8, 29, 3, 2); rc(x, P.p, 29, 29, 3, 2);
+    });
+  }
+  function bossSyringe() {
+    return proc(32, 48, function (x) {
+      rc(x, P.k, 8, 0, 16, 4); rc(x, '#cfd8dc', 9, 1, 14, 2);
+      rc(x, P.k, 14, 3, 4, 7); rc(x, '#cfd8dc', 15, 3, 2, 7);
+      rc(x, P.k, 3, 9, 26, 4); rc(x, '#eceff1', 4, 10, 24, 2);
+      rc(x, P.y, 9, 5, 14, 4); rc(x, P.y, 9, 2, 3, 3); rc(x, P.y, 15, 1, 3, 4); rc(x, P.y, 20, 2, 3, 3);
+      rc(x, P.k, 5, 12, 22, 28); rc(x, '#f3f7fa', 6, 13, 20, 26); rc(x, '#ff8fb0', 6, 25, 20, 14);
+      rc(x, '#9aa6b2', 6, 17, 6, 1); rc(x, '#9aa6b2', 6, 21, 6, 1);
+      rc(x, P.k, 10, 26, 4, 5); rc(x, P.k, 18, 26, 4, 5); rc(x, P.h, 10, 26, 1, 2); rc(x, P.h, 18, 26, 1, 2);
+      rc(x, P.k, 14, 34, 4, 1); rc(x, P.p, 7, 31, 3, 2); rc(x, P.p, 22, 31, 3, 2);
+      rc(x, P.k, 14, 40, 4, 8); rc(x, '#b0bec5', 15, 40, 2, 8);
+    });
+  }
+  function bossVacuum() {
+    return proc(48, 30, function (x) {
+      pxe(x, 24, 17, 23, 12, P.k); pxe(x, 24, 17, 22, 11, '#8d99a6'); pxe(x, 24, 14, 18, 8, '#b9c4cf');
+      rc(x, P.k, 14, 3, 20, 6); rc(x, P.y, 15, 5, 18, 3); rc(x, P.y, 15, 2, 3, 3); rc(x, P.y, 22, 1, 4, 4); rc(x, P.y, 30, 2, 3, 3);
+      rc(x, P.k, 14, 13, 7, 7); rc(x, P.k, 27, 13, 7, 7); rc(x, P.r, 16, 15, 3, 3); rc(x, P.r, 29, 15, 3, 3); rc(x, P.h, 16, 15, 1, 1); rc(x, P.h, 29, 15, 1, 1);
+      rc(x, P.k, 19, 23, 10, 2);
+      rc(x, '#e8708a', 4, 24, 5, 3); rc(x, '#e8708a', 39, 24, 5, 3);
+      rc(x, P.k, 8, 27, 6, 3); rc(x, P.k, 34, 27, 6, 3);
+    });
+  }
+  var BOSSSP = [bossTrash, bossSyringe, bossVacuum];
+  var SPS = [];
+  function buildSet(st) {
+    var s = {}, k = SK[st];
+    s.cat0 = mk(mirror(CATH.concat(['..kk.kk'])), CATPAL[st], CATPOST[st]);
+    s.cat1 = mk(mirror(CATH.concat(['.kk..kk'])), CATPAL[st], CATPOST[st]);
+    s.slime0 = mk(mirror(SLA), k.slime); s.slime1 = mk(mirror(SLB), k.slime);
+    s.ghost0 = mk(mirror(GHA.concat(['kssksk', '.k.k.k'])), k.ghost); s.ghost1 = mk(mirror(GHA.concat(['ksksks', 'k.k.k.'])), k.ghost);
+    s.bat0 = mk(mirror(BTA), k.bat); s.bat1 = mk(mirror(BTB), k.bat);
+    s.gummy = gummyOf(k.gummy); s.boss = BOSSSP[st]();
+    return s;
+  }
+  for (var si = 0; 3 > si; si++) { SPS[si] = buildSet(si); }
   SP.chest = proc(14, 12, function (x) {
     rc(x, P.k, 0, 3, 14, 9); rc(x, P.N, 1, 4, 12, 7); rc(x, P.n, 1, 4, 12, 4); rc(x, P.y, 6, 7, 2, 4); rc(x, P.Y, 1, 8, 12, 1);
   });
@@ -677,9 +721,9 @@
   };
   var CORES = { pud: { ic: 'pud', name: '푸딩 코어', pre: '끈적 ' }, bat: { ic: 'bat', name: '박쥐 코어', pre: '흡혈 ' } };
   var BOSSES = [
-    { k: 'pudding', name: 'PUDDING KING', hp: 1200, sp: 15, r: 15, dmg: 14, at: 80, core: 'pud' },
-    { k: 'batq', name: 'BAT QUEEN', hp: 2200, sp: 20, r: 13, dmg: 14, at: 160, core: 'bat' },
-    { k: 'ghostk', name: 'GHOST KING', hp: 5000, sp: 12, r: 19, dmg: 18, at: 210, core: null }
+    { k: 'pudding', name: 'TRASH KING', hp: 1200, sp: 15, r: 15, dmg: 14, at: 80, core: 'pud' },
+    { k: 'batq', name: 'SYRINGE QUEEN', hp: 2200, sp: 20, r: 13, dmg: 14, at: 70, core: 'bat' },
+    { k: 'ghostk', name: 'VACUUM KING', hp: 5000, sp: 12, r: 19, dmg: 18, at: 60, core: null }
   ];
   var TYPES = {
     slime: { hp: 12, sp: 27, r: 5, dmg: 8, xp: 1 },
@@ -700,11 +744,11 @@
     var c = document.createElement('canvas'); c.width = sprite.w * scale; c.height = sprite.h * scale;
     var x = c.getContext('2d'); x.imageSmoothingEnabled = false; x.drawImage(sprite.c, 0, 0, c.width, c.height); return c;
   }
-  root.querySelector('.bgg-cat').appendChild(iconEl(SP.cat0, 5));
+  root.querySelector('.bgg-cat').appendChild(iconEl(SPS[0].cat0, 5));
 
   function reset() {
     S = {
-      t: 0, px: 0, py: 0, hp: 100, mhp: 100, lvl: 1, xp: 0, need: needFor(1), kills: 0, inv: 0, sp: 0, face: 0, mv: 0,
+      stage: 0, st: 0, trans: null, t: 0, px: 0, py: 0, hp: 100, mhp: 100, lvl: 1, xp: 0, need: needFor(1), kills: 0, inv: 0, sp: 0, face: 0, mv: 0,
       en: [], pr: [], gem: [], pt: [], zn: [], eb: [], wn: [], chest: [], th: [], fx: [],
       act: { star: { lv: 1, evo: false, fuse: null } }, actKeys: ['star'], pas: {}, pasKeys: [], cores: [],
       cd: { star: 0.4 }, cdt: { star: 1 }, ang: 0, bn: null, bossIdx: 0, bossAlive: 0, fog: null, fogT: 0, bosses: 0,
@@ -715,10 +759,10 @@
   }
   function pl(k) { return S.pas[k] || 0; }
   function recompute(init) {
-    var oldm = S.mhp, m = 100 + 15 * pl('snack');
+    var oldm = S.mhp, m = 100 + 15 * pl('snack') + (S.stage > 0 ? 10 : 0);
     S.mhp = m; if (!init) { if (m > oldm) { S.hp += m - oldm; } }
     S.dm = 1 + 0.1 * pl('power'); S.cdm = 1 - 0.06 * pl('alarm'); S.mag = 28 * (1 + 0.2 * pl('magnet'));
-    S.spd = 65 * (1 + 0.08 * pl('shoes')); S.xpm = 1 + 0.1 * pl('clover'); S.regen = 0.3 * pl('snack');
+    S.spd = 65 * (1 + 0.08 * pl('shoes')) * (S.stage > 1 ? 1.05 : 1); S.xpm = 1 + 0.1 * pl('clover'); S.regen = 0.3 * pl('snack');
   }
   function fmt(t) { var m = Math.floor(t / 60), s = Math.floor(t % 60); return m + ':' + (10 > s ? '0' : '') + s; }
   function rnd(a, b) { return a + Math.random() * (b - a); }
@@ -730,7 +774,7 @@
     return n;
   }
 
-  function start() { reset(); mode = 'play'; show(''); last = performance.now(); cv.focus(); }
+  function start() { reset(); beginStory('intro'); }
   function end(win) {
     mode = win ? 'win' : 'over';
     var txt = '시간 ' + fmt(S.t) + ' · 레벨 ' + S.lvl + ' · 처치 ' + S.kills + ' · 보스 ' + S.bosses + '/3';
@@ -843,10 +887,10 @@
     S.bossAlive--; S.bosses++;
     var bd = BOSSES[e.bi];
     if (bd.core) {
-      S.chest.push({ x: e.x, y: e.y, core: bd.core });
+      S.chest.push({ x: e.x, y: e.y, core: bd.core, age: 0 });
       for (var i = 0; 6 > i; i++) { S.gem.push({ x: e.x + rnd(-14, 14), y: e.y + rnd(-14, 14), v: 10, ph: rnd(0, TAU) }); }
       S.bn = { text: bd.name, sub: 'DEFEATED!', t: 2 };
-    } else { S.fog = null; end(true); }
+    } else { S.fog = null; S.trans = { t: 1.6, kind: 'end' }; S.bn = { text: bd.name, sub: 'DEFEATED!', t: 2 }; }
     S.eb = [];
   }
   function hit(e, dmg, src) {
@@ -900,7 +944,7 @@
     S.eb.push({ x: x, y: y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: life || 4, dmg: dmg || 8 });
   }
   function bossAI(e, dt) {
-    var en = S.t > 240 ? 1.4 : 1, a, i;
+    var en = enraged() ? 1.4 : 1, a, i;
     var ex = S.px - e.x, ey = S.py - e.y, ed = Math.sqrt(ex * ex + ey * ey) || 1;
     if (e.k === 'pudding') {
       e.t1 -= dt; if (0 >= e.t1) { S.wn.push({ x: S.px, y: S.py, r: 26, t: 0.8, max: 0.8, dmg: 18 }); e.t1 = 4; }
@@ -927,7 +971,7 @@
 
   /* ---------- update ---------- */
   function update(dt) {
-    S.t += dt; S.anim += dt;
+    S.t += dt; S.anim += dt; S.st += dt;
     var dx = 0, dy = 0, i, j, e, p;
     if (keys.ArrowLeft || keys.a) { dx -= 1; }
     if (keys.ArrowRight || keys.d) { dx += 1; }
@@ -944,12 +988,13 @@
     if (S.regen > 0) { heal(S.regen * dt); }
 
     // boss schedule
-    if (S.bossIdx > 2) { } else { if (S.t >= BOSSES[S.bossIdx].at) { spawnBoss(S.bossIdx); } }
+    if (S.bossIdx === S.stage) { if (S.st >= BOSSES[S.stage].at) { spawnBoss(S.stage); } }
 
     // spawning
     var iv = Math.max(0.1, 0.7 - S.t * 0.0025);
     if (S.bossAlive > 0) { iv *= 2; }
     S.sp -= dt;
+    if (S.trans) { S.sp = 3; S.inv = Math.max(S.inv, 0.3); }
     while (0 >= S.sp) {
       if (S.en.length > 220) { S.sp = iv; break; }
       spawn(); S.sp += iv;
@@ -964,7 +1009,7 @@
     }
 
     // enemies
-    var enr = S.t > 240 ? 1.4 : 1;
+    var enr = enraged() ? 1.4 : 1;
     for (i = 0; S.en.length > i; i++) {
       e = S.en[i]; if (e.dead) { continue; }
       var ex = S.px - e.x, ey = S.py - e.y, ed = Math.sqrt(ex * ex + ey * ey) || 1;
@@ -1003,10 +1048,18 @@
     }
     // chests
     for (i = 0; S.chest.length > i; i++) {
-      var ch = S.chest[i];
+      var ch = S.chest[i]; ch.age += dt;
+      if (ch.age > 2.5) { var cxx = S.px - ch.x, cyy = S.py - ch.y, cdd = Math.sqrt(cxx * cxx + cyy * cyy) || 1; ch.x += cxx / cdd * 70 * dt; ch.y += cyy / cdd * 70 * dt; }
       if (150 > d2(ch.x, ch.y, S.px, S.py)) {
-        if (2 > S.cores.length) { S.cores.push(ch.core); S.bn = { text: CORES[ch.core].name, sub: 'GOT!', t: 2 }; ch.done = true; }
+        if (2 > S.cores.length) {
+          S.cores.push(ch.core); S.bn = { text: CORES[ch.core].name, sub: 'GOT!', t: 2 }; ch.done = true;
+          if (!S.trans) { S.trans = { t: 1.4, kind: S.stage === 0 ? 't1' : 't2' }; S.en = []; S.eb = []; S.wn = []; }
+        }
       }
+    }
+    if (S.trans) {
+      S.trans.t -= dt;
+      if (0 >= S.trans.t) { var tk = S.trans.kind; S.trans = null; beginStory(tk); return; }
     }
     // gems
     for (i = 0; S.gem.length > i; i++) {
@@ -1197,19 +1250,151 @@
     ctx.fillStyle = '#0f0b13'; ctx.fillText(t, x + 1, y + 1); ctx.fillStyle = col; ctx.fillText(t, x, y);
   }
   function hash(a, b) { var h = (a * 374761393 + b * 668265263) % 2147483647; h = (h ^ (h >> 13)) * 1274126177; return Math.abs(h ^ (h >> 16)) % 1024; }
-  function draw() {
-    var cx = R(S.px - VCX), cy = R(S.py - VCY), i, e, t = S.t;
-    ctx.fillStyle = '#3a3347'; ctx.fillRect(0, 0, LW, LH);
-    // floor
-    var ts = 16, tx0 = Math.floor(cx / ts), ty0 = Math.floor(cy / ts);
-    for (var ty = ty0; ty0 + 14 > ty; ty++) {
-      for (var tx = tx0; tx0 + 22 > tx; tx++) {
-        var sx0 = tx * ts - cx, sy0 = ty * ts - cy;
-        if ((((tx + ty) % 2) + 2) % 2 === 0) { ctx.fillStyle = '#403852'; ctx.fillRect(sx0, sy0, ts, ts); }
-        var hh = hash(tx, ty);
-        if (hh % 9 === 0) { ctx.fillStyle = '#4c4360'; ctx.fillRect(sx0 + (hh % 11) + 1, sy0 + (hh % 7) + 4, 2, 1); ctx.fillRect(sx0 + (hh % 11) + 2, sy0 + (hh % 7) + 3, 1, 1); }
+  /* ---------- stages: backgrounds, effects, story ---------- */
+  var STAGE_NAMES = ['OUTDOOR', 'HOSPITAL', 'HOME'];
+  function enraged() { return S.stage === 2 ? S.st > 150 : false; }
+  var BGC = [{ a: '#2f4a3a', b: '#35523f' }, { a: '#dfe9ee', b: '#d2e0e8' }, { a: '#a9753f', b: '#9d6c39' }];
+  var DEC = {};
+  DEC.lamp = proc(8, 20, function (x) { rc(x, P.k, 3, 4, 2, 16); rc(x, P.k, 0, 0, 8, 5); rc(x, '#ffe9a8', 1, 1, 6, 3); rc(x, P.k, 1, 18, 6, 2); });
+  DEC.trash = proc(10, 12, function (x) { rc(x, P.k, 0, 2, 10, 10); rc(x, '#7b8794', 1, 3, 8, 8); rc(x, P.k, 0, 0, 10, 3); rc(x, '#9aa6b2', 1, 1, 8, 1); rc(x, '#5d6c78', 3, 4, 1, 7); rc(x, '#5d6c78', 6, 4, 1, 7); });
+  DEC.puddle = proc(12, 6, function (x) { pxe(x, 6, 3, 5, 2, '#3f6f8f'); pxe(x, 6, 3, 4, 1, '#5b9ac0'); });
+  DEC.bed = proc(24, 16, function (x) { rc(x, P.k, 0, 4, 24, 12); rc(x, '#ffffff', 1, 5, 22, 10); rc(x, '#6cc7ee', 1, 9, 22, 6); rc(x, '#e8eef2', 2, 5, 6, 4); rc(x, P.k, 1, 15, 2, 1); rc(x, P.k, 21, 15, 2, 1); });
+  DEC.drip = proc(6, 20, function (x) { rc(x, '#9aa6b2', 2, 0, 2, 20); rc(x, P.k, 0, 2, 6, 8); rc(x, '#e6f4ff', 1, 3, 4, 6); rc(x, '#ff8fb0', 1, 6, 4, 3); rc(x, P.k, 1, 18, 4, 2); });
+  DEC.cart = proc(16, 12, function (x) { rc(x, P.k, 0, 2, 16, 8); rc(x, '#cfd8dc', 1, 3, 14, 6); rc(x, '#d9473f', 7, 4, 2, 4); rc(x, '#d9473f', 5, 6, 6, 2); rc(x, P.k, 2, 10, 3, 2); rc(x, P.k, 11, 10, 3, 2); });
+  DEC.sofa = proc(28, 14, function (x) { rc(x, P.k, 0, 2, 28, 12); rc(x, '#3f7a74', 1, 3, 26, 10); rc(x, '#2f6a64', 1, 3, 26, 4); rc(x, '#6aa8a0', 3, 7, 10, 5); rc(x, '#6aa8a0', 15, 7, 10, 5); rc(x, '#2f6a64', 0, 5, 3, 9); rc(x, '#2f6a64', 25, 5, 3, 9); });
+  DEC.plant = proc(10, 16, function (x) { rc(x, P.k, 2, 10, 6, 6); rc(x, '#c46a22', 3, 11, 4, 4); pxe(x, 5, 6, 4, 5, '#3f8f55'); rc(x, '#6fbf73', 4, 2, 2, 6); rc(x, '#6fbf73', 2, 5, 2, 3); rc(x, '#6fbf73', 6, 5, 2, 3); });
+  DEC.bowl = proc(8, 5, function (x) { rc(x, P.k, 0, 1, 8, 4); rc(x, '#e8708a', 1, 2, 6, 2); rc(x, '#c98f5a', 2, 1, 4, 1); });
+  DEC.cushion = proc(12, 8, function (x) { rc(x, P.k, 0, 0, 12, 8); rc(x, '#e8708a', 1, 1, 10, 6); rc(x, '#f6e7cf', 5, 3, 2, 2); });
+  function dd(g, sp, x, y) { g.drawImage(sp.c, Math.round(x + (16 - sp.w) / 2), Math.round(y + 16 - sp.h)); }
+  function drawBg(g, w, h, cx, cy, st) {
+    var c = BGC[st], ts = 16, tx0 = Math.floor(cx / ts), ty0 = Math.floor(cy / ts), nx = Math.ceil(w / ts) + 2, ny = Math.ceil(h / ts) + 2, tx, ty;
+    g.fillStyle = c.a; g.fillRect(0, 0, w, h);
+    for (ty = ty0; ty0 + ny > ty; ty++) {
+      for (tx = tx0; tx0 + nx > tx; tx++) {
+        var sx = tx * ts - cx, sy = ty * ts - cy, hh = hash(tx, ty), alt = ((((tx + ty) % 2) + 2) % 2) === 0;
+        if (st === 0) {
+          if (2 > (((ty % 8) + 8) % 8)) {
+            g.fillStyle = alt ? '#4a4f5a' : '#444955'; g.fillRect(sx, sy, ts, ts);
+            g.fillStyle = '#383c46'; g.fillRect(sx, sy + 15, ts, 1); g.fillRect(sx + ((hh % 2) ? 7 : 3), sy, 1, 15);
+          } else {
+            if (alt) { g.fillStyle = c.b; g.fillRect(sx, sy, ts, ts); }
+            if (hh % 7 === 0) { g.fillStyle = '#3f6b4d'; g.fillRect(sx + (hh % 9) + 2, sy + (hh % 5) + 4, 1, 3); g.fillRect(sx + (hh % 9) + 3, sy + (hh % 5) + 5, 1, 2); }
+            if (hh % 11 === 0) { g.fillStyle = '#c46a22'; g.fillRect(sx + (hh % 13), sy + (hh % 6) + 8, 2, 1); }
+            if (hh % 19 === 0) { dd(g, DEC.puddle, sx, sy); }
+            else if (hh % 53 === 0) { dd(g, DEC.lamp, sx, sy); }
+            else if (hh % 41 === 0) { dd(g, DEC.trash, sx, sy); }
+          }
+        } else if (st === 1) {
+          if (alt) { g.fillStyle = c.b; g.fillRect(sx, sy, ts, ts); }
+          g.fillStyle = '#b8c9d3'; g.fillRect(sx, sy, ts, 1); g.fillRect(sx, sy, 1, ts);
+          if (1 > (((ty % 10) + 10) % 10)) { g.fillStyle = 'rgba(111,199,190,.35)'; g.fillRect(sx, sy, ts, ts); }
+          if (hh % 61 === 0) { dd(g, DEC.bed, sx, sy); }
+          else if (hh % 43 === 0) { dd(g, DEC.drip, sx, sy); }
+          else if (hh % 71 === 0) { dd(g, DEC.cart, sx, sy); }
+        } else {
+          var rug = (((((tx >> 2) + (ty >> 2)) % 5) + 5) % 5) === 0;
+          if (rug) {
+            g.fillStyle = alt ? '#e8b8a0' : '#dba890'; g.fillRect(sx, sy, ts, ts);
+            if (hh % 5 === 0) { g.fillStyle = '#f6e7cf'; g.fillRect(sx + 6, sy + 6, 4, 4); }
+          } else {
+            g.fillStyle = ((((ty % 2) + 2) % 2) === 0) ? c.a : c.b; g.fillRect(sx, sy, ts, ts);
+            g.fillStyle = '#7e5430'; g.fillRect(sx, sy + 7, ts, 1); g.fillRect(sx, sy + 15, ts, 1);
+            g.fillRect(sx + (hh % 12) + 2, sy, 1, 7); g.fillRect(sx + ((hh >> 3) % 12) + 2, sy + 8, 1, 7);
+            if (hh % 67 === 0) { dd(g, DEC.sofa, sx, sy); }
+            else if (hh % 37 === 0) { dd(g, DEC.plant, sx, sy); }
+            else if (hh % 47 === 0) { dd(g, DEC.bowl, sx, sy); }
+            else if (hh % 29 === 0) { dd(g, DEC.cushion, sx, sy); }
+          }
+        }
       }
     }
+  }
+  function drawFx(t) {
+    var i;
+    if (S.stage === 0) {
+      ctx.fillStyle = 'rgba(14,20,34,.22)'; ctx.fillRect(0, PH, LW, LH - PH);
+      ctx.fillStyle = 'rgba(180,200,230,.55)';
+      for (i = 0; 26 > i; i++) { var ry = (i * 29 + t * 150) % (LH - PH); ctx.fillRect(R((i * 37 + t * 20) % LW), R(PH + ry), 1, 4); }
+    } else if (S.stage === 1) {
+      if (Math.floor(t * 10) % 29 === 0) { ctx.fillStyle = 'rgba(255,255,255,.07)'; ctx.fillRect(0, PH, LW, LH - PH); }
+    } else {
+      ctx.fillStyle = 'rgba(255,225,150,.09)';
+      for (i = 0; 3 > i; i++) { var sx = 40 + i * 110 + Math.sin(t * 0.3 + i) * 6; ctx.beginPath(); ctx.moveTo(R(sx), PH); ctx.lineTo(R(sx + 40), PH); ctx.lineTo(R(sx + 10), LH); ctx.lineTo(R(sx - 30), LH); ctx.closePath(); ctx.fill(); }
+    }
+  }
+  function drawEnding(g, ox, oy, sc) {
+    g.save(); g.translate(ox, oy); g.scale(sc, sc);
+    rc(g, '#7e5430', 0, 0, 48, 28); rc(g, '#9d6c39', 0, 0, 48, 4);
+    rc(g, P.k, 4, 4, 40, 22); rc(g, '#d9b99a', 5, 5, 38, 20); rc(g, '#f6e7cf', 6, 6, 36, 18);
+    rc(g, P.k, 7, 7, 12, 8); rc(g, '#ffffff', 8, 8, 10, 6);
+    rc(g, '#6cc7ee', 6, 15, 36, 9); rc(g, '#3f8fb8', 6, 15, 36, 1);
+    pxe(g, 28, 15, 9, 5, P.k); pxe(g, 28, 15, 8, 4, P.o);
+    pxe(g, 21, 13, 5, 4, P.k); pxe(g, 21, 13, 4, 3, P.o);
+    rc(g, P.k, 17, 8, 3, 3); rc(g, P.k, 23, 8, 3, 3); rc(g, P.O, 18, 9, 1, 2); rc(g, P.O, 24, 9, 1, 2);
+    rc(g, P.k, 19, 13, 2, 1); rc(g, P.k, 23, 13, 2, 1); rc(g, P.p, 18, 15, 2, 1); rc(g, P.p, 24, 15, 2, 1);
+    rc(g, '#f4cf4a', 21, 16, 2, 2); rc(g, P.O, 36, 13, 5, 2);
+    rc(g, P.w, 34, 3, 3, 1); rc(g, P.w, 35, 4, 1, 1); rc(g, P.w, 34, 5, 3, 1);
+    g.restore();
+  }
+  var SCRIPT = {
+    intro: { stage: 0, cat: 0, tag: 'PROLOGUE', lines: ['비 오는 밤. 길 위의 고양이는 오늘도 배가 고프다.', '"오늘도 살아남아야 해."'] },
+    t1: { stage: 1, cat: 1, tag: 'STAGE 2 - HOSPITAL', lines: ['발이 아파 더는 걸을 수 없었다.', '누군가 따뜻한 손으로 나를 안아 올렸다.', '……여긴 어디지? 하얀 방에서 이상한 냄새가 난다.'] },
+    t2: { stage: 2, cat: 2, tag: 'STAGE 3 - HOME', lines: ['치료는 무서웠지만 끝났다.', '그 사람이 나를 어딘가로 데려간다.', '문이 열리자, 따뜻한 빛이 쏟아졌다.'] },
+    end: { stage: 2, cat: 2, tag: 'ENDING', lines: ['푹신한 자리, 따뜻한 밥, 그리고 나를 부르는 목소리.', '"몽실아, 이리 와."', '이제 나는 집고양이 몽실이야.'] }
+  };
+  var ST = null, seenMap = {};
+  try { seenMap = JSON.parse(localStorage.getItem('bgMongsil2Seen') || '{}') || {}; } catch (e4) { seenMap = {}; }
+  function drawScene(key) {
+    var sc = SCRIPT[key], c = root.querySelector('.bgg-scene'), g = c.getContext('2d'), i;
+    g.imageSmoothingEnabled = false;
+    drawBg(g, 160, 64, 200, 120 + sc.stage * 37, sc.stage);
+    if (key === 'end') { drawEnding(g, 32, 4, 2); }
+    else {
+      var cs = SPS[sc.cat].cat0; g.drawImage(cs.c, 80 - cs.w * 1.5, 64 - cs.h * 3 - 2, cs.w * 3, cs.h * 3);
+    }
+    if (key === 'intro') { g.fillStyle = 'rgba(14,20,34,.3)'; g.fillRect(0, 0, 160, 64); g.fillStyle = 'rgba(180,200,230,.6)'; for (i = 0; 34 > i; i++) { g.fillRect((i * 37) % 160, (i * 19) % 64, 1, 4); } }
+    var pc = root.querySelector('.bgg-port'), pg = pc.getContext('2d'); pg.clearRect(0, 0, 14, 13); pg.drawImage(SPS[sc.cat].cat0.c, 0, 0);
+  }
+  function renderStory() {
+    root.querySelector('[data-r="stag"]').textContent = ST.sc.tag;
+    root.querySelector('[data-r="stext"]').textContent = ST.lines[ST.i];
+    var last2 = ST.i === ST.lines.length - 1;
+    root.querySelector('[data-act="snext"]').textContent = last2 ? (ST.key === 'end' ? 'END' : (ST.key === 'intro' ? 'START' : 'GO')) : 'NEXT';
+  }
+  function beginStory(key) {
+    var sc = SCRIPT[key], lines = sc.lines;
+    if (seenMap[key]) { lines = [lines[0]]; }
+    ST = { key: key, sc: sc, lines: lines, i: 0 };
+    mode = 'story'; show('story'); drawScene(key); renderStory();
+    var nb = root.querySelector('[data-act="snext"]'); if (nb) { nb.focus(); }
+  }
+  function advanceStage() {
+    var i, v = 0;
+    for (i = 0; S.gem.length > i; i++) { v += S.gem[i].v; }
+    S.xp += v * S.xpm;
+    S.stage++; S.st = 0; S.en = []; S.eb = []; S.wn = []; S.zn = []; S.th = []; S.pr = []; S.fx = []; S.gem = []; S.chest = []; S.pt = [];
+    S.fog = null; S.bossAlive = 0; S.sp = 2;
+    recompute(false);
+    S.hp = Math.min(S.mhp, S.hp + S.mhp * 0.3); S.inv = 1.5;
+    S.bn = { text: STAGE_NAMES[S.stage], sub: 'STAGE ' + (S.stage + 1), t: 2.4 };
+    mode = 'play'; show(''); last = performance.now(); cv.focus();
+  }
+  function finishStory() {
+    seenMap[ST.key] = 1; try { localStorage.setItem('bgMongsil2Seen', JSON.stringify(seenMap)); } catch (e5) {}
+    var key = ST.key; ST = null;
+    if (key === 'intro') { mode = 'play'; show(''); last = performance.now(); S.bn = { text: STAGE_NAMES[0], sub: 'STAGE 1', t: 2.4 }; cv.focus(); }
+    else if (key === 'end') { end(true); }
+    else { advanceStage(); }
+  }
+  function nextStory() {
+    if (mode !== 'story') { return; }
+    ST.i++;
+    if (ST.i >= ST.lines.length) { finishStory(); } else { renderStory(); }
+  }
+  function skipStory() { if (mode === 'story') { finishStory(); } }
+  function draw() {
+    var cx = R(S.px - VCX), cy = R(S.py - VCY), i, e, t = S.t;
+    drawBg(ctx, LW, LH, cx, cy, S.stage);
     // zones
     for (i = 0; S.zn.length > i; i++) {
       var zn = S.zn[i], zs = zn.src === 'fish' ? '#d9473f' : '#f7d58a';
@@ -1236,18 +1421,18 @@
       e = sorted[i];
       var ex = e.x - cx, ey = e.y - cy;
       if (-60 > ex) { continue; } if (ex > LW + 60) { continue; } if (-60 > ey) { continue; } if (ey > LH + 60) { continue; }
-      var fr = Math.floor(t * 6 + e.ph) % 2, fl = e.fl > 0, spn;
+      var fr = Math.floor(t * 6 + e.ph) % 2, fl = e.fl > 0, spn, ss = SPS[S.stage];
       ctx.fillStyle = 'rgba(15,11,19,.35)'; ctx.fillRect(R(ex - e.d.r), R(ey + e.d.r - 1), e.d.r * 2, 2);
-      if (e.k === 'slime') { spn = fr ? SP.slime1 : SP.slime0; }
-      else if (e.k === 'ghost') { spn = fr ? SP.ghost1 : SP.ghost0; ey += Math.sin(t * 5 + e.ph) * 1.5; }
-      else if (e.k === 'bat') { spn = fr ? SP.bat1 : SP.bat0; }
-      else if (e.k === 'gummy') { spn = SP.gummy; ey += Math.sin(t * 4 + e.ph) * 1; }
-      else { spn = SP[e.k]; ey += Math.sin(t * 3) * 1.5;
+      if (e.k === 'slime') { spn = fr ? ss.slime1 : ss.slime0; }
+      else if (e.k === 'ghost') { spn = fr ? ss.ghost1 : ss.ghost0; ey += Math.sin(t * 5 + e.ph) * 1.5; }
+      else if (e.k === 'bat') { spn = fr ? ss.bat1 : ss.bat0; }
+      else if (e.k === 'gummy') { spn = ss.gummy; ey += Math.sin(t * 4 + e.ph) * 1; }
+      else { spn = ss.boss; ey += Math.sin(t * 3) * 1.5;
         if (e.mode === 'tele') { ctx.strokeStyle = '#d9473f'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(R(ex), R(ey)); ctx.lineTo(R(ex + Math.cos(e.da) * 140), R(ey + Math.sin(e.da) * 140)); ctx.stroke(); } }
       dspr(spn, ex, ey, fl);
       if (e.boss) {
         // slight enrage tint line
-        if (t > 240) { ctx.fillStyle = '#d9473f'; ctx.fillRect(R(ex - 6), R(ey - e.d.r - 6), 12, 1); }
+        if (enraged()) { ctx.fillStyle = '#d9473f'; ctx.fillRect(R(ex - 6), R(ey - e.d.r - 6), 12, 1); }
       }
     }
     // zones fx rings
@@ -1272,12 +1457,13 @@
     ctx.fillStyle = 'rgba(15,11,19,.35)'; ctx.fillRect(ppx - 6, ppy + 6, 12, 2);
     var blink = S.inv > 0 ? (Math.floor(t * 20) % 2 === 0) : false;
     var step = 0; if (S.mv) { step = Math.floor(t * 8) % 2; }
-    if (!blink) { dspr(step ? SP.cat1 : SP.cat0, ppx, ppy - 1, S.hurtT > 0); }
+    if (!blink) { dspr(step ? SPS[S.stage].cat1 : SPS[S.stage].cat0, ppx, ppy - 1, S.hurtT > 0); }
     // enemy bullets
     for (i = 0; S.eb.length > i; i++) { var b = S.eb[i], bx = R(b.x - cx), by = R(b.y - cy); ctx.fillStyle = '#9c2f2f'; ctx.fillRect(bx - 2, by - 2, 5, 5); ctx.fillStyle = '#ff6b6b'; ctx.fillRect(bx - 1, by - 1, 3, 3); }
     // particles
     for (i = 0; S.pt.length > i; i++) { var pt = S.pt[i]; ctx.globalAlpha = Math.max(0, pt.life / pt.t); ctx.fillStyle = pt.c; ctx.fillRect(R(pt.x - cx), R(pt.y - cy), 2, 2); }
     ctx.globalAlpha = 1;
+    drawFx(t);
     // fog
     if (S.fog) {
       ctx.save(); ctx.beginPath(); ctx.rect(0, 0, LW, LH); ctx.arc(R(S.fog.x - cx), R(S.fog.y - cy), S.fog.r, 0, TAU, true); ctx.clip();
@@ -1307,7 +1493,7 @@
     if (boss) {
       ctx.fillStyle = '#0f0b13'; ctx.fillRect(98, 3, 124, 8); ctx.fillStyle = '#4a3d55'; ctx.fillRect(99, 4, 122, 6); ctx.fillStyle = '#b784f0'; ctx.fillRect(99, 4, Math.round(122 * Math.max(0, boss.hp / boss.mhp)), 6);
     } else { txt(fmt(S.t), LW / 2, 3, 7, '#f6e7cf', 'center'); }
-    txt('LV' + S.lvl, 316, 3, 6, '#f4cf4a', 'right'); txt('x' + S.kills, 316, 12, 5, '#cdbfd8', 'right');
+    txt('ST' + (S.stage + 1), 230, 3, 6, '#6cc7ee', 'left'); txt('LV' + S.lvl, 316, 3, 6, '#f4cf4a', 'right'); txt('x' + S.kills, 316, 12, 5, '#cdbfd8', 'right');
     for (i = 0; 4 > i; i++) {
       var x0 = 4 + i * 17, k = S.actKeys[i], w = k ? S.act[k] : null;
       box(x0, 14, w ? (w.fuse ? '#b784f0' : '#f4cf4a') : '#4a3d55');
@@ -1345,7 +1531,7 @@
     if (mode !== 'play') { return; }
     mode = 'pause';
     var box2 = root.querySelector('[data-r="items"]'); box2.textContent = '';
-    var lines = [], i;
+    var lines = ['STAGE ' + (S.stage + 1) + ' / 3'], i;
     for (i = 0; S.actKeys.length > i; i++) { var k = S.actKeys[i], w = S.act[k]; lines.push((w.fuse ? '◆ ' : (w.evo ? '★ ' : '')) + wname(k) + (w.evo ? '' : ' Lv' + w.lv)); }
     for (i = 0; S.pasKeys.length > i; i++) { lines.push(PAS[S.pasKeys[i]].name + ' Lv' + S.pas[S.pasKeys[i]]); }
     for (i = 0; S.cores.length > i; i++) { lines.push(CORES[S.cores[i]].name); }
@@ -1355,10 +1541,11 @@
   function resumeGame() { if (mode === 'pause') { mode = 'play'; show(''); last = performance.now(); cv.focus(); } }
   root.addEventListener('click', function (ev) {
     var a = ev.target.getAttribute ? ev.target.getAttribute('data-act') : null;
-    if (a === 'start') { start(); } else if (a === 'resume') { resumeGame(); }
+    if (a === 'start') { start(); } else if (a === 'resume') { resumeGame(); } else if (a === 'snext') { nextStory(); } else if (a === 'sskip') { skipStory(); }
   });
   window.addEventListener('keydown', function (ev) {
     var k = ev.key.length === 1 ? ev.key.toLowerCase() : ev.key;
+    if (mode === 'story') { if (k === 'Enter' || k === ' ' || k === 'ArrowRight') { ev.preventDefault(); nextStory(); } else if (k === 'Escape') { skipStory(); } return; }
     if (mode === 'level') { if (k === '1' || k === '2' || k === '3') { pick(parseInt(k, 10) - 1); return; } }
     if (k === 'p' || k === 'Escape') { if (mode === 'play') { pauseGame(); } else if (mode === 'pause') { resumeGame(); } return; }
     if (document.activeElement === cv) { if (k === 'ArrowLeft' || k === 'ArrowRight' || k === 'ArrowUp' || k === 'ArrowDown' || k === ' ') { ev.preventDefault(); } }
@@ -1380,9 +1567,10 @@
   function endJoy(ev) { if (joy) { if (joy.id === ev.pointerId) { joy = null; } } }
   cv.addEventListener('pointerup', endJoy); cv.addEventListener('pointercancel', endJoy);
 
+  drawEnding(root.querySelector('.bgg-endc').getContext('2d'), 0, 0, 1);
   reset(); draw();
   requestAnimationFrame(frame);
-  if (window.BG_DEBUG) { window.BG_API = { S: function () { return S; }, mode: function () { return mode; }, start: start, spawnBoss: spawnBoss, levelUp: levelUp, give: function (id) { if (ACT[id]) { S.act[id] = { lv: 1, evo: false, fuse: null }; if (0 > S.actKeys.indexOf(id)) { S.actKeys.push(id); } S.cd[id] = 0.3; } if (PAS[id]) { S.pas[id] = 1; if (0 > S.pasKeys.indexOf(id)) { S.pasKeys.push(id); } recompute(false); } }, recompute: recompute, needFor: needFor }; }
+  if (window.BG_DEBUG) { window.BG_API = { S: function () { return S; }, mode: function () { return mode; }, start: start, spawnBoss: spawnBoss, levelUp: levelUp, give: function (id) { if (ACT[id]) { S.act[id] = { lv: 1, evo: false, fuse: null }; if (0 > S.actKeys.indexOf(id)) { S.actKeys.push(id); } S.cd[id] = 0.3; } if (PAS[id]) { S.pas[id] = 1; if (0 > S.pasKeys.indexOf(id)) { S.pasKeys.push(id); } recompute(false); } }, recompute: recompute, needFor: needFor, toStage: function (n) { S.stage = n; S.bossIdx = n; S.st = 0; recompute(false); }, beginStory: beginStory, nextStory: nextStory, skipStory: skipStory }; }
 })();
 </script>
 </div>
